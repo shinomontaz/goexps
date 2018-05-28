@@ -48,15 +48,57 @@ func createPoints(n int) []*LatLng {
 	return res
 }
 
+func Greedy(points []*LatLng, dMatrix [][]float64) []int {
+	current := 0
+	visited := make(map[int]int)
+	visited[0] = -1
+	last := -1
+	for {
+		minDist := math.MaxFloat64
+		minK := -1
+		for k := range points {
+			if _, ok := visited[k]; ok {
+				continue
+			}
+			if dMatrix[current][k] < minDist {
+				minDist = dMatrix[current][k]
+				minK = k
+			}
+		}
+		if minK == -1 {
+			break
+		} else {
+			visited[minK] = current
+			current = minK
+			last = current
+		}
+
+	}
+	reversedWay := make([]int, 0)
+	current = last
+	for current != -1 {
+		reversedWay = append(reversedWay, current)
+		current = visited[current]
+
+	}
+	way := make([]int, 0, len(reversedWay))
+	for i := len(reversedWay) - 1; i >= 0; i-- {
+		way = append(way, reversedWay[i])
+	}
+
+	return way
+}
+
 func TestGreedyTwoPoints(t *testing.T) {
 
-	points := createPoints(5)
+	points := createPoints(10)
+	genRes := &Route{}
+	//	distances := calcDistances(points)
+	//	genRes.Way = Greedy(points, distances)
+	//	genRes = New(points, distances).Solve(0.01, 1000, 100000)
+	genRes.Way = []int{0, 3, 7, 9, 2, 1, 5, 8, 4, 6}
 
-	distances := calcDistances(points)
-	//	grRes := greedy(points, distances)
-	genRes := New(points, distances).Solve(0.01, 1000, 100000)
-
-	fmt.Println(genRes.Way, " - ", genRes.getFitness2())
+	fmt.Println(genRes.Way)
 
 	drawSolution("before.png", points, genRes)
 
@@ -65,10 +107,11 @@ func TestGreedyTwoPoints(t *testing.T) {
 	for _, crossPair := range res {
 		fmt.Println("fixing: ", crossPair, " - ", genRes.Way[crossPair[0][0]], "reverting ", crossPair[0][1], " - ", crossPair[1][0])
 		reverseSlice(genRes.Way[crossPair[0][1] : crossPair[1][0]+1])
-		fmt.Println("fixed: ", genRes.Way, " - ", genRes.getFitness2())
+		fmt.Println("fixed: ", genRes.Way)
 	}
 
-	fmt.Println(genRes.Way, " - ", genRes.getFitness2())
+	//	fmt.Println(genRes.Way, " - ", genRes.getFitness2())
+	fmt.Println(genRes.Way)
 
 	drawSolution("after.png", points, genRes)
 

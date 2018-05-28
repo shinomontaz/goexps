@@ -1,7 +1,5 @@
 package solver
 
-import "fmt"
-
 func findCrossing(points []*LatLng, route []int) (crossedPairs [][2][2]int) {
 	for i := 0; i < len(route)-1; i++ {
 		p1 := points[route[i]]
@@ -11,9 +9,9 @@ func findCrossing(points []*LatLng, route []int) (crossedPairs [][2][2]int) {
 			q1 := points[route[j]]
 			q2 := points[route[j+1]]
 
-			fmt.Println("checking", [][2]int{[2]int{route[i], route[i+1]}, [2]int{route[j], route[j+1]}})
+			//			fmt.Println("checking", [][2]int{[2]int{route[i], route[i+1]}, [2]int{route[j], route[j+1]}})
 
-			if isCrossing(p1, p2, q1, q2) {
+			if isCrossing2(p1, p2, q1, q2) {
 				crossedPairs = append(crossedPairs, [2][2]int{[2]int{i, i + 1}, [2]int{j, j + 1}})
 			}
 
@@ -37,7 +35,7 @@ func isCrossing1(p1 *LatLng, p2 *LatLng, q1 *LatLng, q2 *LatLng) bool {
 
 func isCrossing2(p1 *LatLng, p2 *LatLng, q1 *LatLng, q2 *LatLng) bool {
 	//уравнение:
-	// x - x2 / x2-x1 = y - y2 / y2 - y1
+	// x - x1 / x2-x1 = y - y1 / y2 - y1
 	// y =
 	x1 := p1.Lat
 	x2 := p2.Lat
@@ -48,9 +46,11 @@ func isCrossing2(p1 *LatLng, p2 *LatLng, q1 *LatLng, q2 *LatLng) bool {
 	y3 := q1.Lng
 	y4 := q2.Lng
 
-	xCrossing := (x4*(y4-y3)/(x4-x3) - y3 + y2 - x2*(y2-y1)/(x2-x1)) / ((y4-y3)/(x4-x3) - (y2-y1)/(x2-x1))
+	xCrossing := (x1*(y2-y1)/(x2-x1) + y3 - y1 - x3*(y4-y3)/(x4-x3)) / ((y2-y1)/(x2-x1) - (y4-y3)/(x4-x3))
+	yCrossing := (xCrossing-x1)*(y2-y1)/(x2-x1) + y1
 
-	return ((xCrossing > x1 && xCrossing < x2) || (xCrossing > x2 && xCrossing < x1)) && ((xCrossing > x3 && xCrossing < x4) || (xCrossing > x4 && xCrossing < x3))
+	return ((xCrossing > x1 && xCrossing < x2) || (xCrossing > x2 && xCrossing < x1)) && ((xCrossing > x3 && xCrossing < x4) || (xCrossing > x4 && xCrossing < x3)) &&
+		((yCrossing > y1 && yCrossing < y2) || (yCrossing > y2 && yCrossing < y1)) && ((yCrossing > y3 && yCrossing < y4) || (yCrossing > y4 && yCrossing < y3))
 }
 
 func isCrossing(p1 *LatLng, p2 *LatLng, q1 *LatLng, q2 *LatLng) bool {
