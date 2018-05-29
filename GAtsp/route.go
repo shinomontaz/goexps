@@ -1,7 +1,6 @@
 package solver
 
 import (
-	"fmt"
 	"math"
 	"math/rand"
 	"time"
@@ -10,7 +9,7 @@ import (
 type Route struct {
 	Way     []int // ordered indexes of a cities
 	fitness float64
-	context *Gsolver
+	dMatrix [][]float64
 }
 
 func (r *Route) updateStartPoint() {
@@ -26,19 +25,27 @@ func (r *Route) updateStartPoint() {
 	r.Way[0], r.Way[idxFirst] = r.Way[idxFirst], r.Way[0]
 }
 
-func newRoute(solver *Gsolver) *Route {
+func newRoute(dMatrix [][]float64) *Route {
 	rand.Seed(time.Now().UTC().UnixNano())
-	route := &Route{Way: rand.Perm(len(solver.cities)), context: solver}
+	route := &Route{Way: rand.Perm(len(dMatrix)), dMatrix: dMatrix}
 	route.updateStartPoint()
 	return route
 }
 
+/*
+func doCreate(dMatrix [][]float64) *Route {
+	rand.Seed(time.Now().UTC().UnixNano())
+	route := &Route{Way: rand.Perm(len(dMatrix)), dMatrix: dMatrix}
+	route.updateStartPoint()
+	return route
+}
+*/
 func (r *Route) doCrossover(spouse *Route) *Route {
 	rand.Seed(time.Now().UnixNano())
 	randIndex1 := rand.Intn(len(r.Way) - 1)
 	randIndex2 := randIndex1 + rand.Intn(len(r.Way)-randIndex1)
 
-	child := &Route{context: r.context}
+	child := &Route{dMatrix: r.dMatrix}
 
 	// now in child.Way находятся все элементы в тойже последовательности что и в r с пропусками в местах элементов, что попали в интервал [index1, index2] для второго партнера
 	//	copy(child.Way, r.Way[randIndex1:randIndex2+1])
@@ -89,10 +96,8 @@ func (r *Route) getFitness() float64 {
 	// calculate fitness
 	for index, v := range r.Way {
 		if (index + 1) < len(r.Way) {
-			r.fitness += r.context.dMatrix[v][r.Way[index+1]]
-			//			r.fitness += r.context.cities[v].distances[tempIndex]
+			r.fitness += r.dMatrix[v][r.Way[index+1]]
 		}
-
 	}
 
 	r.fitness = math.Pow(r.fitness, 10)
@@ -106,8 +111,7 @@ func (r *Route) getFitness2() float64 {
 	fitness := 0.0
 	for index, v := range r.Way {
 		if (index + 1) < len(r.Way) {
-			fmt.Println("distance in route ", v, " to ", r.Way[index+1], " = ", r.context.dMatrix[v][r.Way[index+1]])
-			fitness += r.context.dMatrix[v][r.Way[index+1]]
+			fitness += r.dMatrix[v][r.Way[index+1]]
 		}
 	}
 

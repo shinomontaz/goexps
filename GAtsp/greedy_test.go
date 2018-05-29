@@ -91,27 +91,29 @@ func Greedy(points []*LatLng, dMatrix [][]float64) []int {
 
 func TestGreedyTwoPoints(t *testing.T) {
 
-	points := createPoints(10)
-	genRes := &Route{}
-	//	distances := calcDistances(points)
+	points := createPoints(100)
+	distances := calcDistances(points)
+	genRes := &Route{dMatrix: distances}
 	//	genRes.Way = Greedy(points, distances)
-	//	genRes = New(points, distances).Solve(0.01, 1000, 100000)
-	genRes.Way = []int{0, 3, 7, 9, 2, 1, 5, 8, 4, 6}
+	genRes = New(points, distances).Solve(0.1, 100, 100000)
+	//	genRes.Way = []int{0, 3, 7, 9, 2, 1, 5, 8, 4, 6}
 
-	fmt.Println(genRes.Way)
+	fmt.Println(genRes.Way, " - ", genRes.getFitness2())
 
 	drawSolution("before.png", points, genRes)
 
 	res := findCrossing(points, genRes.Way)
 
 	for _, crossPair := range res {
-		fmt.Println("fixing: ", crossPair, " - ", genRes.Way[crossPair[0][0]], "reverting ", crossPair[0][1], " - ", crossPair[1][0])
-		reverseSlice(genRes.Way[crossPair[0][1] : crossPair[1][0]+1])
-		fmt.Println("fixed: ", genRes.Way)
+		index := getIndex(genRes.Way, crossPair[0][0])
+		if index+1 < len(genRes.Way) && genRes.Way[index+1] == genRes.Way[crossPair[0][1]] {
+			fmt.Println("fixing: ", crossPair, " - ", genRes.Way[crossPair[0][0]], "reverting ", crossPair[0][1], " - ", crossPair[1][0])
+			reverseSlice(genRes.Way[crossPair[0][1] : crossPair[1][0]+1])
+			fmt.Println("fixed: ", genRes.Way)
+		}
 	}
 
-	//	fmt.Println(genRes.Way, " - ", genRes.getFitness2())
-	fmt.Println(genRes.Way)
+	fmt.Println(genRes.Way, " - ", genRes.getFitness2())
 
 	drawSolution("after.png", points, genRes)
 
@@ -149,6 +151,15 @@ func drawSolution(filename string, points []*LatLng, genRes *Route) {
 	}
 
 	png.Encode(outputFile, myImage)
+}
+
+func getIndex(haystack []int, needle int) int {
+	for index, v := range haystack {
+		if v == needle {
+			return index
+		}
+	}
+	return -1
 }
 
 func addLabel(img *image.RGBA, x, y int, label string) {

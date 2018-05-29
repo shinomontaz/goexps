@@ -99,7 +99,7 @@ func (s *Gsolver) createPopulation() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			chRoute <- newRoute(s)
+			chRoute <- newRoute(s.dMatrix)
 		}()
 	}
 
@@ -157,7 +157,7 @@ func (s *Gsolver) pick() *Route {
 	}
 	i--
 
-	return &Route{context: s, Way: s.population[i].Way, fitness: s.population[i].fitness}
+	return &Route{dMatrix: s.dMatrix, Way: s.population[i].Way, fitness: s.population[i].fitness}
 }
 
 func (s *Gsolver) getBest() *Route {
