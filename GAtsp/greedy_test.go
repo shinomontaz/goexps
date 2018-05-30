@@ -90,7 +90,6 @@ func Greedy(points []*LatLng, dMatrix [][]float64) []int {
 }
 
 func TestGreedyTwoPoints(t *testing.T) {
-
 	points := createPoints(100)
 	distances := calcDistances(points)
 	genRes := &Route{dMatrix: distances}
