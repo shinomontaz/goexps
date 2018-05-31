@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+service FleetManager {
+    rpc GetZone(GetZoneReq) returns (GetZoneResp) {
+        option (google.api.http) = {
+			get: "/zone/{task_id}"
+		};
+    }
+    rpc GetZones() returns (GetZonesResp) {
+        option (google.api.http) = {
+			get: "/zones/"
+		};
+    }
+    rpc GetFleet() returns (GetFleetResp) {
+        option (google.api.http) = {
+			post: "/fleet"
+			body: "*"
+		};
+    }
+}
+
+message GetZoneReq {
+    double lat = 1;
+    double long = 2;
+}
+
+message GetZoneResp {
+    int32 zone_id = 1
+}
+
+
+message GetZonesResp {
+    repeated Zone zones = 1;
+}
+
+message GetFleetResp {
+    repeated Fleet fleet = 1;
+}
+
+message Zone {
+    int32 zone_id = 1;
+    string geoJson = 2;
+}
+
+message Fleet {
+    int32 zone_id = 1;
+    repeated Courier fleet = 2;
+}
+
+
+message Courier {
+    int32 id = 1;
+    string name = 2;
+    double weight = 3;
+    double volume = 4;
+}
