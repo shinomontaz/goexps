@@ -1,0 +1,7 @@
+{
+    "DbHost":"localhost",
+    "DbName":"fleet",
+    "DbUser":"fleet",
+    "DbPass":"fleet",
+    "DbPort":5432
+}

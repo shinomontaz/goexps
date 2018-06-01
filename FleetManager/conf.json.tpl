@@ -1,0 +1,13 @@
+{
+    "DbHost":"${dbHost}",
+    "DbName":"${dbName}",
+    "DbUser":"${dbUser}",
+    "DbPass":"${dbPass}",
+    "DbPort":${dbPort},
+    "TestFlag":${testFlag},
+    "RabbitHost":"${rabbitHost}",
+    "RabbitPort":${rabbitPort},
+    "RabbitUser":"${rabbitUser}",
+    "RabbitPass":"${rabbitPass}",
+    "RabbitQueue":"${rabbitQueue}"
+}

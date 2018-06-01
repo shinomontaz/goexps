@@ -83,7 +83,7 @@ protoc-gen-go-http-server:
 	@go get -u gitlab.ozon.ru/platform/protobuf/protoc-gen-go-http-server
 
 generate: # install protoc-gen-go-http-server
-	protoc -I. -I/usr/local/include -I$(FIRST_GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gofast_out=plugins=grpc:. --go-http-server_out=verbose=true,impl=true:. ./FleetManager/FleetManager.proto
+	protoc -I. -I/usr/local/include -I$(FIRST_GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gofast_out=plugins=grpc:. --go-http-server_out=verbose=true,impl=false:. --go-scratch_out=. ./FleetManager/FleetManager.proto
 
 generate-impl: # install protoc-gen-go-http-server
 	protoc -I. -I/usr/local/include -I$(FIRST_GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --gofast_out=plugins=grpc:. --go-http-server_out=verbose=true,impl=true:. ./FleetManager/FleetManager.proto
