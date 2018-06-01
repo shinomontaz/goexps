@@ -43,7 +43,7 @@ var swaggerJSON = template.Must(template.New("swagger.json").Parse(`{
   ],
   "paths": {
     "/fleet": {
-      "post": {
+      "get": {
         "operationId": "GetFleet",
         "responses": {
           "200": {
@@ -53,22 +53,12 @@ var swaggerJSON = template.Must(template.New("swagger.json").Parse(`{
             }
           }
         },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Empty"
-            }
-          }
-        ],
         "tags": [
           "FleetManager"
         ]
       }
     },
-    "/zone": {
+    "/zone/{lat}/{long}": {
       "get": {
         "operationId": "GetZone",
         "responses": {
@@ -82,15 +72,15 @@ var swaggerJSON = template.Must(template.New("swagger.json").Parse(`{
         "parameters": [
           {
             "name": "lat",
-            "in": "query",
-            "required": false,
+            "in": "path",
+            "required": true,
             "type": "number",
             "format": "double"
           },
           {
             "name": "long",
-            "in": "query",
-            "required": false,
+            "in": "path",
+            "required": true,
             "type": "number",
             "format": "double"
           }
@@ -137,9 +127,6 @@ var swaggerJSON = template.Must(template.New("swagger.json").Parse(`{
           "format": "double"
         }
       }
-    },
-    "Empty": {
-      "type": "object"
     },
     "Fleet": {
       "type": "object",

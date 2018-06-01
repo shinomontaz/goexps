@@ -5,7 +5,7 @@ import "google/api/annotations.proto";
 service FleetManager {
     rpc GetZone(GetZoneReq) returns (GetZoneResp) {
         option (google.api.http) = {
-			get: "/zone"
+			get: "/zone/{lat}/{long}"
 		};
     }
     rpc GetZones(Empty) returns (GetZonesResp) {
@@ -15,8 +15,7 @@ service FleetManager {
     }
     rpc GetFleet(Empty) returns (GetFleetResp) {
         option (google.api.http) = {
-			post: "/fleet"
-			body: "*"
+			get: "/fleet"
 		};
     }
 }

@@ -16,10 +16,12 @@ func init() {
 type ServerImpl struct{}
 
 func (s *ServerImpl) GetZone(ctx context.Context, req *GetZoneReq) (*GetZoneResp, error) {
+	targetZone := model.GetPointZone(req.Lat, req.Long)
 
-	// dump implementaion here
-
-	return &GetZoneResp{}, nil
+	if targetZone == nil {
+		return &GetZoneResp{}, nil
+	}
+	return &GetZoneResp{ZoneId: targetZone.ID}, nil
 }
 
 func (s *ServerImpl) GetZones(ctx context.Context, req *Empty) (*GetZonesResp, error) {
@@ -46,9 +48,7 @@ func (s *ServerImpl) GetFleet(ctx context.Context, req *Empty) (*GetFleetResp, e
 		fleetList := make([]*Courier, 0, len(w.Fleet))
 
 		for _, ww := range w.Fleet {
-			ww := *ww
-			newCourier := Courier(ww)
-			fleetList = append(fleetList, &newCourier)
+			fleetList = append(fleetList, &Courier{Id: ww.Id, Name: ww.Name, Volume: ww.Volume})
 		}
 
 		fleet = append(fleet, &Fleet{

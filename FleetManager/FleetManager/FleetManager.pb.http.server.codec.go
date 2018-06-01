@@ -95,7 +95,7 @@ func (c *Codec) ReadRequest(req *http.Request) (*http.Request, string, interface
 		components[l-1], verb = c[:idx], c[idx+1:]
 	}
 	if dataMap, err := pattern__GetFleet_0.Match(components, verb); err == nil {
-		if req.Method != "POST" {
+		if req.Method != "GET" {
 			return req, "", nil, types.ErrMethodNotFound
 		}
 		data := &Empty{}
@@ -162,7 +162,7 @@ type defaultError struct {
 }
 
 var (
-	pattern__GetZone_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"zone"}, ""))
+	pattern__GetZone_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 1, 0, 4, 1, 5, 2}, []string{"zone", "lat", "long"}, ""))
 	pattern__GetZones_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"zones"}, ""))
 	pattern__GetFleet_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"fleet"}, ""))
 )
