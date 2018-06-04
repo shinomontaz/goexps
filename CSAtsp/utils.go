@@ -40,6 +40,7 @@ func createPoints(n int) []*Point {
 			End:   startSec + 30*60,
 		})
 	}
+
 	return res
 }
 
