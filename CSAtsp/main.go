@@ -16,13 +16,15 @@ type Point struct {
 
 var dMatrix [][]float64
 var points []*Point
+var MegaNow int64
 
 func init() {
 
 	rand.Seed(time.Now().UnixNano())
+	today := time.Now()
+	MegaNow = time.Date(today.Year(), today.Month(), today.Day(), 8, 0, 0, 0, time.UTC).Unix()
 	points = createPoints(10)
 	dMatrix = calcDistances(points)
-
 }
 
 func main() {
@@ -31,10 +33,15 @@ func main() {
 
 	csa := Csa(route)
 
-	fmt.Println("initial: ", route, " - ", getFitness(route))
-	drawSolution("CSA1.png", points, route)
-	fmt.Println("csa: ", csa, " - ", getFitness(csa))
-	drawSolution("CSA2.png", points, csa)
+	PrintPoints()
+
+	fmt.Println("initial: ", route, " - ", _fu(route), " sum of out of TW: ", _ro(csa))
+	PrintRoute(route)
+	//	drawSolution("CSA1.png", points, route)
+	fmt.Println("csa: ", csa, " - ", _fu(csa), " sum of out of TW: ", _ro(csa))
+	PrintRoute(csa)
+
+	//	drawSolution("CSA2.png", points, csa)
 }
 
 func Csa(currSolution []int) []int {
@@ -76,23 +83,26 @@ func _nu(route []int, P float64) float64 {
 }
 
 func _c(i, j int) int64 {
-	return int64(dMatrix[i][j] / 50.0)
+	return int64(dMatrix[i][j] / 13.0)
 }
 
 func _ai(index int, route []int) int64 {
+	if index == 0 {
+		return MegaNow
+	}
 	return _di(index-1, route) + _c(index-1, index)
 }
 
 func _di(index int, route []int) int64 {
 	if index == 0 {
-		return 0
+		return MegaNow
 	}
 	return Max(_ai(index, route), points[route[index]].Start)
 }
 
 func _ro(route []int) (res int64) {
 	for index := range route {
-		res += Max(0, _di(index, route))
+		res += Max(0, _di(index, route)-points[index].End)
 	}
 	return res
 }
@@ -116,6 +126,14 @@ func mutate(route []int) (mutated []int) {
 	return mutated
 }
 
-func getFitness(route []int) float64 {
-	return _nu(route, 1.0)
+func PrintRoute(route []int) {
+	for _, v := range route {
+		fmt.Println(v, " [arrival: ", time.Unix(_ai(v, route), 0).UTC(), ", leaving: ", time.Unix(_di(v, route), 0).UTC())
+	}
+}
+
+func PrintPoints() {
+	for _, v := range points {
+		fmt.Println(v, " [start: ", time.Unix(v.Start, 0).UTC(), ", end: ", time.Unix(v.End, 0).UTC())
+	}
 }

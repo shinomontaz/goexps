@@ -9,7 +9,6 @@ import (
 	"math"
 	"math/rand"
 	"os"
-	"time"
 
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/basicfont"
@@ -33,7 +32,7 @@ func Max(x, y int64) int64 {
 func createPoints(n int) []*Point {
 	res := make([]*Point, 0)
 	for i := 0; i < n; i++ {
-		startSec := time.Now().Unix() + int64(rand.Intn(47)*30*60)
+		startSec := MegaNow + int64(rand.Intn(17)*30*60)
 		res = append(res, &Point{
 			Lat:   rand.Float64() * 100,
 			Lng:   rand.Float64() * 100,
