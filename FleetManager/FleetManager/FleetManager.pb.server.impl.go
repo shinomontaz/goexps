@@ -48,7 +48,7 @@ func (s *ServerImpl) GetFleet(ctx context.Context, req *Empty) (*GetFleetResp, e
 		fleetList := make([]*Courier, 0, len(w.Fleet))
 
 		for _, ww := range w.Fleet {
-			fleetList = append(fleetList, &Courier{Id: ww.Id, Name: ww.Name, Volume: ww.Volume})
+			fleetList = append(fleetList, &Courier{Id: ww.ID, Name: ww.Name, Volume: ww.Volume})
 		}
 
 		fleet = append(fleet, &Fleet{
