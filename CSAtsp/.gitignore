@@ -1,0 +1,16 @@
+# phpstorm project files
+.idea
+
+# Project specific
+/vendor/
+/bin/*
+
+# Mac DS_Store Files
+.DS_Store
+
+# Benchmark results and graphincs
+*.png
+*.gif
+*.txt
+*.out
+*.svg
