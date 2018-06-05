@@ -31,8 +31,16 @@ func Max(x, y int64) int64 {
 
 func createPoints(n int) []*Point {
 	res := make([]*Point, 0)
-	for i := 0; i < n; i++ {
-		startSec := MegaNow + int64(rand.Intn(17)*30*60)
+
+	res = append(res, &Point{
+		Lat:   rand.Float64() * 100,
+		Lng:   rand.Float64() * 100,
+		Start: MegaNow,
+		End:   MegaNow,
+	})
+
+	for i := 1; i < n; i++ {
+		startSec := MegaNow + int64(1+rand.Intn(16))*30*60
 		res = append(res, &Point{
 			Lat:   rand.Float64() * 100,
 			Lng:   rand.Float64() * 100,
@@ -61,7 +69,7 @@ func getDistance(from, to *Point) float64 {
 	if from == to {
 		return 0
 	}
-	return math.Sqrt(math.Pow(from.Lat-to.Lat, 2) + math.Pow(from.Lng-to.Lng, 2))
+	return math.Sqrt(math.Pow(from.Lat-to.Lat, 2)+math.Pow(from.Lng-to.Lng, 2)) * 100 // in meters
 }
 
 func drawSolution(filename string, points []*Point, route []int) {

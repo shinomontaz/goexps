@@ -3,12 +3,12 @@
 
 # Project specific
 /vendor/
-/bin/*
 
 # Mac DS_Store Files
 .DS_Store
 
 # Benchmark results and graphincs
+CSAtsp
 *.png
 *.gif
 *.txt

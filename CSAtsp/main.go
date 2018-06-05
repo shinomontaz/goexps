@@ -23,7 +23,7 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 	today := time.Now()
 	MegaNow = time.Date(today.Year(), today.Month(), today.Day(), 8, 0, 0, 0, time.UTC).Unix()
-	points = createPoints(10)
+	points = createPoints(50)
 	dMatrix = calcDistances(points)
 }
 
@@ -35,7 +35,7 @@ func main() {
 
 	PrintPoints()
 
-	fmt.Println("initial: ", route, " - ", _fu(route), " sum of out of TW: ", _ro(csa))
+	fmt.Println("initial: ", route, " - ", _fu(route), " sum of out of TW: ", _ro(route))
 	PrintRoute(route)
 	//	drawSolution("CSA1.png", points, route)
 	fmt.Println("csa: ", csa, " - ", _fu(csa), " sum of out of TW: ", _ro(csa))
@@ -101,7 +101,7 @@ func _di(index int, route []int) int64 {
 }
 
 func _ro(route []int) (res int64) {
-	for index := range route {
+	for _, index := range route {
 		res += Max(0, _di(index, route)-points[index].End)
 	}
 	return res
@@ -127,8 +127,8 @@ func mutate(route []int) (mutated []int) {
 }
 
 func PrintRoute(route []int) {
-	for _, v := range route {
-		fmt.Println(v, " [arrival: ", time.Unix(_ai(v, route), 0).UTC(), ", leaving: ", time.Unix(_di(v, route), 0).UTC())
+	for index, v := range route {
+		fmt.Println(v, " [arrival: ", time.Unix(_ai(index, route), 0).UTC(), "(", time.Unix(points[v].Start, 0).UTC(), "), leaving: ", time.Unix(_di(index, route), 0).UTC(), "(", time.Unix(points[v].End, 0).UTC(), ")")
 	}
 }
 
