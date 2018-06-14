@@ -5,8 +5,7 @@ import (
 	"math"
 	"math/rand"
 
-	//	"./algo"
-	"github.com/shinomontaz/goexps/GAtsp2/algo"
+	"github.com/shinomontaz/ga"
 )
 
 type LatLng struct {
@@ -41,11 +40,11 @@ func (p Path) Mutate(rng *rand.Rand) {
 	p.way[randIndex1], p.way[randIndex2] = p.way[randIndex2], p.way[randIndex1]
 }
 
-func (p Path) Crossover(q algo.Individual) algo.Individual {
+func (p Path) Crossover(q ga.Individual) ga.Individual {
 	return p
 }
 
-func (p Path) Clone() algo.Individual {
+func (p Path) Clone() ga.Individual {
 	clone := Path{way: make([]int, len(p.way)), points: p.points}
 	copy(clone.way, p.way)
 	return clone
@@ -57,7 +56,7 @@ type PathFactory struct {
 	points  []*LatLng
 }
 
-func (f *PathFactory) Create(rnd *rand.Rand) algo.Individual {
+func (f *PathFactory) Create(rnd *rand.Rand) ga.Individual {
 	path := Path{way: rnd.Perm(f.N), points: f.points}
 	return path
 }
@@ -70,7 +69,7 @@ func main() {
 
 	PFactory := &PathFactory{N: N, dMatrix: dMatrix, points: points}
 
-	var ga = algo.Solver{
+	var ga = ga.Ga{
 		NewIndividual: PFactory.Create,
 		PopSize:       N * 20}
 
