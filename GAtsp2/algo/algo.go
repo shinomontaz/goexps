@@ -8,13 +8,13 @@ import (
 	"time"
 )
 
-//type IndividualFactory func(rng *rand.Rand) Individual
+type IndividualFactory func(rng *rand.Rand) Individual
 
 type Solver struct {
-	If IFactory
+	//	If IFactory
 	// Required fields
-	//	NewIndividual NewIndividual `json:"-"`
-	PopSize int `json:"-"` // Number of Individuls per Population
+	NewIndividual IndividualFactory `json:"-"`
+	PopSize       int               `json:"-"` // Number of Individuls per Population
 
 	// Optional fields
 	Rnd *rand.Rand `json:"-"`
@@ -41,11 +41,12 @@ func (s *Solver) Initialize() {
 		s.NotChanged = 1000
 	}
 
-	s.If.Init(s.Rnd)
+	//	s.If.Init(s.Rnd)
 
 	s.Population = make([]Individual, 0, s.PopSize)
 	for i := 0; i < s.PopSize; i++ {
-		s.Population = append(s.Population, s.If.Create())
+		//		s.Population = append(s.Population, s.If.Create())
+		s.Population = append(s.Population, s.NewIndividual(s.Rnd))
 	}
 
 	s.Best = s.Population[0]

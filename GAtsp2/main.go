@@ -5,7 +5,8 @@ import (
 	"math"
 	"math/rand"
 
-	"./algo"
+	//	"./algo"
+	"github.com/shinomontaz/goexps/GAtsp2/algo"
 )
 
 type LatLng struct {
@@ -51,18 +52,13 @@ func (p Path) Clone() algo.Individual {
 }
 
 type PathFactory struct {
-	rnd     *rand.Rand
 	N       int
 	dMatrix [][]float64
 	points  []*LatLng
 }
 
-func (f *PathFactory) Init(rng *rand.Rand) {
-	f.rnd = rng
-}
-
-func (f *PathFactory) Create() algo.Individual {
-	path := Path{way: f.rnd.Perm(f.N), points: f.points}
+func (f *PathFactory) Create(rnd *rand.Rand) algo.Individual {
+	path := Path{way: rnd.Perm(f.N), points: f.points}
 	return path
 }
 
@@ -75,8 +71,8 @@ func main() {
 	PFactory := &PathFactory{N: N, dMatrix: dMatrix, points: points}
 
 	var ga = algo.Solver{
-		If:      PFactory,
-		PopSize: N * 20}
+		NewIndividual: PFactory.Create,
+		PopSize:       N * 20}
 
 	ga.Initialize()
 	initial := ga.Population[0].Clone()
