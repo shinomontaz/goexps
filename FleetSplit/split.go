@@ -1,7 +1,7 @@
 package main
 
 type Tag struct {
-	Id   int64
+	Id   int
 	Name string
 	Code string
 }
@@ -39,10 +39,18 @@ type Order struct {
 	Parameters  *Limits
 	ServiceTime int64
 	Zone        int64
+	Tags        []int
 }
 
 type Zone struct {
 	Volume float64
 	Weight float64
 	ZoneId int
+	Demand map[string]*TagDemand
+}
+
+type TagDemand struct {
+	Tags   []int
+	Weight float64
+	Volume float64
 }

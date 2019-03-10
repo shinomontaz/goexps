@@ -14,17 +14,34 @@ func FleetSplitAlgo(freeFleet []*Courier, hardFleet map[int][]*Courier, ordersBy
 	// уменьшить потребности на емкости жесткого флота (?) - похоже на скелет расписания, а значит не надо ничего уменьшать
 
 	zones := make([]Zone, 0, len(ordersByZones))
-	for zoneId, orders := range ordersByZones {
 
+	for zoneId, orders := range ordersByZones {
 		newZone := Zone{
 			ZoneId: zoneId,
 		}
+		tagDemands := make(map[string]*TagDemand)
+		tagDemands[""] = &TagDemand{}
+
 		for _, ord := range orders {
+			if len(ord.Tags) > 0 {
+				tagsCode := ""
+				for _, tagId := range ord.Tags {
+					tagsCode = fmt.Sprintf("%s,%d", tagsCode, tagId)
+				}
+				if _, ok := tagDemands[tagsCode]; !ok {
+					tagDemands[tagsCode] = &TagDemand{
+						Tags: ord.Tags,
+					}
+				}
+				tagDemands[tagsCode].Weight += ord.Parameters.Weight
+			} else {
+				tagDemands[""].Weight += ord.Parameters.Weight
+			}
 			newZone.Volume += ord.Parameters.Volume
 			newZone.Weight += ord.Parameters.Weight
+			newZone.Demand = tagDemands
 		}
 		zones = append(zones, newZone)
-
 	}
 
 	PFactory := &SolutionFactory{
@@ -107,20 +124,34 @@ func (s *Split) Mutate() ga.Individual {
 func (s *Split) Fitness() float64 {
 	unfitness := 0.0
 	for _, zone := range s.Zones {
-		// Volume float64
-		// Weight float64
-		vSupply := 0.0
-		wSupply := 0.0
+		// vSupply := 0.0
+		// wSupply := 0.0
+
+		tagSupply := make(map[string]*TagDemand)
+		tagSupply[""] = &TagDemand{}
 
 		for _, cou := range s.List[zone.ZoneId] {
 
-			vSupply += cou.Limits.Volume
+			if len(cou.Tags) > 0 {
+				tagsCode := ""
+				couTags := make([]int, 0, len(cou.Tags))
+				for _, tag := range cou.Tags {
+					tagsCode = fmt.Sprintf("%s,%d", tagsCode, tag.Id)
+					couTags = append(couTags, tag.Id)
+				}
+				if _, ok := tagSupply[tagsCode]; !ok {
+					tagSupply[tagsCode] = &TagDemand{Tags: couTags}
+				}
+				tagSupply[tagsCode].Weight += cou.Limits.Weight
+			} else {
+				tagSupply[""].Weight += cou.Limits.Weight
+			}
 
-			wSupply += cou.Limits.Weight
-
+			// vSupply += cou.Limits.Volume
+			// wSupply += cou.Limits.Weight
 		}
-		unfitness += math.Max(math.Max(zone.Weight-wSupply, zone.Volume-vSupply), 0)
 
+		unfitness += math.Max(math.Max(zone.Weight-wSupply, zone.Volume-vSupply), 0)
 	}
 	return 1 / (unfitness + 1.0)
 }
@@ -166,7 +197,6 @@ func (s *Split) Crossover(p ga.Individual) ga.Individual {
 		child.(*Split).AddCourier(courier, courierZone)
 	}
 	return child
-
 }
 
 func (s *Split) AddCourier(cou *Courier, zoneId int) {

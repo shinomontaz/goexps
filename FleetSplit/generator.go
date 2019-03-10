@@ -4,7 +4,7 @@ import (
 	"math/rand"
 )
 
-func generateFleet(TotalNum, HardNum int, Zones []*Zone, tags []*Tag) []*Courier {
+func generateFleet(TotalNum, HardNum int, Zones []Zone, tags []*Tag) []*Courier {
 	fleet := make([]*Courier, 0, TotalNum)
 
 	for i := 1; i <= HardNum; i++ {
@@ -16,7 +16,6 @@ func generateFleet(TotalNum, HardNum int, Zones []*Zone, tags []*Tag) []*Courier
 			for j := 0; j < tagsNum; j++ {
 				toTags = append(toTags, tags[tagsNow[j]])
 			}
-
 		}
 
 		fleet = append(fleet, &Courier{

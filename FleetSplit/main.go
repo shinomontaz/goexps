@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"time"
 )
 
@@ -20,11 +21,24 @@ func main() {
 	}
 
 	zonesNum := 30
-	zones := make([]*Zone, 0, zonesNum)
-	orders := make([]*Order, 0, 5000)
-	for i := 0; i < 5000; i++ {
+	ordersNum := 5000
+	zones := make([]Zone, 0, zonesNum)
+	orders := make([]*Order, 0, ordersNum)
+	for i := 0; i < ordersNum; i++ {
+		tagsNow := rand.Perm(len(tags))
+		tagsNum := rand.Intn(len(tags))
+
+		toTags := make([]int, 0, len(tags))
+		if rand.Float64() < 0.1 {
+			for j := 0; j < tagsNum; j++ {
+				toTags = append(toTags, tags[tagsNow[j]].Id)
+			}
+		}
+
+		sort.Ints(toTags)
 		orders = append(orders, &Order{
-			Zone: int64(rand.Intn(5000) % zonesNum),
+			Zone: int64(rand.Intn(ordersNum) % zonesNum),
+			Tags: toTags,
 			Parameters: &Limits{
 				Weight: float64(rand.Intn(5) + (rand.Intn(10)%5)*5),
 			},
@@ -36,16 +50,12 @@ func main() {
 		ordersByZones[int(ord.Zone)] = append(ordersByZones[int(ord.Zone)], ord)
 	}
 
+	// generate zones
 	for i := 0; i < zonesNum; i++ {
-		zoneWeight := 0.0
-		for _, ord := range ordersByZones[i] {
-			zoneWeight += ord.Parameters.Weight
-		}
-
-		zones = append(zones, &Zone{
+		newZone := Zone{
 			ZoneId: i,
-			Weight: zoneWeight,
-		})
+		}
+		zones = append(zones, newZone)
 	}
 
 	fleet := generateFleet(100, 50, zones, tags)
