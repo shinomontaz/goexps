@@ -31,24 +31,24 @@ func main() {
 		})
 	}
 
-	ordersByZones := make(map[int64][]*Order, 0)
+	ordersByZones := make(map[int][]*Order, 0)
 	for _, ord := range orders {
-		ordersByZones[ord.Zone] = append(ordersByZones[ord.Zone], ord)
+		ordersByZones[int(ord.Zone)] = append(ordersByZones[int(ord.Zone)], ord)
 	}
 
 	for i := 0; i < zonesNum; i++ {
 		zoneWeight := 0.0
-		for _, ord := range ordersByZones[int64(i)] {
+		for _, ord := range ordersByZones[i] {
 			zoneWeight += ord.Parameters.Weight
 		}
 
 		zones = append(zones, &Zone{
-			ZoneId: int64(i),
+			ZoneId: i,
 			Weight: zoneWeight,
 		})
 	}
 
-	fleet := generateFleet(200, 50, zones, tags)
+	fleet := generateFleet(100, 50, zones, tags)
 
 	hardfleet := make(map[int][]*Courier)
 	couriers := make([]*Courier, 0, len(fleet))
@@ -61,7 +61,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(len(hardfleet))
-	fmt.Println(len(couriers))
+	result := FleetSplitAlgo(couriers, hardfleet, ordersByZones)
 
+	fmt.Println(result)
 }

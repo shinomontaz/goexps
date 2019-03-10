@@ -21,7 +21,10 @@ type Courier struct {
 }
 
 type Split struct {
-	List map[int64][]*Courier
+	List       map[int][]*Courier
+	Zones      []Zone
+	CourierMap map[int64]int
+	Couriers   []*Courier
 }
 
 type LatLong struct {
@@ -41,5 +44,5 @@ type Order struct {
 type Zone struct {
 	Volume float64
 	Weight float64
-	ZoneId int64
+	ZoneId int
 }
