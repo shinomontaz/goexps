@@ -54,7 +54,7 @@ func annealing(dMatrix [][]float64, currSolution []int) []int {
 
 		} else {
 			dice := rand.Float64()
-			if dice > getAcceptanceCoeff(T, oldEnergy, newEnergy) {
+			if dice < getAcceptanceCoeff(T, oldEnergy, newEnergy) {
 				currSolution = newSolution
 				oldEnergy = newEnergy
 			}

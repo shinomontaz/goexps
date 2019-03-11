@@ -1,5 +1,7 @@
 package main
 
+import "sort"
+
 type Tag struct {
 	Id   int
 	Name string
@@ -53,4 +55,26 @@ type TagDemand struct {
 	Tags   []int
 	Weight float64
 	Volume float64
+	Key    string
+}
+
+func (z *Zone) TakeBiggestDemand() *TagDemand {
+	if len(z.Demand) == 0 {
+		return nil
+		//		panic("zone cannot have empty demand! at least we should have a demand without tags?")
+	}
+
+	tgDemands := make([]*TagDemand, 0, len(z.Demand))
+
+	for _, tgd := range z.Demand {
+		tgDemands = append(tgDemands, tgd)
+	}
+
+	sort.Slice(tgDemands, func(i, j int) bool {
+		return len(tgDemands[i].Tags) > len(tgDemands[j].Tags)
+	})
+
+	res := z.Demand[tgDemands[0].Key]
+	delete(z.Demand, tgDemands[0].Key)
+	return res
 }

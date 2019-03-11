@@ -89,7 +89,7 @@ func main() {
 	}
 
 	fmt.Println(everBest, " - ", everBest.Score(points))
-}
+
 
 func NewRoute(points []Point) Route {
 	return rand.Perm(len(points))

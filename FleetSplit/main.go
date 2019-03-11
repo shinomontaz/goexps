@@ -26,7 +26,7 @@ func main() {
 	orders := make([]*Order, 0, ordersNum)
 	for i := 0; i < ordersNum; i++ {
 		tagsNow := rand.Perm(len(tags))
-		tagsNum := rand.Intn(len(tags))
+		tagsNum := rand.Intn(len(tags) + 1)
 
 		toTags := make([]int, 0, len(tags))
 		if rand.Float64() < 0.1 {

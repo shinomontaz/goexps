@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"sort"
+	"strings"
 
 	"github.com/shinomontaz/ga"
 )
@@ -26,11 +28,15 @@ func FleetSplitAlgo(freeFleet []*Courier, hardFleet map[int][]*Courier, ordersBy
 			if len(ord.Tags) > 0 {
 				tagsCode := ""
 				for _, tagId := range ord.Tags {
-					tagsCode = fmt.Sprintf("%s,%d", tagsCode, tagId)
+					if tagsCode != "" {
+						tagsCode = fmt.Sprintf("%s,", tagsCode)
+					}
+					tagsCode = fmt.Sprintf("%s%d", tagsCode, tagId)
 				}
 				if _, ok := tagDemands[tagsCode]; !ok {
 					tagDemands[tagsCode] = &TagDemand{
 						Tags: ord.Tags,
+						Key:  tagsCode,
 					}
 				}
 				tagDemands[tagsCode].Weight += ord.Parameters.Weight
@@ -57,8 +63,12 @@ func FleetSplitAlgo(freeFleet []*Courier, hardFleet map[int][]*Courier, ordersBy
 	gaSolver.Initialize()
 	record := gaSolver.Population[0].Clone()
 
+
 	bestFitness := record.Fitness()
-	epochMax := 1000
+
+	fmt.Println(bestFitness)
+
+	epochMax := 100
 	epoch := 1
 	for epoch < epochMax {
 		gaSolver.Evolve()
@@ -124,8 +134,8 @@ func (s *Split) Mutate() ga.Individual {
 func (s *Split) Fitness() float64 {
 	unfitness := 0.0
 	for _, zone := range s.Zones {
-		// vSupply := 0.0
-		// wSupply := 0.0
+		vSupply := 0.0
+		wSupply := 0.0
 
 		tagSupply := make(map[string]*TagDemand)
 		tagSupply[""] = &TagDemand{}
@@ -136,11 +146,20 @@ func (s *Split) Fitness() float64 {
 				tagsCode := ""
 				couTags := make([]int, 0, len(cou.Tags))
 				for _, tag := range cou.Tags {
-					tagsCode = fmt.Sprintf("%s,%d", tagsCode, tag.Id)
+					if tagsCode != "" {
+						tagsCode = fmt.Sprintf("%s,", tagsCode)
+					}
+					tagsCode = fmt.Sprintf("%s%d", tagsCode, tag.Id)
+
+//					tagsCode = fmt.Sprintf("%s,%d", tagsCode, tag.Id)
+
 					couTags = append(couTags, tag.Id)
 				}
 				if _, ok := tagSupply[tagsCode]; !ok {
-					tagSupply[tagsCode] = &TagDemand{Tags: couTags}
+					tagSupply[tagsCode] = &TagDemand{
+						Tags: couTags,
+						Key:  tagsCode,
+					}
 				}
 				tagSupply[tagsCode].Weight += cou.Limits.Weight
 			} else {
@@ -151,9 +170,81 @@ func (s *Split) Fitness() float64 {
 			// wSupply += cou.Limits.Weight
 		}
 
-		unfitness += math.Max(math.Max(zone.Weight-wSupply, zone.Volume-vSupply), 0)
+		// 1. берем требования с максимальной мощностью по тегам
+		// 2. ищем такой же или охватывающий набор тегов в поддерживаемых для рассматриваемого
+		// 2.1 нашли - снижаем емкость соответствующего поддерживаемого набора
+		// 2.2 не нашли - увеличиваем unfitness и пишем в требования
+
+		for {
+			biggestDemand := zone.TakeBiggestDemand()
+			if biggestDemand == nil {
+				break
+			}
+			equalOrBiggerSupply := findEqualOrBigger(biggestDemand, tagSupply)
+			if equalOrBiggerSupply == nil {
+			} else {
+				wSupply = equalOrBiggerSupply.Weight
+				vSupply = equalOrBiggerSupply.Volume
+				equalOrBiggerSupply.Weight = math.Max(wSupply-biggestDemand.Weight, 0)
+				equalOrBiggerSupply.Volume = math.Max(vSupply-biggestDemand.Volume, 0)
+
+				if equalOrBiggerSupply.Weight == 0 && equalOrBiggerSupply.Volume == 0 {
+					delete(tagSupply, equalOrBiggerSupply.Key)
+				}
+			}
+
+			if biggestDemand.Key == "" && math.Max(math.Max(biggestDemand.Weight-wSupply, biggestDemand.Volume-vSupply), 0) > 0 {
+				for equalOrBiggerSupply1 := findEqualOrBigger(biggestDemand, tagSupply); equalOrBiggerSupply1 != nil; {
+					wSupply += equalOrBiggerSupply1.Weight
+					vSupply += equalOrBiggerSupply1.Volume
+					equalOrBiggerSupply1.Weight = math.Max(wSupply-biggestDemand.Weight, 0)
+					equalOrBiggerSupply1.Volume = math.Max(vSupply-biggestDemand.Volume, 0)
+
+					if equalOrBiggerSupply1.Weight == 0 && equalOrBiggerSupply1.Volume == 0 {
+						delete(tagSupply, equalOrBiggerSupply1.Key)
+					}
+				}
+			}
+
+			unfitness += math.Max(math.Max(biggestDemand.Weight-wSupply, biggestDemand.Volume-vSupply), 0)
+
+		}
+
 	}
 	return 1 / (unfitness + 1.0)
+}
+
+func findEqualOrBigger(tgd *TagDemand, tgSupply map[string]*TagDemand) *TagDemand {
+	if tgd.Key == "" {
+		if _, ok := tgSupply[""]; ok {
+			return tgSupply[""]
+		}
+		return nil
+	}
+
+	tgSupplySl := make([]*TagDemand, 0, len(tgSupply))
+
+	for _, tgs := range tgSupply {
+		tgSupplySl = append(tgSupplySl, tgs)
+	}
+
+	sort.Slice(tgSupplySl, func(i, j int) bool { // здесь сперва будут те, у кого количество тегов меньше
+		return len(tgSupplySl[i].Tags) < len(tgSupplySl[j].Tags)
+	})
+
+	for _, supply := range tgSupplySl { // от меньших к большему
+		if len(tgd.Key) > len(supply.Key) {
+			continue
+		}
+		if tgd.Key == supply.Key {
+			return tgSupply[supply.Key]
+		}
+		if strings.Index(supply.Key, tgd.Key) != -1 {
+			return tgSupply[supply.Key]
+		}
+	}
+
+	return nil
 }
 
 func (s *Split) Clone() ga.Individual {
