@@ -63,7 +63,6 @@ func FleetSplitAlgo(freeFleet []*Courier, hardFleet map[int][]*Courier, ordersBy
 	gaSolver.Initialize()
 	record := gaSolver.Population[0].Clone()
 
-
 	bestFitness := record.Fitness()
 
 	fmt.Println(bestFitness)
@@ -74,7 +73,7 @@ func FleetSplitAlgo(freeFleet []*Courier, hardFleet map[int][]*Courier, ordersBy
 		gaSolver.Evolve()
 		epoch++
 		curr := gaSolver.Record()
-		if curr.Fitness() < bestFitness { // чем меньше, тем лучше
+		if curr.Fitness() > bestFitness { // чем меньше, тем лучше
 			bestFitness = curr.Fitness()
 			record = curr.Clone()
 			fmt.Println(bestFitness)
@@ -151,7 +150,7 @@ func (s *Split) Fitness() float64 {
 					}
 					tagsCode = fmt.Sprintf("%s%d", tagsCode, tag.Id)
 
-//					tagsCode = fmt.Sprintf("%s,%d", tagsCode, tag.Id)
+					//					tagsCode = fmt.Sprintf("%s,%d", tagsCode, tag.Id)
 
 					couTags = append(couTags, tag.Id)
 				}
