@@ -9,6 +9,7 @@ nbproject
 .buildpath
 .project
 .settings
+.vscode
 
 # windows thumbnail cache
 Thumbs.db
@@ -19,3 +20,4 @@ Thumbs.db
 *.png
 *.gif
 *.txt
+*.exe
