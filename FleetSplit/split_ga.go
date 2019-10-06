@@ -73,7 +73,7 @@ func FleetSplitAlgo(freeFleet []*Courier, hardFleet map[int][]*Courier, ordersBy
 		gaSolver.Evolve()
 		epoch++
 		curr := gaSolver.Record()
-		if curr.Fitness() < bestFitness { // чем меньше, тем лучше
+		if curr.Fitness() > bestFitness { // чем меньше, тем лучше
 			bestFitness = curr.Fitness()
 			record = curr.Clone()
 			fmt.Println(bestFitness)
