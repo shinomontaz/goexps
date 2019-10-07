@@ -11,55 +11,52 @@ func main() {
 	g := gini.New()
 
 	n := 8
+	board := make([][]z.Lit, n)
 
-	board := make([]z.Lit, n*n)
-	// var board = func(i, j int, present bool) z.Lit {
-	// 	return z.Var(i*n + j).Pos()
-	// }
-	m := []z.Lit{z.Var(1).Pos(), z.Var(2).Pos(), z.Var(3).Pos()}
-
-	g.Add(m[0])
-	g.Add(m[1])
-	g.Add(m[2])
-	g.Add(0)
-
-	for j := 0; j < 2; j++ {
-		for k := j + 1; k <= 2; k++ {
-			g.Add(m[j].Not())
-			g.Add(m[k].Not())
-			g.Add(0)
+	for i := 0; i < n; i++ {
+		board[i] = make([]z.Lit, n)
+		for j := 0; j < n; j++ {
+			board[i][j] = z.Var(n + i*n + j).Pos() // Магия gini - если подать 0 на Var, то будет неправильно ибо 0 тут трактуется как безусловная ложь
 		}
 	}
 
-	if g.Solve() == 1 {
-		for j := 0; j <= 2; j++ {
-			fmt.Printf("%d (%d)\n", 1, g.Value(m[j]))
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			g.Add(board[i][j])
 		}
-		//		panic("active!")
-		// do something
+		g.Add(0)
 	}
-	fmt.Println(g.Why(m))
 
-	panic("false!")
-
-	for i := 1; i <= n; i++ {
-		for j := 1; j <= n; j++ {
-			board[(i-1)*n+(j-1)] = z.Lit((i-1)*n + (j - 1)) // z.Var((i-1)*n + (j - 1)).Pos() // z.Var() //
-			fmt.Println(i, j, n, i*n+j, board[(i-1)*n+(j-1)])
-			g.Add(board[(i-1)*n+(j-1)])
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			g.Add(board[j][i])
 		}
-		g.Add(0) // gini magic here
+		g.Add(0)
+	}
+
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			for k := j + 1; k < n; k++ {
+				g.Add(board[i][j].Not())
+				g.Add(board[i][k].Not())
+				g.Add(0)
+			}
+		}
 	}
 
 	if g.Solve() != 1 {
 		fmt.Printf("error.\n")
+		for i := 0; i < n; i++ {
+			fmt.Println(g.Why(board[i]))
+			break
+		}
 		return
 	}
 
-	for i := 1; i <= n; i++ {
-		for j := 1; j <= n; j++ {
-			if g.Value(board[(i-1)*n+(j-1)]) {
-				fmt.Printf("%d (%d)", 1, g.Value(board[(i-1)*n+(j-1)]))
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			if g.Value(board[i][j]) {
+				fmt.Printf("*")
 				//				break
 			} else {
 				fmt.Printf("%d", 0)
