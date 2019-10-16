@@ -31,7 +31,6 @@ func main() {
 	//	updateStartPoint(route)
 
 	fmt.Println("initial: ", route, " - ", getFitness(route, dMatrix))
-	drawSolution("SA1.png", points, route)
 
 	annealed := annealing(dMatrix, route)
 
@@ -41,8 +40,8 @@ func main() {
 
 func annealing(dMatrix [][]float64, currSolution []int) []int {
 	T := 1.0
-	Tmin := 0.00000001
-	cooling := 0.999999
+	Tmin := 0.001
+	cooling := 0.999
 	oldEnergy := getFitness(currSolution, dMatrix)
 
 	for T > Tmin {
@@ -54,7 +53,7 @@ func annealing(dMatrix [][]float64, currSolution []int) []int {
 
 		} else {
 			dice := rand.Float64()
-			if dice < getAcceptanceCoeff(T, oldEnergy, newEnergy) {
+			if dice > getAcceptanceCoeff(T, oldEnergy, newEnergy) {
 				currSolution = newSolution
 				oldEnergy = newEnergy
 			}

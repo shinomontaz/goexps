@@ -29,11 +29,13 @@ func main() {
 	route := Greedy(points, dMatrix)
 
 	fmt.Println("initial: ", route, " - ", getFitness(route, dMatrix))
-	drawSolution("Greedy.png", points, route)
+	fi := FI(points, dMatrix)
+	fmt.Println("fi: ", fi, " - ", getFitness(fi, dMatrix))
+	drawSolution("fi.png", points, fi)
 
 }
 
-func FI(points []*LatLng, dm [][]float64) {
+func FI(points []*LatLng, dm [][]float64) []int {
 	// detect 2 longest and create edge
 	// detect 3 far from edge
 	// loop throgh others
@@ -43,7 +45,7 @@ func FI(points []*LatLng, dm [][]float64) {
 
 	// find biggest in matrix
 
-	var pointsMap map[int]struct{}
+	pointsMap := make(map[int]struct{})
 	for i := range points {
 		pointsMap[i] = struct{}{}
 	}
@@ -55,12 +57,12 @@ func FI(points []*LatLng, dm [][]float64) {
 			if d > max {
 				maxI = i
 				maxJ = j
+				max = d
 			}
 		}
 	}
 
-	edge1 := []*LatLng{points[maxI], points[maxJ]}
-	route := []int{maxI, maxJ}
+	edges := [][2]int{[2]int{maxI, maxJ}}
 	delete(pointsMap, maxI)
 	delete(pointsMap, maxJ)
 
@@ -69,9 +71,15 @@ func FI(points []*LatLng, dm [][]float64) {
 	maxI = -1
 	for i := range pointsMap {
 		// расстояние от точки points[i] до первого ребра считаем
+		d := getLineDistance(points[i], [2]*LatLng{points[edges[0][0]], points[edges[0][1]]})
+		if d > max {
+			max = d
+			maxI = i
+			max = d
+		}
 	}
 	delete(pointsMap, maxI)
-	route = append(route, maxI)
+	edges = append(edges, [2]int{edges[0][1], maxI}, [2]int{maxI, edges[0][0]})
 
 	// main loop
 	for true {
@@ -81,17 +89,41 @@ func FI(points []*LatLng, dm [][]float64) {
 
 		max = 0
 		maxI = -1
+		curr_sum := 0.0
 		for i := range pointsMap {
-			for j := range route {
-				if dm[i][j] > max {
-					max = dm[i][j]
-					maxI = i
-				}
+			curr_sum = 0.0
+			for _, edge := range edges {
+				curr_sum += dm[edge[1]][i]
+			}
+
+			if curr_sum > max {
+				max = curr_sum
+				maxI = i
+			}
+
+		}
+
+		delete(pointsMap, maxI)
+		maxJ = 0
+		min := getLineDistance(points[maxI], [2]*LatLng{points[edges[maxJ][0]], points[edges[maxJ][1]]})
+		for j, edge := range edges {
+			d := getLineDistance(points[maxI], [2]*LatLng{points[edge[0]], points[edge[1]]})
+			if d < min {
+				min = d
+				maxJ = j
 			}
 		}
-		delete(pointsMap, maxI)
-		route = append(route, maxI)
+
+		// удалить самое близкое ребро и создать 2 новых
+		edges = append(edges[:maxJ], append([][2]int{[2]int{edges[maxJ][0], maxI}, [2]int{maxI, edges[maxJ][1]}}, edges[maxJ+1:]...)...)
 	}
+
+	route := make([]int, 0, len(edges))
+	for _, edge := range edges {
+		route = append(route, edge[0])
+	}
+
+	return route
 
 }
 
@@ -138,6 +170,12 @@ func getDistance(from, to *LatLng) float64 {
 		return 0
 	}
 	return math.Sqrt(math.Pow(from.Lat-to.Lat, 2) + math.Pow(from.Lng-to.Lng, 2))
+}
+
+func getLineDistance(point *LatLng, line [2]*LatLng) float64 {
+	denominator := math.Sqrt(math.Pow(line[0].Lat-line[1].Lat, 2) + math.Pow(line[0].Lng-line[1].Lng, 2))
+	numerator := math.Abs((line[1].Lng-line[0].Lng)*point.Lat - (line[1].Lat-line[0].Lat)*point.Lng + line[1].Lat*line[0].Lng - line[1].Lng*line[0].Lat)
+	return numerator / denominator
 }
 
 func drawSolution(filename string, points []*LatLng, route []int) {
