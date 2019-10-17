@@ -9,6 +9,7 @@ import (
 	"math"
 	"math/rand"
 	"os"
+	"sort"
 	"time"
 
 	"golang.org/x/image/font"
@@ -45,6 +46,8 @@ func FI(points []*LatLng, dm [][]float64) []int {
 
 	// find biggest in matrix
 
+	var route []int
+
 	pointsMap := make(map[int]struct{})
 	for i := range points {
 		pointsMap[i] = struct{}{}
@@ -66,6 +69,11 @@ func FI(points []*LatLng, dm [][]float64) []int {
 	delete(pointsMap, maxI)
 	delete(pointsMap, maxJ)
 
+	route = make([]int, 0, len(edges))
+	route = append(route, edges[0][0], edges[0][1])
+	fmt.Printf("route: %v\nfitness: %f\n", route, getFitness(route, dm))
+	drawSolution("fi0.png", points, route)
+
 	// find far point from edge
 	max = 0
 	maxI = -1
@@ -81,7 +89,17 @@ func FI(points []*LatLng, dm [][]float64) []int {
 	delete(pointsMap, maxI)
 	edges = append(edges, [2]int{edges[0][1], maxI}, [2]int{maxI, edges[0][0]})
 
+	route = make([]int, 0, len(edges))
+	for _, edge := range edges {
+		route = append(route, edge[0])
+	}
+
+	fmt.Printf("route: %v\nfitness: %f\n", route, getFitness(route, dm))
+	drawSolution("fi1.png", points, route)
+
 	// main loop
+	ii := 0
+
 	for true {
 		if len(pointsMap) == 0 {
 			break
@@ -89,42 +107,68 @@ func FI(points []*LatLng, dm [][]float64) []int {
 
 		max = 0
 		maxI = -1
-		curr_sum := 0.0
+		min := 10000000000000.0
+		mins := make(PairList, 0, len(edges))
 		for i := range pointsMap {
-			curr_sum = 0.0
+			min = 10000000000000.0
 			for _, edge := range edges {
-				curr_sum += dm[edge[1]][i]
+				d := dm[edge[0]][i]
+				if min > d {
+					min = d
+					maxI = i
+				}
 			}
 
-			if curr_sum > max {
-				max = curr_sum
+			d := dm[edges[len(edges)-1][1]][i]
+			if min > d {
+				min = d
 				maxI = i
 			}
 
+			mins = append(mins, Pair{idx: maxI, val: min})
 		}
+
+		// find max from mins
+		sort.Sort(mins)
+
+		res := mins[0]
+
+		maxI = res.idx
 
 		delete(pointsMap, maxI)
 		maxJ = 0
-		min := getLineDistance(points[maxI], [2]*LatLng{points[edges[maxJ][0]], points[edges[maxJ][1]]})
+		min = 100000000000000.0
 		for j, edge := range edges {
-			d := getLineDistance(points[maxI], [2]*LatLng{points[edge[0]], points[edge[1]]})
-			if d < min {
-				min = d
-				maxJ = j
+			if isPointProjectsToLine(points[maxI], [2]*LatLng{points[edge[0]], points[edge[1]]}) {
+				d := getLineDistance(points[maxI], [2]*LatLng{points[edge[0]], points[edge[1]]})
+				if d < min {
+					min = d
+					maxJ = j
+				}
 			}
 		}
 
 		// удалить самое близкое ребро и создать 2 новых
 		edges = append(edges[:maxJ], append([][2]int{[2]int{edges[maxJ][0], maxI}, [2]int{maxI, edges[maxJ][1]}}, edges[maxJ+1:]...)...)
+
+		route = make([]int, 0, len(edges))
+		for _, edge := range edges {
+			route = append(route, edge[0])
+		}
+		ii++
+
+		// drawSolution(fmt.Sprintf("fi_%d.png", ii), points, route)
+		// if ii > 10 {
+		// 	panic("!")
+		// }
 	}
 
-	route := make([]int, 0, len(edges))
+	route = make([]int, 0, len(edges))
 	for _, edge := range edges {
 		route = append(route, edge[0])
 	}
 
 	return route
-
 }
 
 func getFitness(route []int, dMatrix [][]float64) (fitness float64) {
@@ -178,6 +222,23 @@ func getLineDistance(point *LatLng, line [2]*LatLng) float64 {
 	return numerator / denominator
 }
 
+func isPointProjectsToLine(point *LatLng, line [2]*LatLng) bool {
+	// расстояние от точки до краев отрезка
+	a := math.Sqrt(math.Pow(line[0].Lat-point.Lat, 2) + math.Pow(line[0].Lng-point.Lng, 2))
+	b := math.Sqrt(math.Pow(line[1].Lat-point.Lat, 2) + math.Pow(line[1].Lng-point.Lng, 2))
+
+	// длина самого отрезка
+	c := math.Sqrt(math.Pow(line[0].Lat-line[1].Lat, 2) + math.Pow(line[0].Lng-line[1].Lng, 2))
+
+	// теорема косинусов: квадрат любой стороны треугольника равен сумме квадратов двух других сторон треугольника минус удвоенное произведение этих сторон на косинус угла между ними.
+	// если точка проектируется на отрезок - значит оба угла треугольника острые
+
+	num1 := a*a + c*c - b*b
+	num2 := c*c + b*b - a*a
+
+	return num1 >= 0 && num2 >= 0
+}
+
 func drawSolution(filename string, points []*LatLng, route []int) {
 	length := 500.0
 	myImage := image.NewRGBA(image.Rect(0, 0, int(length), int(length)))
@@ -198,6 +259,9 @@ func drawSolution(filename string, points []*LatLng, route []int) {
 	}
 
 	for j := 0; j < len(points)-1; j++ {
+		if j >= len(route)-1 {
+			break
+		}
 		i := route[j]
 		k := route[j+1]
 		x1 := length * points[i].Lat / 100.0
