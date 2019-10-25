@@ -11,34 +11,34 @@ type LatLng struct {
 }
 
 type Courier struct {
-		ID     int `json:"id"`
-		Name   string `json:"name"`
-		Limits struct {
-			Weight int    `json:"weight"`
-			Volume int    `json:"volume"`
-			Orders string `json:"orders"`
-		} `json:"limits"`
-		WorkingTime struct {
-			Start string `json:"start"`
-			End   string `json:"end"`
-		} `json:"workingTime"`
-		IsCycle bool        `json:"isCycle"`
-		Geom    string      `json:"geom"`
-		Center  interface{} `json:"center"`
-		ZoneID  string      `json:"zoneId"`
-		Tags    []struct {
-			ID   string `json:"id"`
-			Name string `json:"name"`
-			Code string `json:"code"`
-		} `json:"tags"`
-		Wave           string      `json:"wave"`
-		PhoneNumber    string      `json:"phoneNumber"`
-		Type           string      `json:"type"`
-		WarehouseID    string      `json:"warehouseId"`
-		ExtID          string      `json:"extId"`
-		CourierType    interface{} `json:"courierType"`
-		ContractNumber string      `json:"contractNumber"`
-		OrganizationID string      `json:"organizationId"`
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
+	Limits struct {
+		Weight int    `json:"weight"`
+		Volume int    `json:"volume"`
+		Orders string `json:"orders"`
+	} `json:"limits"`
+	WorkingTime struct {
+		Start string `json:"start"`
+		End   string `json:"end"`
+	} `json:"workingTime"`
+	IsCycle bool        `json:"isCycle"`
+	Geom    string      `json:"geom"`
+	Center  interface{} `json:"center"`
+	ZoneID  string      `json:"zoneId"`
+	Tags    []struct {
+		ID   string `json:"id"`
+		Name string `json:"name"`
+		Code string `json:"code"`
+	} `json:"tags"`
+	Wave           string      `json:"wave"`
+	PhoneNumber    string      `json:"phoneNumber"`
+	Type           string      `json:"type"`
+	WarehouseID    string      `json:"warehouseId"`
+	ExtID          string      `json:"extId"`
+	CourierType    interface{} `json:"courierType"`
+	ContractNumber string      `json:"contractNumber"`
+	OrganizationID string      `json:"organizationId"`
 }
 
 type Order struct {
@@ -63,6 +63,7 @@ type Order struct {
 	ClearingWaveID string    `json:"clearingWaveId"`
 	ZoneID         string    `json:"zoneId"`
 	ErrorReason    string    `json:"error_reason"`
+	Coord          *LatLng
 }
 
 func (from *LatLng) Distance(to *LatLng) float64 {
