@@ -10,8 +10,8 @@ import (
 
 func main() {
 
-	tabooSize := 10
-	iterations := 10000
+	tabooSize := 100
+	iterations := 3 //10000
 
 	result := search(orders, tabooSize, iterations)
 
@@ -51,8 +51,6 @@ func search(orders []*types.Order, tabooSize int, iterations int) *Result {
 
 	current.Fitness = current.Distance()
 
-	fmt.Println("start: ", current.items, current.Fitness)
-
 	best := current
 	tabuList := make([]Edge, 0, tabooSize)
 	maxCandidates := 10
@@ -70,8 +68,6 @@ func search(orders []*types.Order, tabooSize int, iterations int) *Result {
 		for _, c := range candidates {
 			fmt.Println("candidate", c.items, c.Fitness)
 		}
-
-		panic("!")
 
 		if candidates[0].Fitness < best.Fitness {
 			best = candidates[0]
@@ -140,7 +136,8 @@ func (r *Result) isTabu(tabooList []Edge) bool {
 	return false
 }
 
-func swap2opt(sol []int, i, j int) []int {
+func (r *Result) swap2opt(i, j int) {
+	sol := r.items
 	new_sol := make([]int, 0, len(sol))
 	if i > j {
 		i, j = j, i
@@ -151,13 +148,16 @@ func swap2opt(sol []int, i, j int) []int {
 		new_sol = append(new_sol, sol[k])
 	}
 	new_sol = append(new_sol, sol[j:]...)
-	return new_sol
+
+	r.items = new_sol
+	for idx := i + 1; idx < j; idx++ {
+		r.edges[idx] = Edge{r.items[idx-1], r.items[idx]}
+	}
+
 }
 
 func (r *Result) Mutate() *Result {
 	copy := r.Clone()
-
-	fmt.Println("before", copy.items)
 
 	i := rand.Intn(len(r.items) - 2)
 	j := i + rand.Intn(len(r.items)-i)
@@ -166,21 +166,22 @@ func (r *Result) Mutate() *Result {
 		j = i + rand.Intn(len(r.items)-i)
 	}
 
-	copy.items = swap2opt(r.items, i, j)
+	copy.swap2opt(i, j)
+	// update edges
 	copy.Fitness = copy.Distance()
-
-	fmt.Println("after", copy.items, i, j)
 
 	return copy
 }
 
 func createCandidate(r *Result, tabooList []Edge) *Result {
 	route := r
-	for i := 0; i < 10000000; i++ {
-		route := r.Mutate()
+	i := 0
+	for i = 0; i < 10000000; i++ {
+		route = r.Mutate()
 		if !route.isTabu(tabooList) {
 			break
 		}
 	}
+	fmt.Println(i)
 	return route
 }
