@@ -10,8 +10,8 @@ import (
 
 func main() {
 
-	tabooSize := 100
-	iterations := 3 //10000
+	tabooSize := 4
+	iterations := 10000
 
 	result := search(orders, tabooSize, iterations)
 
@@ -53,41 +53,40 @@ func search(orders []*types.Order, tabooSize int, iterations int) *Result {
 
 	best := current
 	tabuList := make([]Edge, 0, tabooSize)
-	maxCandidates := 10
+	maxCandidates := 20
 
 	for i := 0; i < iterations; i++ {
 		candidates := make([]*Result, maxCandidates)
 		for j := range candidates {
-			candidates[j] = createCandidate(current, tabuList)
+			candidates[j] = createCandidate(best, tabuList)
 		}
 
 		sort.Slice(candidates, func(i, j int) bool {
 			return candidates[i].Fitness < candidates[j].Fitness
 		})
 
-		for _, c := range candidates {
-			fmt.Println("candidate", c.items, c.Fitness)
-		}
+		// for _, c := range candidates {
+		// 	fmt.Println("candidate", c.items, c.Fitness)
+		// }
+		// fmt.Println(i, ":", candidates[0].Fitness, best.Fitness)
 
+		// отсортировать кандидатов по их фитнесу
+		// если фитнесс лучшего кандидата лучше, чем текущий рекорд - обновить текущий рекорд кандидатом
+		// добавить в tabooList список ребер кандидата
+		// урезать голову tabooList так, чтобы общая длина списка была в рамках tabooSize
 		if candidates[0].Fitness < best.Fitness {
 			best = candidates[0]
 
-			fmt.Println(i, ":", best.items, best.Fitness)
+			fmt.Println(i, ":", best.Fitness)
 
 			for _, edge := range best.edges {
 				tabuList = append(tabuList, edge)
 			}
 
 			if len(tabuList) > tabooSize {
-				tabuList = tabuList[(len(tabuList) - tabooSize):len(tabuList)]
+				tabuList = tabuList[(len(tabuList) - tabooSize):]
 			}
 		}
-
-		// отсортировать кандидатов по их фитнесу
-		// если фитнесс лучшего кандидата лучше, чем текущий рекорд - обновить текущий рекорд кандидатом
-		// добавить в tabooList список ребер кандидата
-		// урезать голову tabooList так, чтобы общая длина списка была в рамках tabooSize
-
 	}
 
 	return best
@@ -113,6 +112,7 @@ func (r *Result) Clone() *Result {
 }
 
 func (r *Result) isTabu(tabooList []Edge) bool {
+	//	fmt.Println("tabooList: ", tabooList)
 	c2 := 0
 	for idx, c := range r.items {
 		if idx == len(r.items)-1 {
@@ -127,7 +127,7 @@ func (r *Result) isTabu(tabooList []Edge) bool {
 				end:   c2,
 			}
 
-			if tabooEdge == edge {
+			if tabooEdge.start == edge.start && tabooEdge.end == edge.end {
 				return true
 			}
 		}
@@ -153,7 +153,6 @@ func (r *Result) swap2opt(i, j int) {
 	for idx := i + 1; idx < j; idx++ {
 		r.edges[idx] = Edge{r.items[idx-1], r.items[idx]}
 	}
-
 }
 
 func (r *Result) Mutate() *Result {
@@ -166,6 +165,21 @@ func (r *Result) Mutate() *Result {
 		j = i + rand.Intn(len(r.items)-i)
 	}
 
+	//	fmt.Println(i, j, len(copy.items))
+	// copy.items[i], copy.items[j] = copy.items[j], copy.items[i]
+
+	// if i > 0 {
+	// 	copy.edges[i-1] = Edge{copy.items[i-1], copy.items[i]}
+	// }
+	// copy.edges[i] = Edge{copy.items[i], copy.items[i+1]}
+
+	// if j > 0 {
+	// 	copy.edges[j-1] = Edge{copy.items[j-1], copy.items[j]}
+	// }
+	// if j < len(copy.items)-1 {
+	// 	copy.edges[j] = Edge{copy.items[j], copy.items[j+1]}
+	// }
+
 	copy.swap2opt(i, j)
 	// update edges
 	copy.Fitness = copy.Distance()
@@ -174,14 +188,20 @@ func (r *Result) Mutate() *Result {
 }
 
 func createCandidate(r *Result, tabooList []Edge) *Result {
-	route := r
+	route := r.Clone()
 	i := 0
-	for i = 0; i < 10000000; i++ {
-		route = r.Mutate()
+	for i = 0; i < 1000000; i++ {
+		route = route.Mutate()
 		if !route.isTabu(tabooList) {
+			//			fmt.Println("route: ", route)
 			break
 		}
+		// if i == 100 {
+		// 	fmt.Println("tabooList", tabooList, "route.items", route.items, route.edges)
+		// 	panic("!taboo")
+		// }
 	}
-	fmt.Println(i)
+
+	//	fmt.Println(i)
 	return route
 }

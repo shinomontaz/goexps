@@ -1,8 +1,12 @@
 module github.com/shinomontaz/goexps
 
+go 1.14
+
 require (
 	github.com/cosiner/argv v0.0.1 // indirect
+	github.com/fogleman/gg v1.3.0
 	github.com/go-delve/delve v1.2.0 // indirect
+	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/irifrance/gini v1.0.1
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/mattn/go-colorable v0.1.1 // indirect
