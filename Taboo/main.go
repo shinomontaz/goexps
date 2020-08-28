@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"sort"
 
-	"github.com/shinomontaz/goexps/Taboo/types"
+	"github.com/shinomontaz/goexps/types"
 )
 
 func main() {
