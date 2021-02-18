@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/shinomontaz/goexps/Taboo/types"
+	"github.com/shinomontaz/goexps/types"
 )
 
 var orders = make([]*types.Order, 0)
