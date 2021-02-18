@@ -1,5 +1,7 @@
 module github.com/shinomontaz/goexps
 
+go 1.15
+
 require (
 	github.com/cosiner/argv v0.0.1 // indirect
 	github.com/go-delve/delve v1.2.0 // indirect
