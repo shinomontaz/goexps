@@ -10,6 +10,7 @@ import (
 
 var str []byte
 var states [][]byte
+var printIdx int
 
 func main() {
 	//Enter your code here. Read input from STDIN. Print output to STDOUT
@@ -52,6 +53,7 @@ func process(cmd string) {
 		for i, b := range str {
 			curr_str[i] = b
 		}
+		str = curr_str
 		states = append(states, curr_str)
 	case 3: // print
 		idx, _ := strconv.Atoi(args[1])
