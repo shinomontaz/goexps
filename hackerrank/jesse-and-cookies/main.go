@@ -21,41 +21,42 @@ import (
 func cookies(k int32, A []int32) int32 {
 	// Write your code here
 	// make heap from A
-	heap := make([]int32, 0)
+	heap := make([]int64, 0)
 	for _, e := range A {
-		add(e, &heap)
+		add(int64(e), &heap)
 	}
 
 	var steps int32
 
-	for len(heap) > 1 && heap[0] <= k {
+	for len(heap) > 1 && heap[0] <= int64(k) {
 		min1 := del(&heap)
 		min2 := del(&heap)
 
-		var newcookie int32
+		var newcookie int64
 		if min1 < min2 {
-			newcookie = min1 + min2*2
+			newcookie = int64(min1 + min2*2)
 		} else {
-			newcookie = min2 + min1*2
+			newcookie = int64(min2 + min1*2)
 		}
 
 		add(newcookie, &heap)
 		steps++
 	}
 
-	if heap[0] >= k {
+	if heap[0] >= int64(k) {
 		return steps
 	}
 
+	//	fmt.Printf("%v, %v\n", heap[0], heap)
 	return -1
 }
 
-func add(e int32, heap *[]int32) {
+func add(e int64, heap *[]int64) {
 	*heap = append(*heap, e) // add to tail
 	sift_up(len(*heap)-1, heap)
 }
 
-func del(heap *[]int32) int32 { // always delete root
+func del(heap *[]int64) int64 { // always delete root
 	res := (*heap)[0]
 	(*heap)[0], (*heap)[len(*heap)-1] = (*heap)[len(*heap)-1], (*heap)[0]
 	*heap = (*heap)[:len(*heap)-1]
@@ -64,7 +65,7 @@ func del(heap *[]int32) int32 { // always delete root
 	return res
 }
 
-func sift_up(idx int, heap *[]int32) {
+func sift_up(idx int, heap *[]int64) {
 	if idx <= 0 {
 		return
 	}
@@ -76,7 +77,7 @@ func sift_up(idx int, heap *[]int32) {
 	}
 }
 
-func sift_down(idx int, heap *[]int32) {
+func sift_down(idx int, heap *[]int64) {
 	n := int(len(*heap) - 1)
 	if idx >= n-1 {
 		return
@@ -105,7 +106,7 @@ func sift_down(idx int, heap *[]int32) {
 
 func main() {
 	reader := bufio.NewReaderSize(os.Stdin, 16*1024*1024)
-
+	//    stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
 	stdout, err := os.Create("out.txt")
 
 	checkError(err)
