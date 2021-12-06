@@ -1,22 +1,18 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"net/http"
 	"os"
 )
 
 var (
-	port int
+	port string
 	host string
 )
 
 func init() {
-	pp := flag.Int("port", 8080, "port")
-	flag.Parse()
-
-	port = *pp
+	port = os.Getenv("PORT")
 
 	var err error
 
@@ -29,8 +25,8 @@ func init() {
 func main() {
 	http.HandleFunc("/", simple)
 
-	fmt.Printf("start listening on port :%d\n", port)
-	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	fmt.Printf("start listening on port :%s\n", port)
+	http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 }
 
 func simple(w http.ResponseWriter, req *http.Request) {
