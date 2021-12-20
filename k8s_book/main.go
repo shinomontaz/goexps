@@ -12,8 +12,8 @@ var (
 )
 
 func init() {
-	port = os.Getenv("PORT")
-
+	//	port = os.Getenv("PORT")
+	port = "8080"
 	var err error
 
 	host, err = os.Hostname()
