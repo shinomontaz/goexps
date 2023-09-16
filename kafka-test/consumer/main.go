@@ -10,9 +10,9 @@ import (
 
 func main() {
 	r := kafka.NewReader(kafka.ReaderConfig{
-		Brokers:  []string{"localhost:9094"},
-		GroupID:  "consumer-group-test-id",
-		Topic:    "testtopic",
+		Brokers:  []string{"localhost:9921", "localhost:9922", "localhost:9923"},
+		GroupID:  "consumer-group-test-id2",
+		Topic:    "test2",
 		MaxBytes: 10e6, // 10MB
 	})
 

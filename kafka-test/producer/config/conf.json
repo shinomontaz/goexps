@@ -3,8 +3,8 @@
     "ListenPort":3002,
     "kfConfig": {
         "Brokers": [
-            "192.168.1.21:9092"
+            "localhost:9921", "localhost:9922", "localhost:9923"
         ],
-        "Topic": "drybakov"
+        "Topic": "test2"
     }
 }
