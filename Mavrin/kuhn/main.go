@@ -23,9 +23,14 @@ func (g *Bipartite) specialDfs(v int, mem map[int]bool, p []int) bool {
 }
 
 func main() {
+	// graph := &Bipartite{
+	// 	left: []int{0, 1, 2, 3, 4, 5, 6},
+	// 	p:    [][]int{[]int{1}, []int{0}, []int{1, 2, 3}, []int{3}, []int{4}, []int{6}, []int{}},
+	// }
+
 	graph := &Bipartite{
-		left: []int{0, 1, 2, 3, 4, 5, 6},
-		p:    [][]int{[]int{1}, []int{0}, []int{1, 2, 3}, []int{3}, []int{4}, []int{6}, []int{}},
+		left: []int{0, 1},
+		p:    [][]int{[]int{1}, []int{0}},
 	}
 
 	n := len(graph.left)
