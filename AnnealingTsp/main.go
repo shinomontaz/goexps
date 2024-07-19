@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"image"
 	"image/color"
@@ -8,9 +9,12 @@ import (
 	"image/png"
 	"math"
 	"math/rand"
+	"net/http"
 	"os"
+	"strings"
 	"time"
 
+	"github.com/sirupsen/logrus"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/basicfont"
 	"golang.org/x/image/math/fixed"
@@ -23,8 +27,45 @@ type LatLng struct {
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	points := createPoints(100)
-	dMatrix := calcDistances(points)
+	//	points := createPoints(100)
+	//	dMatrix := calcDistances(points)
+	points := []LatLng{
+		{Lat: 45.032496, Lng: 34.045926},
+		{Lat: 44.549384, Lng: 33.530796},
+		{Lat: 44.555355, Lng: 33.53012},
+		{Lat: 44.526945, Lng: 33.535235},
+		{Lat: 44.534146607, Lng: 33.458781713},
+		{Lat: 44.559362, Lng: 33.532151},
+		{Lat: 44.567324, Lng: 33.525847},
+		{Lat: 44.514009, Lng: 33.585978},
+		{Lat: 44.556962, Lng: 33.525185},
+		{Lat: 44.561408, Lng: 33.525856},
+		{Lat: 44.549637, Lng: 33.528729},
+		{Lat: 44.554401, Lng: 33.529232},
+		{Lat: 44.563341, Lng: 33.528409},
+		{Lat: 44.569722, Lng: 33.521885},
+		{Lat: 44.55504066, Lng: 33.52893444},
+		{Lat: 44.515042, Lng: 33.612389},
+		{Lat: 44.550653, Lng: 33.442765},
+		{Lat: 44.566098, Lng: 33.524705},
+		{Lat: 44.517111, Lng: 33.596305},
+		{Lat: 44.512525, Lng: 33.492638},
+		{Lat: 44.536518, Lng: 33.453944},
+		{Lat: 44.503664, Lng: 33.59913},
+		{Lat: 44.555999, Lng: 33.529877},
+		{Lat: 44.571699, Lng: 33.528426},
+		{Lat: 44.512217, Lng: 33.491619},
+		{Lat: 44.541755, Lng: 33.547207},
+		{Lat: 44.572948, Lng: 33.532585},
+		{Lat: 44.515594, Lng: 33.592545},
+		{Lat: 44.571266, Lng: 33.51762},
+		{Lat: 44.569884, Lng: 33.523309},
+		{Lat: 44.509253, Lng: 33.603716},
+	}
+	last := time.Now()
+	dMatrix := GetMatrix(points)
+	dt := time.Since(last).Seconds()
+	fmt.Printf("matrix takes %f seconds\n", dt)
 
 	route := Greedy(points, dMatrix)
 	//	route := rand.Perm(len(dMatrix))
@@ -43,7 +84,7 @@ func annealing(dMatrix [][]float64, currSolution []int) []int {
 	Tmin := 0.001
 	cooling := 0.999
 	oldEnergy := getFitness(currSolution, dMatrix)
-
+	last := time.Now()
 	for T > Tmin {
 		newSolution := mutate(currSolution)
 		newEnergy := getFitness(newSolution, dMatrix)
@@ -60,6 +101,9 @@ func annealing(dMatrix [][]float64, currSolution []int) []int {
 		}
 		T *= cooling
 	}
+	dt := time.Since(last).Seconds()
+	fmt.Printf("it takes %f seconds\n", dt)
+
 	return currSolution
 }
 
@@ -127,6 +171,48 @@ func calcDistances(points []*LatLng) [][]float64 {
 	return res
 }
 
+type OSRMApiTableResp struct {
+	Code         string      `json:"code"`
+	Durations    [][]float64 `json:"durations"`
+	Destinations []struct {
+		Hint     string    `json:"hint"`
+		Name     string    `json:"name"`
+		Location []float64 `json:"location"`
+	} `json:"destinations"`
+	Sources []struct {
+		Hint     string    `json:"hint"`
+		Name     string    `json:"name"`
+		Location []float64 `json:"location"`
+	} `json:"sources"`
+}
+
+func GetMatrix(pts []LatLng) [][]float64 {
+	OsrmURL := "http://127.0.0.1:5000"
+	qsParts := make([]string, 0)
+	for _, p := range pts {
+		qsParts = append(qsParts, fmt.Sprintf("%f,%f", p.Lng, p.Lat))
+	}
+
+	qs := fmt.Sprintf("%s/table/v1/driving/%s", OsrmURL, strings.Join(qsParts, ";"))
+	resp, err := http.Get(qs)
+	if err != nil {
+		logrus.Fatalf("can't call osrm api: %s", err)
+	}
+	apiResp := OSRMApiTableResp{}
+	if json.NewDecoder(resp.Body).Decode(&apiResp); err != nil {
+		logrus.Fatalf("can't unmarshal osrm api resp: %s", err)
+	}
+	res := make([][]float64, len(pts))
+	for from, rows := range apiResp.Durations {
+		res[from] = make([]float64, len(rows))
+		for to, dist := range rows {
+			res[from][to] = dist
+		}
+	}
+
+	return res
+}
+
 func getDistance(from, to *LatLng) float64 {
 	if from == to {
 		return 0
@@ -134,7 +220,7 @@ func getDistance(from, to *LatLng) float64 {
 	return math.Sqrt(math.Pow(from.Lat-to.Lat, 2) + math.Pow(from.Lng-to.Lng, 2))
 }
 
-func drawSolution(filename string, points []*LatLng, route []int) {
+func drawSolution(filename string, points []LatLng, route []int) {
 	length := 500.0
 	myImage := image.NewRGBA(image.Rect(0, 0, int(length), int(length)))
 	outputFile, _ := os.Create(filename)
@@ -192,7 +278,7 @@ func addLine(img *image.RGBA, x1, y1, x2, y2 float64) {
 	}
 }
 
-func Greedy(points []*LatLng, dMatrix [][]float64) []int {
+func Greedy(points []LatLng, dMatrix [][]float64) []int {
 	current := 0
 	visited := make(map[int]int)
 	visited[0] = -1

@@ -1,2 +1,4 @@
 github.com/oddg/hungarian-algorithm v0.0.0-20170809162819-9567cbc363de h1:kuqx+ZOU3HjRVyMuT43K4xzTCqq+Ag1TCf8wtbYmqrw=
 github.com/oddg/hungarian-algorithm v0.0.0-20170809162819-9567cbc363de/go.mod h1:dv3Q0yoeN8DwXGhZiv8Vi6/rr9mPtf4ylV60eLTGjUo=
+golang.org/x/tools v0.14.0 h1:jvNa2pY0M4r62jkRQ6RwEZZyPcymeL9XZMLBbV7U2nc=
+golang.org/x/tools v0.14.0/go.mod h1:uYBEerGOWcJyEORxN+Ek8+TT266gXkNlHdJBwexUsBg=
