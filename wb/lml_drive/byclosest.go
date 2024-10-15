@@ -1,8 +1,10 @@
 package main
 
+import "lml-drive/types"
+
 type ByClosest struct {
 	list []int
-	pts  []Point
+	pts  []types.Point
 	tm   [][]float64
 }
 

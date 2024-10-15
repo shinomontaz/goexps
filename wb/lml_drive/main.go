@@ -2,14 +2,17 @@ package main
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"io"
 	"lml-drive/rand"
+	"lml-drive/types"
 	"os"
 	"strconv"
 
 	"log"
 
+	"lml-drive/mst"
 	"net/http"
 	_ "net/http/pprof"
 )
@@ -21,9 +24,13 @@ var (
 	OsrmURL string
 	fshk    dist_shk_f
 	fdist   dist_max_f
+	fmnshk  func(d float64) int
+	fmxshk  func(d float64) int
+	fbushk  func(d float64) int
 
 	max_pts     int
 	office_time float64
+	result_name string
 )
 
 /*
@@ -36,13 +43,15 @@ var (
 */
 
 func init() {
-	OsrmURL = "http://osrm-gazelle.wbdispatch.svc.k8s.stage-dp" // http://91.228.153.227:5000" //
+	OsrmURL = "http://osrm-gazelle.wbdispatch.k8s.prod-xc" // http://91.228.153.227:5000" //
 	rand.Init(1 << 24)
 	fshk = func(dist float64) (int, int) {
+		dist /= 1000.0
+
 		switch {
 		case dist >= 0.0 && dist <= 50.0:
 			return 4500, 6250
-		case dist > 5.0 && dist <= 100.0:
+		case dist > 50.0 && dist <= 100.0:
 			return 4500, 6250
 		case dist > 100.0 && dist <= 200.0:
 			return 4320, 6000
@@ -56,10 +65,12 @@ func init() {
 	}
 
 	fdist = func(dist float64) float64 {
+		dist /= 1000.0
+
 		switch {
 		case dist >= 0.0 && dist <= 50.0:
 			return 50
-		case dist > 5.0 && dist <= 100.0:
+		case dist > 50.0 && dist <= 100.0:
 			return 100
 		case dist > 100.0 && dist <= 200.0:
 			return 200
@@ -71,11 +82,67 @@ func init() {
 			return -1
 		}
 	}
+
+	fmnshk = func(dist float64) int {
+		dist /= 1000.0
+		switch {
+		case dist >= 0.0 && dist <= 50.0:
+			return 4500
+		case dist > 50.0 && dist <= 100.0:
+			return 4500
+		case dist > 100.0 && dist <= 200.0:
+			return 4320
+		case dist > 200.0 && dist <= 300.0:
+			return 3780
+		case dist > 300.0 && dist <= 500.0:
+			return 3600
+		default:
+			return 2700
+		}
+	}
+	fmxshk = func(dist float64) int {
+		dist /= 1000.0
+
+		switch {
+		case dist >= 0.0 && dist <= 50.0:
+			return 6250
+		case dist > 50.0 && dist <= 100.0:
+			return 6250
+		case dist > 100.0 && dist <= 200.0:
+			return 6000
+		case dist > 200.0 && dist <= 300.0:
+			return 5250
+		case dist > 300.0 && dist <= 500.0:
+			return 5000
+		default:
+			return 3750
+		}
+	}
+	fbushk = func(dist float64) int {
+		dist /= 1000.0
+		switch {
+		case dist >= 0.0 && dist <= 50.0:
+			return 1
+		case dist > 50.0 && dist <= 100.0:
+			return 2
+		case dist > 100.0 && dist <= 200.0:
+			return 3
+		case dist > 200.0 && dist <= 300.0:
+			return 4
+		case dist > 300.0 && dist <= 500.0:
+			return 5
+		default:
+			return 6
+		}
+	}
 	max_pts = 20
 	office_time = 15 * 60
+	mst.Init(fmnshk, fmxshk, fbushk)
 }
 
 func main() {
+	//	result_name = "result_irkutsk"
+	result_name = "result_krylovskaya"
 	go Start()
 	err := http.ListenAndServe(":3001", nil)
 	if err != nil {
@@ -84,15 +151,37 @@ func main() {
 }
 
 func Start() {
-	wh := Point{
-		Lat: 55.58783,
-		Lng: 37.226277,
+	// wh := Point{
+	// 	Lat: 55.58783,
+	// 	Lng: 37.226277,
+	// }
+
+	// wh := Point{ // kaluga
+	// 	Lat: 54.483186,
+	// 	Lng: 36.218078,
+	// }
+
+	// wh := Point{ // rostov 151 & 152
+	// 	Lat: 47.367953,
+	// 	Lng: 39.71672,
+	// }
+
+	wh := types.Point{ // Крыловская
+		Lat: 46.312237,
+		Lng: 39.946724,
 	}
+	// wh := types.Point{ // Irkutsk
+	// 	Lat: 52.3196490,
+	// 	Lng: 104.2482280,
+	// }
 
-	ptsMap := map[Point]int{}
-	pts := []Point{wh}
+	pts := []types.Point{wh}
 
-	f, err := os.Open("vnukovo.csv")
+	//	f, err := os.Open("routes_for_krasnodar_Igor.csv")
+	//	f, err := os.Open("Krasnodar.csv")
+	f, err := os.Open("Krylovskaya.csv")
+	//	f, err := os.Open("Irkutsk.csv")
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -100,6 +189,8 @@ func Start() {
 
 	csvReader := csv.NewReader(f)
 	csvReader.Comma = ','
+	//	csvReader.Comma = ';'
+
 	_, err = csvReader.Read() // read header
 	if err != nil {
 		log.Fatal(err)
@@ -117,7 +208,7 @@ func Start() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		avg_shk, err := strconv.Atoi(row[4])
+		avg_shk, err := strconv.Atoi(row[3])
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -130,93 +221,87 @@ func Start() {
 			log.Fatal(err)
 		}
 
-		ll := Point{
+		ll := types.Point{
 			Id:  office_id,
 			Shk: avg_shk,
 			Lat: lat,
 			Lng: lng,
 		}
 		pts = append(pts, ll)
-
-		ptsMap[ll] += 1
 	}
 
-	// матрицы расстояний
-	l := len(pts)
-	dm := make([][]float64, l)
-	tm := make([][]float64, l)
+	var table [][]string
 
-	for i := 0; i < l; i++ {
-		dm[i] = make([]float64, l)
-		tm[i] = make([]float64, l)
+	resGeoJson := DataRouted{
+		Routes: make([]RouteJson, 0),
+		Pts:    make([]RoutePoint, 0, len(pts)+1),
 	}
 
-	max_len := 500
-	chunks := int(float64(l) / float64(max_len))
-	if l%max_len > 0 {
-		chunks++
-	}
+	resGeoJson.Pts = append(resGeoJson.Pts, RoutePoint{
+		Lat: wh.Lat,
+		Lng: wh.Lng,
+	})
 
-	var src, dst []int
-	for j := 0; j < chunks; j++ {
-		src = make([]int, 0, l)
-		for id := j * max_len; id < l && id < (j+1)*max_len; id++ {
-			src = append(src, id)
-		}
-		fmt.Println("start receiving ", j, " out of ", chunks)
-		for jj := 0; jj < chunks; jj++ {
-			fmt.Println("start receiving ", jj, " out of ", chunks, " for row ", j)
-
-			dst = make([]int, 0, l)
-			for id := jj * max_len; id < l && id < (jj+1)*max_len; id++ {
-				dst = append(dst, id)
-			}
-			ttm, tdm := GetMatrices2(pts, src, dst) // times and distances
-			for iii, row := range tdm {
-				for jjj, p := range row {
-					dm[iii+j*max_len][jjj+jj*max_len] = p
-					tm[iii+j*max_len][jjj+jj*max_len] = ttm[iii][jjj]
-				}
-			}
-		}
-	}
-
-	fmt.Println(len(dm))
-
-	initialRoutes := initialGreedy(pts, dm)
-
-	currSolution := make([][]int, len(initialRoutes))
-	for i, r := range initialRoutes {
-		currSolution[i] = make([]int, len(r))
-		copy(currSolution[i], r)
-	}
 	var (
-		newFitness  float64
-		oldFitness  float64
-		oldOvershk  int
-		oldUndershk int
-		newOvershk  int
-		newUndershk int
+		total_ovshk int
+		total_unshk int
 	)
-	oldFitness, oldOvershk, oldUndershk = fitness(initialRoutes, pts, dm)
-	fmt.Println("initial status:", len(currSolution), oldFitness, oldOvershk)
-	for i := 0; i < 1; i++ {
-		fmt.Println("iteration:", i)
 
-		currSolution = sa(currSolution, pts, dm, 0.99)
-		newFitness, newOvershk, newUndershk = fitness(currSolution, pts, dm)
-		oldFitness = newFitness
-		oldOvershk = newOvershk
-		oldUndershk = newUndershk
+	dm, tm := GetMatricesChunked(pts)
+	//	clusters := clusterize(start_num_clusters, pts)
+	clusters := mst.Do(pts, dm, tm)
+	sum := 0
+	for _, c := range clusters {
+		fmt.Println(len(c))
+		sum += len(c)
+	}
+	fmt.Println("total: ", sum)
 
-		fmt.Println("main cycle update:", len(currSolution), oldFitness, oldOvershk, oldUndershk)
+	t := make([][]string, len(clusters))
+	t = append(t, []string{"office", "route", "time", "lat", "lng"})
+	last_route_id := 0
+	for _, c := range clusters {
+		fmt.Println("cluster size: ", len(c))
+		gj, t, ovshk, unshk := solve(c, last_route_id)
+		table = append(table, t...)
+		last_route_id += len(gj.Routes)
+
+		offset := len(resGeoJson.Pts) - 1
+		for i := 0; i < len(gj.Pts); i++ {
+			if len(resGeoJson.Pts) > 0 && i == 0 {
+				continue
+			}
+			gj.Pts[i].Route += len(resGeoJson.Routes)
+			resGeoJson.Pts = append(resGeoJson.Pts, gj.Pts[i])
+		}
+		for _, r := range gj.Routes {
+			for i := 1; i < len(r.Points); i++ {
+				r.Points[i] += offset
+			}
+			resGeoJson.Routes = append(resGeoJson.Routes, r)
+		}
+
+		resGeoJson.Cost += gj.Cost
+		resGeoJson.Distance += gj.Distance
+		total_ovshk += ovshk
+		total_unshk += unshk
 	}
 
-	currSolution = sa(currSolution, pts, dm, 0.9999)
-	newFitness, newOvershk, newUndershk = fitness(currSolution, pts, dm)
+	fmt.Println("resGeoJson.Pts: ", len(resGeoJson.Pts), len(resGeoJson.Routes))
 
-	prepareGeoJson(currSolution, pts, dm, tm)
-	prepareFile(currSolution, pts, tm)
+	file, _ := json.MarshalIndent(resGeoJson, "", " ")
+	_ = os.WriteFile(result_name+".json", file, 0644)
 
-	fmt.Println(len(currSolution), newFitness, newOvershk, newUndershk)
+	ff, err := os.Create(result_name + ".csv")
+	if err != nil {
+		panic(err)
+	}
+	defer ff.Close()
+
+	writer := csv.NewWriter(ff)
+	defer writer.Flush()
+	if writer.WriteAll(table) != nil {
+		panic("!")
+	}
+
 }

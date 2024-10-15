@@ -26,16 +26,16 @@ type LatLng struct {
 }
 
 func main() {
-	OsrmURLGazelle = "http://wbdispatch-ingress-controller.wbdispatch.k8s.dev-el/osrm-gazelle"
-	OsrmURLFiveTonn = "http://wbdispatch-ingress-controller.wbdispatch.k8s.dev-el/osrm-fivetonn"
-	OsrmURLTruck = "http://wbdispatch-ingress-controller.wbdispatch.k8s.dev-el/osrm-longtruck"
+	OsrmURLGazelle = "http://osrm-gazelle.wbdispatch.k8s.prod-xc"
+	OsrmURLFiveTonn = "http://osrm-fivetonn.wbdispatch.k8s.prod-xc"
+	OsrmURLTruck = "http://osrm-longtruck.wbdispatch.k8s.prod-xc"
 
-	f, err := os.Open("11042024.csv")
+	f, err := os.Open("KBT_cost_transports_all.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resultFile, _ := os.Create("11042024_res.csv")
+	resultFile, _ := os.Create("KBT_cost_transports_res_all.csv")
 	writer := csv.NewWriter(resultFile)
 	writer.Comma = ','
 
@@ -43,7 +43,7 @@ func main() {
 
 	// read csv values using csv.Reader
 	csvReader := csv.NewReader(f)
-	csvReader.Comma = ','
+	csvReader.Comma = ';'
 	var (
 		record []string
 	)
@@ -60,40 +60,40 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		// do something with read line
 		fmt.Printf("%+v\n", rec)
 
-		srcLat, err := strconv.ParseFloat(rec[2], 64)
+		srcLat, err := strconv.ParseFloat(rec[6], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
-		srcLng, err := strconv.ParseFloat(rec[3], 64)
+		srcLng, err := strconv.ParseFloat(rec[7], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
-		dstLat, err := strconv.ParseFloat(rec[4], 64)
+		dstLat, err := strconv.ParseFloat(rec[9], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
-		dstLng, err := strconv.ParseFloat(rec[5], 64)
+		dstLng, err := strconv.ParseFloat(rec[10], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		time_truck1, dist_truck1, err := gettime(OsrmURLGazelle, [][]float64{{srcLng, srcLat}, {dstLng, dstLat}})
-		if err != nil {
-			panic(err)
-		}
+		//		time.Sleep(10 * time.Millisecond)
+		// if err != nil {
+		// 	//			panic(err)
+		// }
 
-		time_truck2, dist_truck2, err := gettime(OsrmURLFiveTonn, [][]float64{{srcLng, srcLat}, {dstLng, dstLat}})
-		if err != nil {
-			panic(err)
-		}
+		// time_truck2, dist_truck2, err := gettime(OsrmURLFiveTonn, [][]float64{{srcLng, srcLat}, {dstLng, dstLat}})
+		// if err != nil {
+		// 	panic(err)
+		// }
 
-		time_truck3, dist_truck3, err := gettime(OsrmURLTruck, [][]float64{{srcLng, srcLat}, {dstLng, dstLat}})
-		if err != nil {
-			panic(err)
-		}
+		// time_truck3, dist_truck3, err := gettime(OsrmURLTruck, [][]float64{{srcLng, srcLat}, {dstLng, dstLat}})
+		// if err != nil {
+		// 	panic(err)
+		// }
 
 		time_truck1 *= COEFF
 		hours_in_route1 := time_truck1 / (60.0 * 60.0)
@@ -102,30 +102,36 @@ func main() {
 		yyy1 := solid1%2 + yy1
 		rest_time1 := float64(yy1)*8.0 + float64(yyy1)*2.0
 
-		time_truck2 *= COEFF
-		hours_in_route2 := time_truck2 / (60.0 * 60.0)
-		solid2 := int(hours_in_route2 / 8)
-		yy2 := solid2 / 2
-		yyy2 := solid2%2 + yy2
-		rest_time2 := float64(yy2)*8.0 + float64(yyy2)*2.0
+		// time_truck2 *= COEFF
+		// hours_in_route2 := time_truck2 / (60.0 * 60.0)
+		// solid2 := int(hours_in_route2 / 8)
+		// yy2 := solid2 / 2
+		// yyy2 := solid2%2 + yy2
+		// rest_time2 := float64(yy2)*8.0 + float64(yyy2)*2.0
 
-		time_truck3 *= COEFF
-		hours_in_route3 := time_truck3 / (60.0 * 60.0)
-		solid3 := int(hours_in_route3 / 8)
-		yy3 := solid3 / 2
-		yyy3 := solid1%2 + yy3
-		rest_time3 := float64(yy3)*8.0 + float64(yyy3)*2.0
+		// time_truck3 *= COEFF
+		// hours_in_route3 := time_truck3 / (60.0 * 60.0)
+		// solid3 := int(hours_in_route3 / 8)
+		// yy3 := solid3 / 2
+		// yyy3 := solid1%2 + yy3
+		// rest_time3 := float64(yy3)*8.0 + float64(yyy3)*2.0
 
-		record = append(rec, fmt.Sprintf("%f", time_truck1), fmt.Sprintf("%f hours in route", hours_in_route1), fmt.Sprintf("%f", dist_truck1),
+		// record = append(rec, fmt.Sprintf("%f", time_truck1), fmt.Sprintf("%f hours in route", hours_in_route1), fmt.Sprintf("%f", dist_truck1),
+		// 	fmt.Sprintf("%f km/h", (dist_truck1/1000.0)/(time_truck1/(60*60))),
+		// 	fmt.Sprintf("rest: %f", rest_time1), fmt.Sprintf("total time: %f ", rest_time1+hours_in_route1),
+		// 	fmt.Sprintf("%f", time_truck2), fmt.Sprintf("%f hours in route", hours_in_route2), fmt.Sprintf("%f", dist_truck2),
+		// 	fmt.Sprintf("%f km/h", (dist_truck2/1000.0)/(time_truck2/(60*60))),
+		// 	fmt.Sprintf("rest: %f", rest_time2), fmt.Sprintf("total time: %f ", rest_time2+hours_in_route2),
+		// 	fmt.Sprintf("%f", time_truck3), fmt.Sprintf("%f hours in route", hours_in_route3), fmt.Sprintf("%f", dist_truck3),
+		// 	fmt.Sprintf("%f km/h", (dist_truck3/1000.0)/(time_truck3/(60*60))),
+		// 	fmt.Sprintf("rest: %f", rest_time3), fmt.Sprintf("total time: %f ", rest_time3+hours_in_route3))
+
+		record = append(rec,
+			fmt.Sprintf("%f", time_truck1),
+			fmt.Sprintf("%f hours in route", hours_in_route1), fmt.Sprintf("%f", dist_truck1),
 			fmt.Sprintf("%f km/h", (dist_truck1/1000.0)/(time_truck1/(60*60))),
-			fmt.Sprintf("rest: %f", rest_time1), fmt.Sprintf("total time: %f ", rest_time1+hours_in_route1),
-			fmt.Sprintf("%f", time_truck2), fmt.Sprintf("%f hours in route", hours_in_route2), fmt.Sprintf("%f", dist_truck2),
-			fmt.Sprintf("%f km/h", (dist_truck2/1000.0)/(time_truck2/(60*60))),
-			fmt.Sprintf("rest: %f", rest_time2), fmt.Sprintf("total time: %f ", rest_time2+hours_in_route2),
-			fmt.Sprintf("%f", time_truck3), fmt.Sprintf("%f hours in route", hours_in_route3), fmt.Sprintf("%f", dist_truck3),
-			fmt.Sprintf("%f km/h", (dist_truck3/1000.0)/(time_truck3/(60*60))),
-			fmt.Sprintf("rest: %f", rest_time3), fmt.Sprintf("total time: %f ", rest_time3+hours_in_route3))
-
+			fmt.Sprintf("rest: %f", rest_time1),
+			fmt.Sprintf("total time: %f ", rest_time1+hours_in_route1))
 		writer.Write(record)
 	}
 
@@ -148,11 +154,12 @@ func gettime(ourl string, points [][]float64) (float64, float64, error) {
 	for _, p := range points {
 		qsParts = append(qsParts, fmt.Sprintf("%f,%f", p[0], p[1]))
 	}
+	str := fmt.Sprintf("%s/route/v1/driving/%s?geometries=geojson", ourl, strings.Join(qsParts, ";"))
 
-	resp, err := http.Get(fmt.Sprintf("%s/route/v1/driving/%s?geometries=geojson", ourl, strings.Join(qsParts, ";")))
+	resp, err := http.Get(str)
 	if err != nil {
 		fmt.Println(err)
-		panic("!!!")
+		return 0, 0, err
 	}
 	apiResp := OSRMApiRouteResp{}
 	if json.NewDecoder(resp.Body).Decode(&apiResp); err != nil {

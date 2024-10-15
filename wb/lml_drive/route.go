@@ -1,29 +1,42 @@
 package main
 
-func isFeasible(routes [][]int) bool {
+import "lml-drive/types"
+
+func isFeasible(routes [][]int, tm [][]float64) int {
+	max_over := 0
 	for _, r := range routes {
-		if len(r) > max_pts {
-			return false
+		if len(r) > max_pts && max_over < len(r) {
+			max_over = len(r)
 		}
 	}
 
-	return true
+	return max_over
 }
 
-func fitness(routes [][]int, pts []Point, dm [][]float64) (float64, int, int) {
+// returns route distance, total overshk, total undershk, max overshk percent, max undershk
+func fitness(routes [][]int, pts []types.Point, dm [][]float64) (float64, int, int, float64) {
 	f := 0.0
 	o := 0
+	mx_o := 0.0
 	u := 0
+	rate := 0.0
 	for _, r := range routes {
-		ff, oo, uu, _ := cost(r, pts, dm)
+		ff, uu, oo, tshk := cost(r, pts, dm)
 		f += ff
 		o += oo
 		u += uu
+		if oo > 0 {
+			rate = float64(oo) / float64(tshk-oo)
+			if rate > mx_o {
+				mx_o = rate
+			}
+		}
 	}
-	return f, o, u
+	return f, o, u, mx_o
 }
 
-func cost(route []int, pts []Point, dm [][]float64) (float64, int, int, int) {
+// dist, us, os, shks
+func cost(route []int, pts []types.Point, dm [][]float64) (float64, int, int, int) {
 	dist := 0.0
 	total_shks := 0
 	over_shk := 0
@@ -38,7 +51,7 @@ func cost(route []int, pts []Point, dm [][]float64) (float64, int, int, int) {
 		dist += dm[route[len(route)-1]][0]
 	}
 
-	min_shk, max_shk := fshk(dist / 1000.0)
+	min_shk, max_shk := fshk(dist)
 
 	if total_shks > max_shk {
 		over_shk = total_shks - max_shk

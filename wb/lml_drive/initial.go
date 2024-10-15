@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"lml-drive/types"
 	"sort"
 )
 
-func initialGreedy(pts []Point, dm [][]float64) [][]int {
+func initialGreedy(pts []types.Point, dm [][]float64, tm [][]float64) [][]int {
 
+	max_shift := 10 * 60 * 60.0
 	// pts[2525]
 	idxs := make([]int, len(pts))
 	for i := range pts {
@@ -20,6 +22,7 @@ func initialGreedy(pts []Point, dm [][]float64) [][]int {
 	var curroute []int
 	currShks := 0
 	currDist := 0.0
+	currTime := 0.0
 
 	seenPoints := map[int]struct{}{0: struct{}{}}
 	for _, p := range bclst.list[1:] {
@@ -32,20 +35,26 @@ func initialGreedy(pts []Point, dm [][]float64) [][]int {
 		seenPoints[p] = struct{}{}
 		currShks = pts[p].Shk
 		currDist = dm[0][p]
+		currTime = tm[0][p]
+
 		for {
 			last := curroute[len(curroute)-1]
 			closest := findClosestUnseen(last, bclst.list, seenPoints, dm)
 			if closest == -1 {
 				break // no points
 			}
-			_, maxs := fshk((currDist + dm[closest][0]) / 1000.0)
+			_, maxs := fshk((currDist + dm[closest][0]))
 			if (currShks + pts[closest].Shk) > maxs {
+				break // no points
+			}
+			if (currTime + tm[last][closest] + tm[closest][0]) > max_shift {
 				break // no points
 			}
 			curroute = append(curroute, closest)
 			seenPoints[closest] = struct{}{}
 			currShks += pts[closest].Shk
 			currDist += dm[last][closest]
+			currTime += tm[last][closest]
 			if len(curroute) >= max_pts-1 {
 				break
 			}

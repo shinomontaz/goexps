@@ -2,9 +2,13 @@ package main
 
 import (
 	"lml-drive/rand"
+	"lml-drive/types"
 )
 
-func educate(routes [][]int, pts []Point, dm [][]float64) [][]int {
+func educate(routes [][]int, pts []types.Point, dm [][]float64, threshold float64) [][]int {
+	if len(routes) == 1 {
+		return routes
+	}
 	for i, r := range routes {
 		if len(r) <= 1 {
 			routes = append(routes[:i], routes[i+1:]...)
@@ -15,10 +19,11 @@ func educate(routes [][]int, pts []Point, dm [][]float64) [][]int {
 
 	suitable_routes := []int{}
 	for rIdx, r := range routes {
-		dist, os, _, shks := cost(r, pts, dm)
-		mdist := fdist(dist)
+		dist, _, os, shks := cost(r, pts, dm)
+		//		mdist := fdist(dist)
 		shk_min, _ := fshk(dist)
-		if os == 0 && ((dist <= mdist/2) || (shks <= shk_min)) {
+		//		if os == 0 && ((dist <= mdist/2) || (shks <= shk_min)) {
+		if os == 0 && (shks <= int(float64(shk_min)*threshold)) {
 			suitable_routes = append(suitable_routes, rIdx)
 		}
 	}

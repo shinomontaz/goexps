@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 	"lml-drive/rand"
+	"lml-drive/types"
 	"math"
 )
 
-func sa(initSolution [][]int, pts []Point, dm [][]float64, cooling float64) [][]int {
+func sa(initSolution [][]int, pts []types.Point, dm [][]float64, tm [][]float64, cooling float64) [][]int {
 	T := 1.0
 	Tmin := 0.001
 
@@ -15,16 +16,17 @@ func sa(initSolution [][]int, pts []Point, dm [][]float64, cooling float64) [][]
 	}
 
 	var (
-		oldFitness  float64
-		newFitness  float64
-		fitTreshold float64
-		oldOvershk  int
-		oldUndershk int
-		newOvershk  int
-		newUndershk int
+		oldFitness    float64
+		newFitness    float64
+		fitTreshold   float64
+		newMaxOvershk float64
+		oldOvershk    int
+		oldUndershk   int
+		newOvershk    int
+		newUndershk   int
 	)
 
-	oldFitness, oldOvershk, oldUndershk = fitness(initSolution, pts, dm)
+	oldFitness, oldOvershk, oldUndershk, _ = fitness(initSolution, pts, dm)
 
 	var newSolution, currSolution [][]int
 	currSolution = make([][]int, len(initSolution))
@@ -37,7 +39,7 @@ func sa(initSolution [][]int, pts []Point, dm [][]float64, cooling float64) [][]
 
 	for T > Tmin {
 		fitTreshold = oldFitness
-		for i := 0; i < 100; i++ {
+		for i := 0; i < 1000; i++ {
 
 			newSolution = newSolution[:len(currSolution)]
 			copySlice(newSolution, currSolution)
@@ -46,17 +48,23 @@ func sa(initSolution [][]int, pts []Point, dm [][]float64, cooling float64) [][]
 
 			if dice < 0.01 {
 				// remove 1 route
-				newSolution = educate(newSolution, pts, dm)
+				newSolution = educate(newSolution, pts, dm, 1.0 /*0.9*/)
 			} else {
 				newSolution = mutate(newSolution)
 			}
 
-			newFitness, newOvershk, newUndershk = fitness(newSolution, pts, dm)
-			if newUndershk > oldUndershk || newOvershk > oldOvershk || !isFeasible(newSolution) {
+			newFitness, newOvershk, newUndershk, newMaxOvershk = fitness(newSolution, pts, dm)
+
+			if newUndershk > oldUndershk || newOvershk > oldOvershk || isFeasible(newSolution, tm) > 0 {
 				continue
 			}
 
+			// if ((newUndershk > oldUndershk || newOvershk > oldOvershk) && len(newSolution) >= len(currSolution)) || newMaxOvershk > 0.05 || isFeasible(newSolution, tm) > 0 {
+			// 	continue
+			// }
+
 			if newFitness < oldFitness {
+
 				//				currSolution = newSolution
 				currSolution = currSolution[:len(newSolution)]
 				copySlice(currSolution, newSolution)
@@ -65,6 +73,9 @@ func sa(initSolution [][]int, pts []Point, dm [][]float64, cooling float64) [][]
 				oldUndershk = newUndershk
 
 				//				fmt.Println("fitness", oldFitness, newOvershk, "routes", len(currSolution))
+				if newMaxOvershk > 0 {
+					fmt.Println(newMaxOvershk)
+				}
 			} else if dice <= getAcceptanceCoeff(T, oldFitness, newFitness) && newFitness < fitTreshold {
 				//				currSolution = newSolution
 				currSolution = currSolution[:len(newSolution)]
@@ -80,6 +91,7 @@ func sa(initSolution [][]int, pts []Point, dm [][]float64, cooling float64) [][]
 
 		T *= cooling
 	}
+	fmt.Println("annealed: ", oldFitness, oldUndershk, oldOvershk, "routes", len(currSolution))
 
 	newSolution = make([][]int, len(currSolution))
 	j := 0

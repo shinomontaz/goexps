@@ -2,13 +2,13 @@ package main
 
 import (
 	"encoding/csv"
-	"encoding/json"
 	"fmt"
+	"lml-drive/types"
 	"os"
 )
 
-func prepareFile(routes [][]int, pts []Point, tm [][]float64) {
-	file, err := os.Create("result.csv")
+func saveMatrix(dm [][]float64, tm [][]float64) {
+	file, err := os.Create("matrix.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -18,20 +18,12 @@ func prepareFile(routes [][]int, pts []Point, tm [][]float64) {
 	defer writer.Flush()
 	// this defines the header value and data values for the new csv file
 
-	items := make([][]string, 0, len(routes)+1)
-	items = append(items, []string{"office", "route", "time", "lat", "lng"})
-	for rid, r := range routes {
-		dt := 0.0
-		for i := 1; i < len(r); i++ {
-			dt += tm[r[i-1]][r[i]]
-			items = append(items, []string{
-				fmt.Sprintf("%d", pts[r[i]].Id),
-				fmt.Sprintf("%d", rid+1),
-				fmt.Sprintf("%f", dt),
-				fmt.Sprintf("%f", pts[r[i]].Lat),
-				fmt.Sprintf("%f", pts[r[i]].Lng),
-			})
-			dt += office_time
+	//	str_row := make([]string, 0, len(dm))
+	items := make([][]string, len(dm))
+	for i, row := range dm {
+		items[i] = make([]string, len(row))
+		for j, d := range row {
+			items[i][j] = fmt.Sprintf("(%f;%f)", d, tm[i][j])
 		}
 	}
 	if writer.WriteAll(items) != nil {
@@ -39,14 +31,49 @@ func prepareFile(routes [][]int, pts []Point, tm [][]float64) {
 	}
 }
 
+func prepareFile(routes [][]int, pts []types.Point, tm [][]float64, last_route_id int) [][]string {
+	// file, err := os.Create("result_k.csv")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer file.Close()
+
+	// writer := csv.NewWriter(file)
+	// defer writer.Flush()
+	// this defines the header value and data values for the new csv file
+
+	items := make([][]string, 0, len(routes))
+	for rid, r := range routes {
+		dt := 0.0
+		for i := 1; i < len(r); i++ {
+			dt += tm[r[i-1]][r[i]]
+			items = append(items, []string{
+				fmt.Sprintf("%d", pts[r[i]].Id),
+				fmt.Sprintf("%d", rid+1+last_route_id),
+				fmt.Sprintf("%f", dt),
+				fmt.Sprintf("%f", pts[r[i]].Lat),
+				fmt.Sprintf("%f", pts[r[i]].Lng),
+			})
+			dt += office_time
+		}
+	}
+	return items
+	// if writer.WriteAll(items) != nil {
+	// 	panic("!")
+	// }
+}
+
 type DataRouted struct {
-	Pts      []RoutePoint `json:"pts"`
-	Routes   []RouteJson  `json:"routes"`
-	Cost     float64      `json:"cost"`
-	Time     float64      `json:"time"`
-	Distance float64      `json:"distance"`
-	Wh       int          `json:"wh"`
-	BoxTime  float64      `json:"box_time"`
+	Pts        []RoutePoint `json:"pts"`
+	Routes     []RouteJson  `json:"routes"`
+	Cost       float64      `json:"cost"`
+	Time       float64      `json:"time"`
+	Distance   float64      `json:"distance"`
+	MeanDist   float64      `json:"mean_distance"`
+	MeanTime   float64      `json:"mean_time"`
+	MeanPoints float64      `json:"mean_points"`
+	Wh         int          `json:"wh"`
+	BoxTime    float64      `json:"box_time"`
 }
 
 type RoutePoint struct {
@@ -67,13 +94,20 @@ type RouteJson struct {
 	Geojson  Geojson `json:"geojson"`
 }
 
-func prepareGeoJson(routes [][]int, pts []Point, dm, tm [][]float64) {
+func prepareGeoJson(routes [][]int, pts []types.Point, dm, tm [][]float64) DataRouted {
 	res := DataRouted{
 		Routes: make([]RouteJson, 0, len(routes)),
 		Pts:    make([]RoutePoint, 0, len(pts)),
 	}
 
-	totalDist, _, _ := fitness(routes, pts, dm) // cost, time, overbox, overshift float64
+	res.Pts = append(res.Pts, RoutePoint{
+		OfficeId: pts[0].Id,
+		Shk:      0,
+		Lat:      pts[0].Lat,
+		Lng:      pts[0].Lng,
+	})
+
+	totalDist, _, _, _ := fitness(routes, pts, dm) // cost, time, overbox, overshift float64
 	res.Cost = totalDist
 	for rId, r := range routes {
 		if len(r) <= 1 {
@@ -94,19 +128,26 @@ func prepareGeoJson(routes [][]int, pts []Point, dm, tm [][]float64) {
 			})
 		}
 	}
+	/*
+		MeanPoints float64      `json:"mean_points"`
+	*/
+	res.MeanDist = res.Distance / float64(len(res.Routes))
+	res.MeanTime = res.Time / float64(len(res.Routes))
+	res.MeanPoints = float64(len(pts)-1) / float64(len(res.Routes))
 
-	file, _ := json.MarshalIndent(res, "", " ")
+	return res
+	// file, _ := json.MarshalIndent(res, "", " ")
 
-	_ = os.WriteFile("result.json", file, 0644)
+	// _ = os.WriteFile("result_k.json", file, 0644)
 }
 
 // DataRouted.Pts will be changed here: we add route id, num and time
-func routeGeoJson(route []int, pts []Point, dm, tm [][]float64) RouteJson {
+func routeGeoJson(route []int, pts []types.Point, dm, tm [][]float64) RouteJson {
 	res := RouteJson{
 		Points: route,
 	}
 
-	routepts := []Point{pts[0]}
+	routepts := []types.Point{pts[0]}
 	dist := 0.0
 	time := 0.0
 
@@ -127,7 +168,7 @@ func routeGeoJson(route []int, pts []Point, dm, tm [][]float64) RouteJson {
 	_, _, gj, _ := GetRoute(routepts)
 
 	res.Geojson = gj
-	shk_min, shk_max := fshk(dist / 1000.0)
+	shk_min, shk_max := fshk(dist)
 	res.ShkLim = fmt.Sprintf("%d/%d", shk_min, shk_max)
 	res.Time = time
 	res.Distance = dist
