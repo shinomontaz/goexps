@@ -1,0 +1,83 @@
+version: '2'
+
+networks:
+    kafka-net:
+        driver: bridge
+    
+services:
+    kafka1:
+        image: bitnami/kafka:3.8.1
+        user: root
+        tty: true
+        ports:
+        - 9921:9921
+        networks:
+        - kafka-net
+        environment:
+            - KAFKA_CFG_NODE_ID=1
+            - KAFKA_CFG_PROCESS_ROLES=controller,broker
+            - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9921
+            - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+            - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
+            - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092,EXTERNAL://localhost:9921
+            - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+            - KAFKA_ENABLE_KRAFT=yes
+            - KAFKA_KRAFT_CLUSTER_ID=ZGI1NTk0YmY3NzVjNDk5MD
+        volumes:
+        - ./dockershare/kafka1:/bitnami/kafka
+    kafka2:
+        image: bitnami/kafka:3.8.1
+        user: root
+        tty: true
+        ports:
+        - 9922:9922
+        networks:
+        - kafka-net
+        environment:
+            - KAFKA_CFG_NODE_ID=2
+            - KAFKA_CFG_PROCESS_ROLES=controller,broker
+            - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9922
+            - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+            - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
+            - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092,EXTERNAL://localhost:9922
+            - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+            - KAFKA_ENABLE_KRAFT=yes
+            - KAFKA_KRAFT_CLUSTER_ID=ZGI1NTk0YmY3NzVjNDk5MD
+        volumes:
+        - ./dockershare/kafka2:/bitnami/kafka
+    kafka3:
+        image: bitnami/kafka:3.8.1
+        user: root
+        tty: true
+        ports:
+        - 9923:9923
+        networks:
+        - kafka-net
+        environment:
+            - KAFKA_CFG_NODE_ID=3
+            - KAFKA_CFG_PROCESS_ROLES=controller,broker
+            - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9923
+            - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+            - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
+            - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092,EXTERNAL://localhost:9923
+            - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+            - KAFKA_ENABLE_KRAFT=yes
+            - KAFKA_KRAFT_CLUSTER_ID=ZGI1NTk0YmY3NzVjNDk5MD
+        volumes:
+        - ./dockershare/kafka3:/bitnami/kafka        
+    kafka-ui:
+        container_name: kafka-ui
+        image: provectuslabs/kafka-ui:latest
+        networks:
+        - kafka-net
+        depends_on:
+        - kafka1
+        - kafka2
+        ports:
+        - "8080:8080"
+        environment:
+            KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: 'kafka1:9092,kafka2:9092,kafka3:9092'
+            KAFKA_CLUSTERS_0_NAME: local-kafka-cluster

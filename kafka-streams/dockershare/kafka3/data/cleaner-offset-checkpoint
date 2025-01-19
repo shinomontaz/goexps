@@ -1,0 +1,23 @@
+0
+21
+__transaction_state 45 5
+__transaction_state 12 14
+__consumer_offsets 8 9
+__transaction_state 7 10
+__consumer_offsets 27 22
+__transaction_state 48 21
+kstream-branching-max_odds-store-changelog 0 31
+__consumer_offsets 25 16
+__transaction_state 28 5
+__transaction_state 37 51
+__transaction_state 3 2
+__transaction_state 21 5
+__transaction_state 10 37
+__transaction_state 32 8
+__transaction_state 17 4
+__transaction_state 26 21
+__consumer_offsets 20 53
+__consumer_offsets 34 23
+__consumer_offsets 32 12
+__transaction_state 35 42
+__consumer_offsets 40 8

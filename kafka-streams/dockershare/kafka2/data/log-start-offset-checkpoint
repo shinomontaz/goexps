@@ -1,0 +1,5 @@
+0
+3
+streams-maxnums3-KSTREAM-REDUCE-STATE-STORE-0000000003-repartition 1 5
+streams-wordcount1-counts-store-repartition 0 14
+streams-wordcount-counts-store-repartition 1 4

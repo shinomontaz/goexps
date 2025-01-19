@@ -1,0 +1,505 @@
+
+2024/12/30 23:29:03.388789 INFO  [] [kStream.StreamRunner] [StreamRunner starting...]
+2024/12/30 23:29:03.422385 INFO  [] [kStream.StreamRunner] [StreamConsumer starting...]
+2024/12/30 23:29:03.434914 INFO  [] [kStream.StreamRunner] [Task list generated -> 
+Task#0 - [example-nums-0]
+Task#1 - [example-nums-1]
+Task#2 - [example-nums-2]
+]
+2024/12/30 23:29:03.438914 INFO  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Subscribing to topics [example-nums]]
+2024/12/30 23:29:06.500119 WARN  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Partitions [example-nums-0 example-nums-1 example-nums-2] assigning...]
+2024/12/30 23:29:06.501903 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Assigning tasks -> 
+Task#0 - [example-nums-0]
+Task#1 - [example-nums-1]
+Task#2 - [example-nums-2]
+]
+2024/12/30 23:29:06.503081 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Producer initiating...]
+2024/12/30 23:29:06.503081 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Producer initiating...]
+2024/12/30 23:29:06.503081 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Producer initiating...]
+2024/12/30 23:29:06.506053 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Producer initiated]
+2024/12/30 23:29:06.506053 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Producer initiated]
+2024/12/30 23:29:06.506053 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Producer initiated]
+2024/12/30 23:29:06 [JOB 1] WAL file storage\pebble\max_odds-1\000019.log with log number 000019 stopped reading at offset: 0; replayed 0 keys in 0 batches
+2024/12/30 23:29:06 [JOB 1] WAL file storage\pebble\max_odds-2\000019.log with log number 000019 stopped reading at offset: 0; replayed 0 keys in 0 batches
+2024/12/30 23:29:06 [JOB 1] WAL file storage\pebble\max_odds-0\000019.log with log number 000019 stopped reading at offset: 0; replayed 0 keys in 0 batches
+2024/12/30 23:29:06 [JOB 1] WAL file storage\pebble\max_evens-0\000019.log with log number 000019 stopped reading at offset: 0; replayed 0 keys in 0 batches
+2024/12/30 23:29:06 [JOB 1] WAL file storage\pebble\max_evens-1\000019.log with log number 000019 stopped reading at offset: 0; replayed 0 keys in 0 batches
+2024/12/30 23:29:06 [JOB 1] WAL file storage\pebble\max_evens-2\000019.log with log number 000019 stopped reading at offset: 0; replayed 0 keys in 0 batches
+2024/12/30 23:29:06.572070 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_evens-0).ChangelogSyncer(kstream-branching-max_evens-store-changelog-0)] [Offset Earliest found for kstream-branching-max_evens-store-changelog-0]
+2024/12/30 23:29:06.572070 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_odds-1).ChangelogSyncer(kstream-branching-max_odds-store-changelog-1)] [Offset Earliest found for kstream-branching-max_odds-store-changelog-1]
+2024/12/30 23:29:06.572070 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_evens-1).ChangelogSyncer(kstream-branching-max_evens-store-changelog-1)] [Offset Earliest found for kstream-branching-max_evens-store-changelog-1]
+2024/12/30 23:29:06.572070 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_odds-0).ChangelogSyncer(kstream-branching-max_odds-store-changelog-0)] [Offset Earliest found for kstream-branching-max_odds-store-changelog-0]
+2024/12/30 23:29:06.572070 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_odds-2).ChangelogSyncer(kstream-branching-max_odds-store-changelog-2)] [Offset Earliest found for kstream-branching-max_odds-store-changelog-2]
+2024/12/30 23:29:06.572070 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_evens-2).ChangelogSyncer(kstream-branching-max_evens-store-changelog-2)] [Offset Earliest found for kstream-branching-max_evens-store-changelog-2]
+2024/12/30 23:29:06.579530 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_evens-0).ChangelogSyncer(kstream-branching-max_evens-store-changelog-0)] [Syncing...]
+2024/12/30 23:29:06.580129 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_odds-0).ChangelogSyncer(kstream-branching-max_odds-store-changelog-0)] [Syncing...]
+2024/12/30 23:29:06.582526 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_evens-2).ChangelogSyncer(kstream-branching-max_evens-store-changelog-2)] [Syncing...]
+2024/12/30 23:29:06.582526 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_evens-1).ChangelogSyncer(kstream-branching-max_evens-store-changelog-1)] [Syncing...]
+2024/12/30 23:29:06.583741 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_odds-1).ChangelogSyncer(kstream-branching-max_odds-store-changelog-1)] [Syncing...]
+2024/12/30 23:29:06.583741 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_odds-2).ChangelogSyncer(kstream-branching-max_odds-store-changelog-2)] [Syncing...]
+2024/12/30 23:29:07.092118 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_evens-1).ChangelogSyncer(kstream-branching-max_evens-store-changelog-1)] [Partition read ended. Restored 0 records in 508.964ms]
+2024/12/30 23:29:07.092118 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_evens-0).ChangelogSyncer(kstream-branching-max_evens-store-changelog-0)] [Partition read ended. Restored 0 records in 511.3928ms]
+2024/12/30 23:29:07.093219 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_evens-0).ChangelogSyncer(kstream-branching-max_evens-store-changelog-0)] [Syncer stopping...]
+2024/12/30 23:29:07.093219 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_evens-1).ChangelogSyncer(kstream-branching-max_evens-store-changelog-1)] [Syncer stopping...]
+2024/12/30 23:29:07.093801 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_evens-2).ChangelogSyncer(kstream-branching-max_evens-store-changelog-2)] [Partition read ended. Restored 0 records in 510.6475ms]
+2024/12/30 23:29:07.093801 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_evens-0).ChangelogSyncer(kstream-branching-max_evens-store-changelog-0)] [Consumer loop stopping due to stop signal]
+2024/12/30 23:29:07.094385 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_evens-1).ChangelogSyncer(kstream-branching-max_evens-store-changelog-1)] [Consumer loop stopping due to stop signal]
+2024/12/30 23:29:07.094968 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_evens-store-changelog-1] [Partition closing...]
+2024/12/30 23:29:07.094385 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_evens-2).ChangelogSyncer(kstream-branching-max_evens-store-changelog-2)] [Syncer stopping...]
+2024/12/30 23:29:07.095538 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_evens-2).ChangelogSyncer(kstream-branching-max_evens-store-changelog-2)] [Consumer loop stopping due to stop signal]
+2024/12/30 23:29:07.095538 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_evens-store-changelog-2] [Partition closing...]
+2024/12/30 23:29:07.094968 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_evens-store-changelog-0] [Partition closing...]
+2024/12/30 23:29:07.095538 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_evens-store-changelog-1] [partition closed]
+2024/12/30 23:29:07.096114 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_evens-1).ChangelogSyncer(kstream-branching-max_evens-store-changelog-1)] [Consumer loop closed]
+2024/12/30 23:29:07.096114 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_evens-store-changelog-2] [partition closed]
+2024/12/30 23:29:07.096708 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_evens-2).ChangelogSyncer(kstream-branching-max_evens-store-changelog-2)] [Consumer loop closed]
+2024/12/30 23:29:07.096114 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_evens-store-changelog-0] [partition closed]
+2024/12/30 23:29:07.097311 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_evens-0).ChangelogSyncer(kstream-branching-max_evens-store-changelog-0)] [Consumer loop closed]
+2024/12/30 23:29:07.096708 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_evens-1).ChangelogSyncer(kstream-branching-max_evens-store-changelog-1)] [Syncer stopped]
+2024/12/30 23:29:07.097311 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_evens-2).ChangelogSyncer(kstream-branching-max_evens-store-changelog-2)] [Syncer stopped]
+2024/12/30 23:29:07.097311 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_evens-0).ChangelogSyncer(kstream-branching-max_evens-store-changelog-0)] [Syncer stopped]
+2024/12/30 23:29:07.586739 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_odds-0).ChangelogSyncer(kstream-branching-max_odds-store-changelog-0)] [Sync progress - [0]% done (0/31)]
+2024/12/30 23:29:07.595004 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_odds-1).ChangelogSyncer(kstream-branching-max_odds-store-changelog-1)] [Partition read ended. Restored 0 records in 1.0112634s]
+2024/12/30 23:29:07.595585 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_odds-2).ChangelogSyncer(kstream-branching-max_odds-store-changelog-2)] [Partition read ended. Restored 0 records in 1.0112607s]
+2024/12/30 23:29:07.595585 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_odds-1).ChangelogSyncer(kstream-branching-max_odds-store-changelog-1)] [Syncer stopping...]
+2024/12/30 23:29:07.596098 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_odds-2).ChangelogSyncer(kstream-branching-max_odds-store-changelog-2)] [Syncer stopping...]
+2024/12/30 23:29:07.596194 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_odds-1).ChangelogSyncer(kstream-branching-max_odds-store-changelog-1)] [Consumer loop stopping due to stop signal]
+2024/12/30 23:29:07.596773 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_odds-store-changelog-1] [Partition closing...]
+2024/12/30 23:29:07.596759 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_odds-2).ChangelogSyncer(kstream-branching-max_odds-store-changelog-2)] [Consumer loop stopping due to stop signal]
+2024/12/30 23:29:07.597354 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_odds-store-changelog-2] [Partition closing...]
+2024/12/30 23:29:07.597354 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_odds-store-changelog-1] [partition closed]
+2024/12/30 23:29:07.597863 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_odds-1).ChangelogSyncer(kstream-branching-max_odds-store-changelog-1)] [Consumer loop closed]
+2024/12/30 23:29:07.597354 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_odds-store-changelog-2] [partition closed]
+2024/12/30 23:29:07.597950 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_odds-2).ChangelogSyncer(kstream-branching-max_odds-store-changelog-2)] [Consumer loop closed]
+2024/12/30 23:29:07.597950 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.StateStore(max_odds-1).ChangelogSyncer(kstream-branching-max_odds-store-changelog-1)] [Syncer stopped]
+2024/12/30 23:29:07.597950 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [State Restored]
+2024/12/30 23:29:07.598519 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.StateStore(max_odds-2).ChangelogSyncer(kstream-branching-max_odds-store-changelog-2)] [Syncer stopped]
+2024/12/30 23:29:07.598519 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [State Restored]
+2024/12/30 23:29:07.603775 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_odds-0).ChangelogSyncer(kstream-branching-max_odds-store-changelog-0)] [Partition read ended. Restored 0 records in 1.0230259s]
+2024/12/30 23:29:07.604349 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_odds-0).ChangelogSyncer(kstream-branching-max_odds-store-changelog-0)] [Syncer stopping...]
+2024/12/30 23:29:07.604945 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_odds-0).ChangelogSyncer(kstream-branching-max_odds-store-changelog-0)] [Consumer loop stopping due to stop signal]
+2024/12/30 23:29:07.604945 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_odds-store-changelog-0] [Partition closing...]
+2024/12/30 23:29:07.604945 INFO  [] [kStream.StreamRunner.TaskManager.PartitionConsumer.kstream-branching-max_odds-store-changelog-0] [partition closed]
+2024/12/30 23:29:07.605526 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_odds-0).ChangelogSyncer(kstream-branching-max_odds-store-changelog-0)] [Consumer loop closed]
+2024/12/30 23:29:07.605526 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [State Restored]
+2024/12/30 23:29:07.605526 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.StateStore(max_odds-0).ChangelogSyncer(kstream-branching-max_odds-store-changelog-0)] [Syncer stopped]
+2024/12/30 23:29:07.605526 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Tasks restored]
+2024/12/30 23:29:07.638593 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction inited]
+2024/12/30 23:29:07.638593 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction inited]
+2024/12/30 23:29:07.647352 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction inited]
+2024/12/30 23:29:07.647930 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Tasks inited]
+2024/12/30 23:29:07.647930 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Consuming messages for example-nums-1]
+2024/12/30 23:29:07.647930 INFO  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Partitions [example-nums-0 example-nums-1 example-nums-2] assigned]
+2024/12/30 23:29:07.647930 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Consuming messages for example-nums-0]
+2024/12/30 23:29:07.647930 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Consuming messages for example-nums-2]
+2024/12/30 23:29:07.776527 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Starting offset example-nums[0]@9]
+Even number: 2
+Even number: 2
+2024/12/30 23:29:07.782529 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Starting offset example-nums[2]@1]
+2024/12/30 23:29:07.782529 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Starting offset example-nums[1]@1]
+Odd number: 555
+Odd number: 555
+Odd number: 19
+Odd number: 19
+2024/12/30 23:29:07.828578 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:07+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 0): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:07.843230 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:07+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 0): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:07.856121 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:07+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 0): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:08.643044 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 0): current transaction must be aborted]
+2024/12/30 23:29:08.643044 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 0): current transaction must be aborted]
+2024/12/30 23:29:08.644194 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 0): current transaction must be aborted ]
+2024/12/30 23:29:08.644194 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 0): current transaction must be aborted ]
+2024/12/30 23:29:08.645376 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 0): current transaction must be aborted ...]
+2024/12/30 23:29:08.644778 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 0): current transaction must be aborted ...]
+2024/12/30 23:29:08.655631 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:08.655631 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:08.656239 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer rested]
+2024/12/30 23:29:08.655631 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 0): current transaction must be aborted]
+Odd number: 19
+2024/12/30 23:29:08.655631 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer rested]
+Odd number: 2024/12/30 23:29:08.656832 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 0): current transaction must be aborted ]
+19
+2024/12/30 23:29:08.658413 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 0): current transaction must be aborted ...]
+Odd number: 555
+Odd number: 555
+2024/12/30 23:29:08.670754 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:08.670754 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer rested]
+Even number: 2
+Even number: 2
+2024/12/30 23:29:08.712163 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:08+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 1): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:08.712177 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:08+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 1): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:08.712688 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:08+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 1): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:09.651770 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 1): current transaction must be aborted]
+2024/12/30 23:29:09.651770 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 1): current transaction must be aborted]
+2024/12/30 23:29:09.651770 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 1): current transaction must be aborted]
+2024/12/30 23:29:09.652373 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 1): current transaction must be aborted ]
+2024/12/30 23:29:09.652971 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 1): current transaction must be aborted ]
+2024/12/30 23:29:09.654139 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 1): current transaction must be aborted ...]
+2024/12/30 23:29:09.652971 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 1): current transaction must be aborted ]
+2024/12/30 23:29:09.653556 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 1): current transaction must be aborted ...]
+2024/12/30 23:29:09.655371 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 1): current transaction must be aborted ...]
+2024/12/30 23:29:09.657373 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:09.657373 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer rested]
+Odd number: 19
+Odd number: 19
+2024/12/30 23:29:09.659207 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:09.659207 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer rested]
+2024/12/30 23:29:09.659207 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction aborted]
+Odd number: 2024/12/30 23:29:09.659799 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer rested]
+555
+Odd number: 555
+Even number: 2
+Even number: 2
+2024/12/30 23:29:09.674451 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:09+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 2): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:09.674451 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:09+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 2): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:09.675042 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:09+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 2): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:10.642746 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 2): current transaction must be aborted]
+2024/12/30 23:29:10.642746 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 2): current transaction must be aborted]
+2024/12/30 23:29:10.643341 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 2): current transaction must be aborted ]
+2024/12/30 23:29:10.643912 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 2): current transaction must be aborted ...]
+2024/12/30 23:29:10.643341 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 2): current transaction must be aborted ]
+2024/12/30 23:29:10.645098 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 2): current transaction must be aborted ...]
+2024/12/30 23:29:10.647458 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:10.647458 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer rested]
+2024/12/30 23:29:10.647458 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction aborted]
+Odd number: 19
+2024/12/30 23:29:10.648052 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer rested]
+Odd number: 19
+2024/12/30 23:29:10.648052 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 2): current transaction must be aborted]
+Odd number: 5552024/12/30 23:29:10.649159 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 2): current transaction must be aborted ]
+
+Odd number: 5552024/12/30 23:29:10.649741 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 2): current transaction must be aborted ...]
+
+2024/12/30 23:29:10.653396 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:10.653980 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer rested]
+Even number: 2
+Even number: 2
+2024/12/30 23:29:10.665032 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:10+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 3): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:10.665032 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:10+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 3): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:10.665032 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:10+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 3): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:11.640693 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 3): current transaction must be aborted]
+2024/12/30 23:29:11.640693 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 3): current transaction must be aborted]
+2024/12/30 23:29:11.640693 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 3): current transaction must be aborted ]
+2024/12/30 23:29:11.642229 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 3): current transaction must be aborted ...]
+2024/12/30 23:29:11.640693 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 3): current transaction must be aborted ]
+2024/12/30 23:29:11.642812 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 3): current transaction must be aborted ...]
+2024/12/30 23:29:11.645182 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:11.645754 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:11.645770 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer rested]
+2024/12/30 23:29:11.645770 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer rested]
+Odd number: 555
+Odd number: 555
+Odd number: 19
+Odd number: 19
+2024/12/30 23:29:11.656321 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 3): current transaction must be aborted]
+2024/12/30 23:29:11.656897 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 3): current transaction must be aborted ]
+2024/12/30 23:29:11.657486 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 3): current transaction must be aborted ...]
+2024/12/30 23:29:11.660652 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:11.660652 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer rested]
+Even number: 2
+Even number: 2
+2024/12/30 23:29:11.662544 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:11+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 4): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:11.663140 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:11+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 4): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:11.677509 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:11+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 4): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:12.646284 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 4): current transaction must be aborted]
+2024/12/30 23:29:12.646284 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 4): current transaction must be aborted]
+2024/12/30 23:29:12.646871 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 4): current transaction must be aborted ]
+2024/12/30 23:29:12.647437 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 4): current transaction must be aborted ...]
+2024/12/30 23:29:12.646871 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 4): current transaction must be aborted ]
+2024/12/30 23:29:12.648597 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 4): current transaction must be aborted ...]
+2024/12/30 23:29:12.648004 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 4): current transaction must be aborted]
+2024/12/30 23:29:12.650353 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 4): current transaction must be aborted ]
+2024/12/30 23:29:12.650954 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 4): current transaction must be aborted ...]
+2024/12/30 23:29:12.651550 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:12.651550 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:12.652172 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer rested]
+2024/12/30 23:29:12.652060 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer rested]
+Odd number: 555
+Odd number: 555
+Odd number: 19
+Odd number: 19
+2024/12/30 23:29:12.654622 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:12.654622 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer rested]
+Even number: 2
+Even number: 2
+2024/12/30 23:29:12.667670 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:12+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 5): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:12.668327 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:12+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 5): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:12.668327 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:12+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 5): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:13.654038 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 5): current transaction must be aborted]
+2024/12/30 23:29:13.654038 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 5): current transaction must be aborted]
+2024/12/30 23:29:13.654038 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 5): current transaction must be aborted]
+2024/12/30 23:29:13.654614 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 5): current transaction must be aborted ]
+2024/12/30 23:29:13.655776 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 5): current transaction must be aborted ...]
+2024/12/30 23:29:13.655196 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 5): current transaction must be aborted ]
+2024/12/30 23:29:13.655196 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 5): current transaction must be aborted ]
+2024/12/30 23:29:13.657532 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 5): current transaction must be aborted ...]
+2024/12/30 23:29:13.656944 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 5): current transaction must be aborted ...]
+2024/12/30 23:29:13.659954 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:13.659954 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer rested]
+Even number: 2
+Even number: 2
+2024/12/30 23:29:13.661154 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:13.661154 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer rested]
+2024/12/30 23:29:13.661154 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction aborted]
+Odd number: 192024/12/30 23:29:13.661750 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer rested]
+
+Odd number: 19
+Odd number: 555
+Odd number: 555
+2024/12/30 23:29:13.675647 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:13+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 6): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:13.675647 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:13+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 6): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:13.675647 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:13+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 6): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:14.648407 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 6): current transaction must be aborted]
+2024/12/30 23:29:14.648407 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 6): current transaction must be aborted]
+2024/12/30 23:29:14.648407 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 6): current transaction must be aborted]
+2024/12/30 23:29:14.648992 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 6): current transaction must be aborted ]
+2024/12/30 23:29:14.650160 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 6): current transaction must be aborted ...]
+2024/12/30 23:29:14.648992 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 6): current transaction must be aborted ]
+2024/12/30 23:29:14.649577 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 6): current transaction must be aborted ]
+2024/12/30 23:29:14.651326 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 6): current transaction must be aborted ...]
+2024/12/30 23:29:14.650726 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 6): current transaction must be aborted ...]
+2024/12/30 23:29:14.653115 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:14.653716 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer rested]
+Odd number: 19
+Odd number: 2024/12/30 23:29:14.654382 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction aborted]
+19
+2024/12/30 23:29:14.654382 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer rested]
+Odd number: 555
+2024/12/30 23:29:14.655037 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction aborted]
+Odd number: 5552024/12/30 23:29:14.655690 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer rested]
+
+Even number: 2
+Even number: 2
+2024/12/30 23:29:14.678522 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:14+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 7): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:14.678522 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:14+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 7): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:14.678522 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:14+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 7): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:14.976908 INFO  [] [kStream.StreamRunner] [StreamRunner stopping...]
+2024/12/30 23:29:14.976908 INFO  [] [kStream.StreamRunner] [StreamConsumer stopping...]
+2024/12/30 23:29:14.977468 INFO  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Consumer shutting down...]
+2024/12/30 23:29:14.977495 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Consumer unsubscribing...]
+2024/12/30 23:29:15.645152 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 7): current transaction must be aborted]
+2024/12/30 23:29:15.645152 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 7): current transaction must be aborted]
+2024/12/30 23:29:15.645738 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 7): current transaction must be aborted ]
+2024/12/30 23:29:15.646247 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 7): current transaction must be aborted ]
+2024/12/30 23:29:15.646905 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 7): current transaction must be aborted ...]
+2024/12/30 23:29:15.646329 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 7): current transaction must be aborted ...]
+2024/12/30 23:29:15.649798 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:15.650391 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer rested]
+2024/12/30 23:29:15.649798 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Transaction aborted]
+Odd number: 2024/12/30 23:29:15.650391 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer rested]
+555
+2024/12/30 23:29:15.649798 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 7): current transaction must be aborted]
+Odd number: 555
+2024/12/30 23:29:15.651613 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [Reprocessing commit buffer due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 7): current transaction must be aborted ]
+Odd number: 19
+Odd number: 192024/12/30 23:29:15.652502 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer resetting due to commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 7): current transaction must be aborted ...]
+
+2024/12/30 23:29:15.656096 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Transaction aborted]
+2024/12/30 23:29:15.656604 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer rested]
+Even number: 2
+Even number: 2
+2024/12/30 23:29:15.665531 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:15+03:00][kstream-branching-Task#0(ZXhhbXBsZS1udW1zIzA=)#producer-5][TXNERR][3][thrd:localhost:9923/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 8): current transaction must be aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:15.666044 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:15+03:00][kstream-branching-Task#1(ZXhhbXBsZS1udW1zIzE=)#producer-4][TXNERR][3][thrd:localhost:9921/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 8): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:15.666106 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka).LibrdLogs] [[2024-12-30T23:29:15+03:00][kstream-branching-Task#2(ZXhhbXBsZS1udW1zIzI=)#producer-3][TXNERR][3][thrd:localhost:9922/bootstrap]: Current transaction failed in state InTransaction: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 8): current transaction must be 
+aborted (INVALID_RECORD)] [level 3]
+2024/12/30 23:29:15.862357 INFO  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Stopping consumer loop due to stop signal]
+2024/12/30 23:29:15.862478 INFO  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Consumer closing...]
+2024/12/30 23:29:15.955739 WARN  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Partitions [example-nums-0 example-nums-1 example-nums-2] revoking]
+2024/12/30 23:29:15.955739 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Removing tasks -> 
+Task#0 - [example-nums-0]
+Task#1 - [example-nums-1]
+Task#2 - [example-nums-2]
+]
+2024/12/30 23:29:15.956304 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Stopping...]
+2024/12/30 23:29:15.956871 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Closing Sub Topology...]
+2024/12/30 23:29:15.956304 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Stopping...]
+2024/12/30 23:29:15.956871 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Closing Sub Topology...]
+2024/12/30 23:29:15.957441 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Sub Topology closed]
+2024/12/30 23:29:15.956304 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Stopping...]
+2024/12/30 23:29:15.956871 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Sub Topology closed]
+2024/12/30 23:29:15.957441 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Closing changelogs...]
+2024/12/30 23:29:15.958012 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.AsyncGroup] [Interrupted, Processes stopping...]
+2024/12/30 23:29:15.958012 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.AsyncGroup] [Processes stopped]
+2024/12/30 23:29:15.958012 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Changelogs closed]
+2024/12/30 23:29:15.958521 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Sending processingStopping signal and waiting until processing stopped...]
+2024/12/30 23:29:15.957441 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Closing changelogs...]
+2024/12/30 23:29:15.957441 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Closing Sub Topology...]
+2024/12/30 23:29:15.958591 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Stop signal received. Task stopping, Weiting until consume processes stopped]
+2024/12/30 23:29:15.958591 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.AsyncGroup] [Interrupted, Processes stopping...]
+2024/12/30 23:29:15.959175 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.AsyncGroup] [Processes stopped]
+2024/12/30 23:29:15.959175 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Changelogs closed]
+2024/12/30 23:29:15.959175 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Sending processingStopping signal and waiting until processing stopped...]
+2024/12/30 23:29:15.959175 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Stop signal received. Stopping message loop example-nums-0]
+2024/12/30 23:29:15.958591 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Sub Topology closed]
+2024/12/30 23:29:15.959751 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Closing changelogs...]
+2024/12/30 23:29:15.959751 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.AsyncGroup] [Interrupted, Processes stopping...]
+2024/12/30 23:29:15.960349 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.AsyncGroup] [Processes stopped]
+2024/12/30 23:29:15.960349 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Changelogs closed]
+2024/12/30 23:29:15.960349 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Sending processingStopping signal and waiting until processing stopped...]
+2024/12/30 23:29:15.959685 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Stop signal received. Task stopping, Weiting until consume processes stopped]
+2024/12/30 23:29:15.959751 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Stop signal received. Stopping message loop example-nums-2]
+2024/12/30 23:29:15.959751 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Message loop stopped. Partition example-nums-0]
+2024/12/30 23:29:15.960926 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Consuming messages stopped for example-nums-0]
+2024/12/30 23:29:15.959751 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Consume processes stopped, sending stop signel to main processing loop]
+2024/12/30 23:29:15.960349 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Stop signal received. Task stopping, Weiting until consume processes stopped]
+2024/12/30 23:29:15.960860 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Stop signal received. Stopping message loop example-nums-1]
+2024/12/30 23:29:15.960926 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Message loop stopped. Partition example-nums-2]
+2024/12/30 23:29:15.962097 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Consuming messages stopped for example-nums-2]
+2024/12/30 23:29:15.960926 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Consume processes stopped, sending stop signel to main processing loop]
+2024/12/30 23:29:15.961510 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Processing loop stopped]
+2024/12/30 23:29:15.961510 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Processing stopped]
+2024/12/30 23:29:15.962670 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer closing...]
+2024/12/30 23:29:15.962019 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Message loop stopped. Partition example-nums-1]
+2024/12/30 23:29:15.962670 INFO  [] [kStream.StreamRunner.StreamConsumer#1] [Consuming messages stopped for example-nums-1]
+2024/12/30 23:29:15.962019 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Consume processes stopped, sending stop signel to main processing loop]
+2024/12/30 23:29:15.963264 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Processing loop stopped]
+2024/12/30 23:29:15.962097 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Processing loop stopped]
+2024/12/30 23:29:15.962097 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Processing stopped]
+2024/12/30 23:29:15.962670 WARN  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 8): current transaction must be aborted]
+2024/12/30 23:29:15.963264 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Processing stopped]
+2024/12/30 23:29:15.963838 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer closing...]
+2024/12/30 23:29:15.963838 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.Buffer] [Commit Buffer closed]
+2024/12/30 23:29:15.964413 WARN  [] [kStream.StreamRunner.TaskManager.Task#0] [commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_evens-store-changelog [0] with 1 message(s) failed: Broker: Broker failed to validate record (broker 3 PID{Id:9000,Epoch:1}, base seq 8): current transaction must be aborted ]
+2024/12/30 23:29:15.964348 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer closing...]
+2024/12/30 23:29:15.964413 WARN  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 8): current transaction must be aborted]
+2024/12/30 23:29:15.964994 WARN  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Retring transaction. Reason: transaction SendOffsetsToTransaction failed, Error ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 8): current transaction must be aborted]
+2024/12/30 23:29:15.965573 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.Buffer] [Commit Buffer closed]
+2024/12/30 23:29:15.966079 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.Buffer] [Commit Buffer closed]
+2024/12/30 23:29:15.966157 WARN  [] [kStream.StreamRunner.TaskManager.Task#1] [commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [1] with 1 message(s) failed: Broker: Broker failed to validate record (broker 1 PID{Id:8000,Epoch:1}, base seq 8): current transaction must be aborted ]
+2024/12/30 23:29:15.966764 WARN  [] [kStream.StreamRunner.TaskManager.Task#2] [commit(SendOffsetsToTransaction) failed at github.com/gmbyapa/kstream/v2/streams/tasks.(*commitBuffer).commit
+        C:/.../go/pkg/mod/github.com/gmbyapa/kstream/v2@v2.1.0/streams/tasks/buffer.go:154
+caused by: ProduceRequest for kstream-branching-max_odds-store-changelog [2] with 1 message(s) failed: Broker: Broker failed to validate record (broker 2 PID{Id:8001,Epoch:1}, base seq 8): current transaction must be aborted ]
+2024/12/30 23:29:15.970843 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Producer closing...]
+2024/12/30 23:29:15.973826 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Producer closing...]
+2024/12/30 23:29:15.974474 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Producer closing...]
+2024/12/30 23:29:15.989613 INFO  [] [kStream.StreamRunner.TaskManager.Task#2.TransactionalProducer(librdkafka)] [Producer closed]
+2024/12/30 23:29:15.990222 INFO  [] [kStream.StreamRunner.TaskManager.Task#2] [Stopped]
+2024/12/30 23:29:15.989613 INFO  [] [kStream.StreamRunner.TaskManager.Task#1.TransactionalProducer(librdkafka)] [Producer closed]
+2024/12/30 23:29:15.990222 INFO  [] [kStream.StreamRunner.TaskManager.Task#0.TransactionalProducer(librdkafka)] [Producer closed]
+2024/12/30 23:29:15.990833 INFO  [] [kStream.StreamRunner.TaskManager.Task#0] [Stopped]
+2024/12/30 23:29:15.990222 INFO  [] [kStream.StreamRunner.TaskManager] [Task#2 successfully removed]
+2024/12/30 23:29:15.990833 INFO  [] [kStream.StreamRunner.TaskManager.Task#1] [Stopped]
+2024/12/30 23:29:15.991434 INFO  [] [kStream.StreamRunner.TaskManager] [Task#1 successfully removed]
+2024/12/30 23:29:15.990833 INFO  [] [kStream.StreamRunner.TaskManager] [Task#0 successfully removed]
+2024/12/30 23:29:15.992048 INFO  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Partitions [example-nums-0 example-nums-1 example-nums-2] revoked]
+2024/12/30 23:29:16.004228 INFO  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Consumer closed]
+2024/12/30 23:29:16.004820 INFO  [] [kStream.StreamRunner.StreamConsumer#1.GroupConsumer] [Consumer stopped]
+2024/12/30 23:29:16.004820 INFO  [] [kStream.StreamRunner] [StreamConsumer stopped]
+2024/12/30 23:29:16.004820 INFO  [] [kStream.StreamRunner] [StreamRunner stopped]
+2024/12/30 23:29:16.004820 INFO  [] [kStream.StreamRunner] [StreamRunner stopped]

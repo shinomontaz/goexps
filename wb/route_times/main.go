@@ -30,12 +30,12 @@ func main() {
 	OsrmURLFiveTonn = "http://osrm-fivetonn.wbdispatch.k8s.prod-xc"
 	OsrmURLTruck = "http://osrm-longtruck.wbdispatch.k8s.prod-xc"
 
-	f, err := os.Open("KBT_cost_transports_all.csv")
+	f, err := os.Open("jandarov_22102024.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resultFile, _ := os.Create("KBT_cost_transports_res_all.csv")
+	resultFile, _ := os.Create("res_all.csv")
 	writer := csv.NewWriter(resultFile)
 	writer.Comma = ','
 
@@ -43,7 +43,7 @@ func main() {
 
 	// read csv values using csv.Reader
 	csvReader := csv.NewReader(f)
-	csvReader.Comma = ';'
+	csvReader.Comma = ','
 	var (
 		record []string
 	)
@@ -62,24 +62,24 @@ func main() {
 		}
 		fmt.Printf("%+v\n", rec)
 
-		srcLat, err := strconv.ParseFloat(rec[6], 64)
+		srcLat, err := strconv.ParseFloat(rec[1], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
-		srcLng, err := strconv.ParseFloat(rec[7], 64)
+		srcLng, err := strconv.ParseFloat(rec[2], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
-		dstLat, err := strconv.ParseFloat(rec[9], 64)
+		dstLat, err := strconv.ParseFloat(rec[4], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
-		dstLng, err := strconv.ParseFloat(rec[10], 64)
+		dstLng, err := strconv.ParseFloat(rec[5], 64)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		time_truck1, dist_truck1, err := gettime(OsrmURLGazelle, [][]float64{{srcLng, srcLat}, {dstLng, dstLat}})
+		time_truck1, dist_truck1, err := gettime(OsrmURLTruck, [][]float64{{srcLng, srcLat}, {dstLng, dstLat}})
 		//		time.Sleep(10 * time.Millisecond)
 		// if err != nil {
 		// 	//			panic(err)

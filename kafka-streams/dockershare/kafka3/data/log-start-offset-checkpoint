@@ -1,0 +1,4 @@
+0
+2
+streams-wordcount-counts-store-repartition 2 5
+streams-wordcount1-counts-store-repartition 1 18
