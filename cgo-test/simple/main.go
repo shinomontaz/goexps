@@ -1,14 +1,14 @@
 package main
 
-//#cgo CFLAGS: -g
-//#include <stdlib.h>
+/*
+#cgo CFLAGS: -Iccode
+#cgo LDFLAGS: -L. -lmycodelib
+#include "ccode/a.h"
+*/
 import "C"
 import "fmt"
 
-func Random() int {
-	return int(C.rand())
-}
-
 func main() {
-	fmt.Println(Random())
+	C.function_a()
+	fmt.Println("!!!")
 }
