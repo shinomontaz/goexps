@@ -34,8 +34,7 @@ GainType CTSP_InitialTour()
     CurrentPenalty = PLUS_INFINITY;
     CurrentPenalty = Penalty();
     if (TraceLevel >= 1) {
-        if (Salesmen > 1 || ProblemType == SOP ||
-            ProblemType == CBTSP || ProblemType == CBnTSP)
+        if (Salesmen > 1 || ProblemType == SOP)
             printff(GainFormat "_" GainFormat, CurrentPenalty, Cost);
         else
             printff(GainFormat, Cost);

@@ -22,12 +22,12 @@ GainType Penalty_CTSP()
         do {
             if (N->Color != 0 && N->Color != CurrentRoute->DepotId)
                 P++;
-            if (P > CurrentPenalty ||
-                (P == CurrentPenalty && CurrentGain <= 0)) {
-                StartRoute = CurrentRoute;
-                return CurrentPenalty + (CurrentGain > 0);
-            }
         } while ((N = Forward ? SUCC(N) : PREDD(N))->DepotId == 0);
+        if (P > CurrentPenalty ||
+            (P == CurrentPenalty && CurrentGain <= 0)) {
+            StartRoute = CurrentRoute;
+            return CurrentPenalty + (CurrentGain > 0);
+        }
     } while (N != StartRoute);
     return P;
 }

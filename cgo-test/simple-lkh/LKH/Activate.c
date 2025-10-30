@@ -21,8 +21,6 @@ void Activate(Node * N)
 {
     if (N->Next != 0)
         return;
-    if (FixedOrCommon(N, N->Pred) && FixedOrCommon(N, N->Suc))
-        return;
     if (FirstActive == 0)
         FirstActive = LastActive = N;
     else

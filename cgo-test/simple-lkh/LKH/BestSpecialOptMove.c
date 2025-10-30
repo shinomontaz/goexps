@@ -263,7 +263,7 @@ Node *BestSpecialOptMove(Node * t1, Node * t2, GainType * G0,
                 }
             }
             /* Try special 4-opt */
-            if (t4 != t1 && !Forbidden(t4, t1)) {
+            if (!Forbidden(t4, t1)) {
                 G3 = G2 - C(t4, t1);
                 for (Case56 = 1; Case56 <= 2; Case56++) {
                     if (Case56 == 1) {

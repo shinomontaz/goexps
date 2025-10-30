@@ -1,10 +1,11 @@
 #include "LKH.h"
 #include "Segment.h"
 
-GainType Penalty_ACVRP() {
+GainType Penalty_ACVRP()
+{
     static Node *StartRoute = 0;
-    Node *N, *NextN, *CurrentRoute;
-    GainType DemandSum, DistanceSum, P = 0, P2 = 0;
+    Node *N, *NextN,*CurrentRoute;
+    GainType DemandSum, DistanceSum, P = 0;
     int Forward = SUCC(Depot)->Id != Depot->Id + DimensionSaved;
 
     if (!StartRoute)
@@ -12,8 +13,6 @@ GainType Penalty_ACVRP() {
     if (StartRoute->Id > DimensionSaved)
         StartRoute -= DimensionSaved;
     N = StartRoute;
-    int cnt_loaded_cars = 0;
-
     do {
         int Size = 0;
         CurrentRoute = N;
@@ -22,8 +21,8 @@ GainType Penalty_ACVRP() {
             if (N->Id <= Dim && N != Depot) {
                 if ((DemandSum += N->Demand) > Capacity)
                     P += DemandSum - Capacity;
-                if (P + P2 > CurrentPenalty ||
-                    (P + P2 == CurrentPenalty && CurrentGain <= 0)) {
+                if (P > CurrentPenalty ||
+                    (P == CurrentPenalty && CurrentGain <= 0)) {
                     StartRoute = CurrentRoute;
                     return CurrentPenalty + (CurrentGain > 0);
                 }
@@ -35,21 +34,23 @@ GainType Penalty_ACVRP() {
             P += MTSPMinSize - Size;
         if (Size > MTSPMaxSize)
             P += Size - MTSPMaxSize;
-        if (DemandSum > 0) {
-            cnt_loaded_cars += 1;
-        }
-        if (DemandSum > 0 && DemandSum < CapacityLowerBound) {
-            P2 += CapacityLowerBound - DemandSum;
+        if (DistanceLimit != DBL_MAX) {
+            DistanceSum = 0;
+            N = CurrentRoute;
+            do {
+                NextN =  Forward ? SUCC(N) : PREDD(N);
+                DistanceSum += (C(N, NextN) - N->Pi - NextN->Pi) /
+                    Precision;
+                DistanceSum += N->ServiceTime;
+                N = Forward ? SUCC(NextN) : PREDD(NextN);
+            } while (N ->DepotId == 0);
+            if (DistanceSum > DistanceLimit &&
+                ((P += (DistanceSum - DistanceLimit)) > CurrentPenalty ||
+                 (P == CurrentPenalty && CurrentGain <= 0))) {
+                StartRoute = CurrentRoute;
+                return CurrentPenalty + (CurrentGain > 0);
+            }
         }
     } while (N != StartRoute);
-    P2 += Capacity * (Salesmen - cnt_loaded_cars);
-    if (P < PenaltyLowerBound) {
-        P = PenaltyLowerBound;
-    }
-    if (P2 < PenaltyLowerBoundCapacity) {
-        P2 = PenaltyLowerBoundCapacity;
-    }
-//    printf("total Penalty for under constraints = %lld \n\n", P2);
-
-    return P + P2;
+    return P;
 }

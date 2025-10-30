@@ -6,7 +6,8 @@
  * standard output.
  */
 
-void PrintParameters() {
+void PrintParameters()
+{
     int i;
 
     printff("ASCENT_CANDIDATES = %d\n", AscentCandidates);
@@ -51,7 +52,6 @@ void PrintParameters() {
             ExtraCandidateSetSymmetric ? "SYMMETRIC" : "");
     printff("EXTRA_CANDIDATE_SET_TYPE = %s\n",
             ExtraCandidateSetType == NN ? "NEAREST-NEIGHBOR" :
-            ExtraCandidateSetType == POPMUSIC ? "POPMUSIC" :
             ExtraCandidateSetType == QUADRANT ? "QUADRANT" : "");
     printff("GAIN23 = %s\n", Gain23Used ? "YES" : "NO");
     printff("GAIN_CRITERION = %s\n", GainCriterionUsed ? "YES" : "NO");
@@ -62,7 +62,6 @@ void PrintParameters() {
     printff("INITIAL_STEP_SIZE = %d\n", InitialStepSize);
     printff("INITIAL_TOUR_ALGORITHM = %s\n",
             InitialTourAlgorithm == BORUVKA ? "BORUVKA" :
-            InitialTourAlgorithm == CTSP_ALG ? "CTSP" :
             InitialTourAlgorithm == CVRP_ALG ? "CVRP" :
             InitialTourAlgorithm == GREEDY ? "GREEDY" :
             InitialTourAlgorithm == MOORE ? "MOORE" :
@@ -80,7 +79,6 @@ void PrintParameters() {
     printff("%sINPUT_TOUR_FILE = %s\n",
             InputTourFileName ? "" : "# ",
             InputTourFileName ? InputTourFileName : "");
-    printff("K = %d\n", k);
     printff("KICK_TYPE = %d\n", KickType);
     printff("KICKS = %d\n", Kicks);
     if (MaxBreadth == INT_MAX)
@@ -149,18 +147,14 @@ void PrintParameters() {
         printff("# ");
     printff("POPULATION_SIZE = %d\n", MaxPopulationSize);
     printff("PRECISION = %d\n", Precision);
-    if (Probability < 100)
-        printff("PROBABILITY = %d\n", Probability);
-    else
-        printff("# PROBABILITY =\n");
     printff("%sPROBLEM_FILE = %s\n",
             ProblemFileName ? "" : "# ",
             ProblemFileName ? ProblemFileName : "");
     printff("RECOMBINATION = %s\n",
-            Recombination == IPT ? "IPT" :
-            Recombination == GPX2 ? "GPX2" :
-            Recombination == CLARIST ? "CLARIST" :
-            "UNKNOWN");
+           Recombination == IPT ? "IPT" :
+           Recombination == GPX2 ? "GPX2" :
+           Recombination == CLARIST ? "CLARIST" :
+           "UNKNOWN");
     printff("RESTRICTED_SEARCH = %s\n", RestrictedSearch ? "YES" : "NO");
     printff("RUNS = %d\n", Runs);
     printff("SALESMEN = %d\n", Salesmen);
@@ -205,8 +199,5 @@ void PrintParameters() {
             TourFileName ? "" : "# ", TourFileName ? TourFileName : "");
     printff("TRACE_LEVEL = %d\n", TraceLevel);
     printff("VEHICLES = %d\n\n", Salesmen);
-    printff("PENALTY_LOWER_BOUND = %lld\n\n", PenaltyLowerBound);
-    printff("PENALTY_LOWER_BOUND_CAPACITY = %lld\n\n", PenaltyLowerBoundCapacity);
-    printff("CAPACITY_LOWER_BOUND = %lld\n\n", CapacityLowerBound);
 }
 

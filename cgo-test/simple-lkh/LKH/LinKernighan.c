@@ -56,7 +56,6 @@ GainType LinKernighan()
     t1 = FirstNode;
     do {
         t2 = t1->OldSuc = t1->Suc;
-        assert(t2);
         t1->OldPred = t1->Pred;
         t1->Rank = ++i;
         Cost += (t1->SucCost = t2->PredCost = C(t1, t2)) - t1->Pi - t2->Pi;
@@ -166,6 +165,8 @@ GainType LinKernighan()
             goto End_LinKernighan;
         HashInsert(HTable, Hash, Cost);
         /* Try to find improvements using non-sequential 4/5-opt moves */
+        CurrentPenalty = PLUS_INFINITY;
+        CurrentPenalty = Penalty ? Penalty() : 0;
         PenaltyGain = Gain = 0;
         if (Gain23Used && ((Gain = Gain23()) > 0 || PenaltyGain > 0)) {
             /* An improvement has been found */
@@ -182,7 +183,7 @@ GainType LinKernighan()
                 (TraceLevel == 2 &&
                  (CurrentPenalty < BetterPenalty ||
                   (CurrentPenalty == BetterPenalty && Cost < BetterCost))))
-                StatusReport(Cost, EntryTime, " + ");
+                StatusReport(Cost, EntryTime, "+ ");
             if (HashSearch(HTable, Hash, Cost))
                 goto End_LinKernighan;
         }

@@ -45,7 +45,7 @@ int IsPossibleCandidate(Node * From, Node * To)
                 } while (FixedOrCommon(Na, Nb));
                 do
                     Nc->Tail = Na;
-                while (Nc != N && (Nc = Nc->MergeSuc[0]) != Nb);
+                while ((Nc = Nc->MergeSuc[0]) != Nb);
             } while (Nc != N);
         } else {
             do

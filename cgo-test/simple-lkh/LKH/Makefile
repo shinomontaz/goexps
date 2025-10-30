@@ -5,8 +5,7 @@ TREE_TYPE = TWO_LEVEL_TREE
 # CC = gcc
 IDIR = INCLUDE
 ODIR = OBJ
-CFLAGS = -O3 -Wall -I$(IDIR) -D$(TREE_TYPE) -g -flto -fcommon
-# CFLAGS = -O3 -Wall -I$(IDIR) -D$(TREE_TYPE) -g -flto -zmuldefs
+CFLAGS = -O3 -Wall -I$(IDIR) -D$(TREE_TYPE) -g -fcommon -flto
 
 _DEPS = Delaunay.h GainType.h Genetic.h GeoConversion.h Hashing.h      \
         Heap.h LKH.h Segment.h Sequence.h BIT.h gpx.h CLARIST.h
@@ -42,15 +41,12 @@ _OBJ = Activate.o AddCandidate.o AddExtraCandidates.o                  \
        OrderCandidateSet.o PatchCycles.o                               \
        Penalty_ACVRP.o Penalty_BWTSP.o Penalty_CCVRP.o                 \
        Penalty_CVRP.o Penalty_CVRPTW.o Penalty_CTSP.o                  \
-	   Penalty_CBTSP.o Penalty_CBnTSP.o                                \
 	   Penalty_1_PDTSP.o Penalty_MLP.o Penalty_M_PDTSP.o               \
-	   Penalty_KTSP.o Penalty_M1_PDTSP.o                               \
-	   Penalty_MTSP.o Penalty_OVRP.o                                   \
+	   Penalty_M1_PDTSP.o Penalty_MTSP.o Penalty_OVRP.o                \
 	   Penalty_PDPTW.o Penalty_PDTSP.o Penalty_PDTSPF.o                \
-	   Penalty_PDTSPL.o Penalty_PTSP.o Penalty_RCTVRP.o                \
+	   Penalty_PDTSPL.o Penalty_RCTVRP.o                               \
 	   Penalty_SOP.o Penalty_TRP.o Penalty_TSPDL.o Penalty_TSPPD.o     \
 	   Penalty_TSPTW.o Penalty_VRPB.o Penalty_VRPBTW.o Penalty_VRPPD.o \
-	   Penalty_TSP_D.o                                                 \
        PDPTW_Reduce.o printff.o PrintParameters.o                      \
        Random.o ReadCandidates.o ReadEdges.o ReadLine.o                \
        ReadParameters.o ReadPenalties.o ReadProblem.o RecordBestTour.o \

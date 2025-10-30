@@ -29,9 +29,7 @@ void MTSP2TSP()
             Penalty = Penalty_MTSP_MINMAX_SIZE;
     } else if (ProblemType == CVRP)
         Penalty = Penalty_CVRP;
-    if (ProblemType == CVRP || ProblemType == CTSP || 
-        ProblemType == CBTSP || ProblemType == CBnTSP ||
-        ProblemType == TSP) {
+    if (ProblemType == CVRP || ProblemType == CTSP || ProblemType == TSP) {
         int NewDimension = Dimension + Salesmen - 1;
         Node *Prev = 0;
         Node *OldNodeSet = NodeSet;

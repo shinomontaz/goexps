@@ -110,7 +110,7 @@
  * that each of them is associated with both its two end nodes.
  * Default: 0
  *
- * EXTRA_CANDIDATE_SET_TYPE = { NEAREST-NEIGHBOR | POPMISIC | QUADRANT }
+ * EXTRA_CANDIDATE_SET_TYPE = { NEAREST-NEIGHBOR | QUADRANT }
  * The candidate set type of extra candidate edges.
  * Default: QUADRANT
  *
@@ -154,9 +154,6 @@
  * edges is set to zero. The tour is given by a list of integers giving
  * the sequence in which the nodes are visited in the tour. The tour is
  * terminated by a -1.
- *
- * K = <integer>
- * The k-value used for solving a k-TSP instance.
  *
  * KICK_TYPE = <integer>
  * Specifies the value of k for a random k-swap kick (an extension of the
@@ -321,10 +318,6 @@
  *    d[i][j] = PRECISION*c[i][j] + pi[i] + pi[j],
  * where d[i][j], c[i][j], pi[i] and pi[j] are all integral.
  * Default: 100 (which corresponds to 2 decimal places)
- *
- * PROBABILITY = <integer>
- * The probalilty for PTSP (in percent).
- * Default: 100.
  *
  * RECOMBINATION = { IPT | GPX2 | CLARIST }
  * Default: IPT
@@ -492,8 +485,26 @@ static char *ReadYesOrNo(int *V);
 #undef max
 static size_t max(size_t a, size_t b);
 
+extern void _Reset1();
+extern void _Reset2();
+extern void _Reset3();
+extern void _Reset4();
+extern void _Reset5();
+extern void _Reset6();
+extern void _Reset7();
+extern void _Reset8();
+
 void ReadParameters()
 {
+    _Reset1();
+    _Reset2();
+    _Reset3();
+    _Reset4();
+    _Reset5();
+    _Reset6();
+    _Reset7();
+    _Reset8();
+
     char *Line, *Keyword, *Token, *Name;
     unsigned int i;
 
@@ -551,7 +562,6 @@ void ReadParameters()
     PatchingCExtended = 0;
     PatchingCRestricted = 0;
     Precision = 100;
-    Probability = 100;
     POPMUSIC_InitialTour = 0;
     POPMUSIC_MaxNeighbors = 5;
     POPMUSIC_SampleSize = 10;
@@ -575,16 +585,15 @@ void ReadParameters()
     SubsequentPatching = 1;
     TimeLimit = DBL_MAX;
     TotalTimeLimit = DBL_MAX;
-    TraceLevel = 1;
+    TraceLevel = 0;
     TSPTW_Makespan = 0;
-    PenaltyLowerBound = 0;
 
     if (ParameterFileName) {
         if (!(ParameterFile = fopen(ParameterFileName, "r")))
             eprintf("Cannot open PARAMETER_FILE: \"%s\"",
                     ParameterFileName);
         printff("PARAMETER_FILE = %s\n", ParameterFileName);
-    } else {
+    } else if(0) {
         while (1) {
             printff("PARAMETER_FILE = ");
             if (!(ParameterFileName = GetFileName(ReadLine(stdin)))) {
@@ -599,6 +608,8 @@ void ReadParameters()
             else
                 break;
         }
+    } else {
+        ParameterFile = 0;
     }
     while ((Line = ReadLine(ParameterFile))) {
         if (!(Keyword = strtok(Line, Delimiters)))
@@ -748,18 +759,16 @@ void ReadParameters()
         } else if (!strcmp(Keyword, "EXTRA_CANDIDATE_SET_TYPE")) {
             if (!(Token = strtok(0, Delimiters)))
                 eprintf("%s", "EXTRA_CANDIDATE_SET_TYPE: "
-                        "NEAREST-NEIGHBOR, POPMUSIC or QUADRANT expected");
+                        "NEAREST-NEIGHBOR, or QUADRANT expected");
             for (i = 0; i < strlen(Token); i++)
                 Token[i] = (char) toupper(Token[i]);
             if (!strncmp(Token, "NEAREST-NEIGHBOR", strlen(Token)))
                 ExtraCandidateSetType = NN;
-            else if (!strncmp(Token, "POPMUSIC", strlen(Token)))
-                ExtraCandidateSetType = POPMUSIC;
             else if (!strncmp(Token, "QUADRANT", strlen(Token)))
                 ExtraCandidateSetType = QUADRANT;
             else
                 eprintf("%s", "EXTRA_CANDIDATE_SET_TYPE: "
-                        "NEAREST-NEIGHBOR, POPMUSIC or QUADRANT expected");
+                        "NEAREST-NEIGHBOR or QUADRANT expected");
         } else if (!strcmp(Keyword, "GAIN23")) {
             if (!ReadYesOrNo(&Gain23Used))
                 eprintf("GAIN23: YES or NO expected");
@@ -833,12 +842,6 @@ void ReadParameters()
                 eprintf("KICK_TYPE: integer expected");
             if (KickType != 0 && KickType < 4)
                 eprintf("KICK_TYPE: integer >= 4 expected");
-        } else if (!strcmp(Keyword, "K")) {
-            if (!(Token = strtok(0, Delimiters)) ||
-                !sscanf(Token, "%d", &k))
-                eprintf("k: integer expected");
-            if (k <= 0)
-                eprintf("K: positive integer expected");
         } else if (!strcmp(Keyword, "KICKS")) {
             if (!(Token = strtok(0, Delimiters)) ||
                 !sscanf(Token, "%d", &Kicks))
@@ -1033,14 +1036,6 @@ void ReadParameters()
             if (!(Token = strtok(0, Delimiters)) ||
                 !sscanf(Token, "%d", &Precision))
                 eprintf("PRECISION: integer expected");
-        } else if (!strcmp(Keyword, "PROBABILITY")) {
-            if (!(Token = strtok(0, Delimiters)) ||
-                !sscanf(Token, "%d", &Probability))
-                eprintf("PROBABILITY: integer expected");
-            if (Probability < 0)       
-                eprintf("PROBABILITY: >= 0 expected");
-            if (Probability > 100)       
-                eprintf("PROBABILITY: <= 100 expected");
         } else if (!strcmp(Keyword, "PROBLEM_FILE")) {
             if (!(ProblemFileName = GetFileName(0)))
                 eprintf("PROBLEM_FILE: string expected");
@@ -1200,8 +1195,9 @@ void ReadParameters()
         eprintf("SUBPROBLEM specification not possible for SALESMEN > 1");
     if (CandidateSetType != DELAUNAY)
         DelaunayPure = 0;
+    if(ParameterFile != 0)
     fclose(ParameterFile);
-    free(LastLine);
+//    free(LastLine);
     LastLine = 0;
 }
 

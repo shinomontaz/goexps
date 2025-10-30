@@ -20,9 +20,9 @@ GainType BetterCost;    /* Cost of the tour stored in BetterTour */
 GainType BetterPenalty; /* Penalty of the tour stored in BetterTour */
 int *BetterTour;        /* Table containing the currently best tour 
                            in a run */
-int BWTSP_B;            /* Number of black nodes in a BWTSP instance */
+int BWTSP_B;            /* Number of black nodes in a BWTSP instance */ 
 int BWTSP_Q;            /* Maximum number of subsequent white nodes in a
-                           BWTSP instance */
+                           BWTSP instance */ 
 int BWTSP_L;            /* Maximum length of any path between two black nodes
                            in a BTWSP instance */
 int CacheMask;  /* Mask for indexing the cache */
@@ -70,7 +70,6 @@ int InitialPeriod;      /* Length of the first period in the ascent */
 int InitialStepSize;    /* Initial step size used in the ascent */
 double InitialTourFraction;     /* Fraction of the initial tour to be 
                                    constructed by INITIAL_TOUR_FILE edges */
-int k;          /* The k-value for solving a k-TSP instance */
 int Kicks;      /* Specifies the number of K-swap-kicks */
 int KickType;   /* Specifies K for a K-swap-kick */
 char *LastLine; /* Last input line */
@@ -110,7 +109,6 @@ GainType PenaltyGain;
 int Precision;  /* Internal precision in the representation of 
                    transformed distances */
 int PredSucCostAvailable; /* PredCost and SucCost are available */
-int Probability;           /* The probability for PTSP (in percent) */
 int POPMUSIC_InitialTour;  /* Specifies whether the first POPMUSIC tour
                               is used as initial tour for LK */
 int POPMUSIC_MaxNeighbors; /* Maximum number of nearest neighbors used 
@@ -120,14 +118,13 @@ int POPMUSIC_Solutions;    /* Number of solutions to generate */
 int POPMUSIC_Trials;       /* Maximum trials used for iterated 3-opt */
 unsigned *Rand;           /* Table of random values */
 int Recombination;        /* IPT or GPX2 */
-int RelaxationLevel;      /* d relaxation lelevel for TSP-D */
 int RestrictedSearch;     /* Specifies whether the choice of the first
                              edge to be broken is restricted */
 short Reversed; /* Boolean used to indicate whether a tour has 
                    been reversed */
 int Run;        /* Current run number */
 int Runs;       /* Total number of runs */
-int Scale;      /* Scale factor for Euclidean and ATT instances */
+int Scale;      /* Scale factor for Euclidean and ATT instances */ 
 double ServiceTime; /* Service time for a CVRP instance */
 int Serial;
 unsigned Seed;  /* Initial seed for random number generation */
@@ -164,32 +161,28 @@ int TSPTW_Makespan;
    ReadProblem: */
 
 char *ParameterFileName, *ProblemFileName, *PiFileName,
-        *TourFileName, *OutputTourFileName, *InputTourFileName,
-        **CandidateFileName, **EdgeFileName, *InitialTourFileName,
-        *SubproblemTourFileName, **MergeTourFileName,
-        *MTSPSolutionFileName, *SINTEFSolutionFileName;
+    *TourFileName, *OutputTourFileName, *InputTourFileName,
+    **CandidateFileName, **EdgeFileName, *InitialTourFileName,
+    *SubproblemTourFileName, **MergeTourFileName,
+    *MTSPSolutionFileName, *SINTEFSolutionFileName;
 char *Name, *Type, *EdgeWeightType, *EdgeWeightFormat,
-        *EdgeDataFormat, *NodeCoordType, *DisplayDataType;
+    *EdgeDataFormat, *NodeCoordType, *DisplayDataType;
 int CandidateSetSymmetric, CandidateSetType, Capacity,
-        CoordType, DelaunayPartitioning, DelaunayPure,
-        ExternalSalesmen,
-        ExtraCandidateSetSymmetric, ExtraCandidateSetType,
-        InitialTourAlgorithm,
-        KarpPartitioning, KCenterPartitioning, KMeansPartitioning,
-        MTSPDepot, MTSPMinSize, MTSPMaxSize, MTSPObjective,
-        MoorePartitioning,
-        PatchingAExtended, PatchingARestricted,
-        PatchingCExtended, PatchingCRestricted,
-        ProblemType, RiskThreshold,
-        RohePartitioning, Salesmen, SierpinskiPartitioning,
-        SubproblemBorders, SubproblemsCompressed, WeightType, WeightFormat;
-
-long long PenaltyLowerBound;
-long long PenaltyLowerBoundCapacity;
-long long CapacityLowerBound;
+    CoordType, DelaunayPartitioning, DelaunayPure,
+    ExternalSalesmen,
+    ExtraCandidateSetSymmetric, ExtraCandidateSetType,
+    InitialTourAlgorithm,
+    KarpPartitioning, KCenterPartitioning, KMeansPartitioning,
+    MTSPDepot, MTSPMinSize, MTSPMaxSize, MTSPObjective,
+    MoorePartitioning,
+    PatchingAExtended, PatchingARestricted,
+    PatchingCExtended, PatchingCRestricted,
+    ProblemType, RiskThreshold,
+    RohePartitioning, Salesmen, SierpinskiPartitioning,
+    SubproblemBorders, SubproblemsCompressed, WeightType, WeightFormat;
 
 FILE *ParameterFile, *ProblemFile, *PiFile, *InputTourFile,
-        *InitialTourFile, *SubproblemTourFile, **MergeTourFile;
+    *InitialTourFile, *SubproblemTourFile, **MergeTourFile;
 CostFunction Distance, D, C, c, OldDistance;
 MoveFunction BestMove, BacktrackMove, BestSubsequentMove;
 PenaltyFunction Penalty;
@@ -221,8 +214,8 @@ int K;         /* The value K for the current K-opt move */
 /* gpx.h variables */
 int n_cities, n_cand;
 int n_partitions_size2, n_partitions_before_fusion,
-        n_partitions_after_fusion1, n_partitions_after_fusion2,
-        n_partitions_after_fusion3;
+    n_partitions_after_fusion1, n_partitions_after_fusion2,
+    n_partitions_after_fusion3;
 int n_partitions_after_fusion4, n_partitions_after_fusion5,
-        n_partitions_after_fusionB;
+    n_partitions_after_fusionB;
 Node **Map2Node;

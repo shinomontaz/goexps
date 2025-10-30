@@ -8,7 +8,7 @@
 #define d(a, b) (((a) == (b) ? 0 : D(a, b)\
                  - (a)->Pi - (b)->Pi) / Precision)
 #define less(a, b, dmin) (!c || (c(a, b)\
-                          - (a)->Pi - (b)->Pi) / Precision < dmin)
+                                 - (a)->Pi - (b)->Pi) / Precision < dmin)
 
 static void build_path(int n, int *path, int nb_clust);
 static void fast_POPMUSIC(int n, int *path, int R);
@@ -46,7 +46,7 @@ static void optimize_path(int n, int *path);
 
 void Create_POPMUSIC_CandidateSet(int K)
 {
-    int n, i, no_res, setInitialSuc, d, deleted;
+    int n, i, no_res, setInitialSuc, deleted = 0, d;
     int *solution;
     GainType cost, costSum = 0;
     GainType costMin = PLUS_INFINITY, costMax = MINUS_INFINITY;
@@ -183,6 +183,21 @@ void Create_POPMUSIC_CandidateSet(int K)
     AddTourCandidates();
     if (CandidateSetSymmetric)
         SymmetrizeCandidateSet();
+    if (ExtraCandidates < 2) {
+        /* Add quadrant neighbors if any node has less than two candidates. */
+        N = FirstNode;
+        do {
+            if (N->CandidateSet == 0 ||
+                N->CandidateSet[0].To == 0 ||
+                N->CandidateSet[1].To == 0) {
+                if (TraceLevel >= 2)
+                    printff("*** Not complete ***\n");
+                AddExtraCandidates(CoordType == THREED_COORDS ? 8 : 4,
+                                   QUADRANT, 1);
+                break;
+            }
+        } while ((N = N->Suc) != FirstNode);
+    }
     if (TraceLevel >= 2) {
         CandidateReport();
         printff("POPMUSIC Time = %0.2f sec.\n", GetTime() - entryTime);

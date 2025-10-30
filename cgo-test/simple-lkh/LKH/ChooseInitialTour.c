@@ -11,10 +11,10 @@
  *
  * NextN is chosen as follows:
  *
- *  (A) If possible, and Trial = 1, choose NextN such that
+ *  (A) If possible, choose NextN such that (N,NextN) is a fixed edge, or
+ *      is common to two or more tours to be merged.
+ *  (B) Otherwise, if possible, and Trial = 1, choose NextN such that
  *      (N,NextN) is an edge of a given initial tour.
- *  (B) Otherwise, if  possible, choose NextN such that (N,NextN) is a
- *      fixed edge, or is common to two or more tours to be merged.
  *  (C) Otherwise, if possible, choose NextN so that (N,NextN) is a
  *      candidate edge, the alpha-value of (N,NextN) is zero, and (N,NextN)
  *      belongs to the current best or next best tour.
@@ -111,29 +111,27 @@ void ChooseInitialTour()
         Count++;
 
         /* Case A */
-        if (FirstNode->InitialSuc && Trial == 1 &&
-            Count <= InitialTourFraction * Dimension) {
-            for (NN = N->CandidateSet; NN && (NextN = NN->To); NN++) {
-                 if (!NextN->V && NextN == N->InitialSuc) {
-                    Alternatives++;
-                    NextN->Next = FirstAlternative;
-                    FirstAlternative = NextN;
-                }
-            }
-        }
-        /* Case B */
-        if (Alternatives == 0) {
-            for (NN = N->CandidateSet; NN && (NextN = NN->To); NN++) {
-                if (!NextN->V && Fixed(N, NextN)) {
-                    Alternatives++;
-                    NextN->Next = FirstAlternative;
-                    FirstAlternative = NextN;
-                }
+        for (NN = N->CandidateSet; NN && (NextN = NN->To); NN++) {
+            if (!NextN->V && Fixed(N, NextN)) {
+                Alternatives++;
+                NextN->Next = FirstAlternative;
+                FirstAlternative = NextN;
             }
         }
         if (Alternatives == 0 && MergeTourFiles > 1) {
             for (NN = N->CandidateSet; NN && (NextN = NN->To); NN++) {
                 if (!NextN->V && IsCommonEdge(N, NextN)) {
+                    Alternatives++;
+                    NextN->Next = FirstAlternative;
+                    FirstAlternative = NextN;
+                }
+            }
+        }
+        if (Alternatives == 0 && FirstNode->InitialSuc && Trial == 1 &&
+            Count <= InitialTourFraction * Dimension) {
+            /* Case B */
+            for (NN = N->CandidateSet; NN && (NextN = NN->To); NN++) {
+                if (!NextN->V && InInitialTour(N, NextN)) {
                     Alternatives++;
                     NextN->Next = FirstAlternative;
                     FirstAlternative = NextN;

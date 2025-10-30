@@ -9,10 +9,10 @@
  * Originally programmed by X. Clarist. Adapted for LKH by K. Helsgaun.
  *
  * The merging algorithm may be described as follows: 
- * Let G be the graph consisting of the nodes and the union of the edges of
+ * Let G be the graph consisting of the nodes and the union of the edges ofi
  * T1 and T2.
  * The algorithm first identifies the nodes of degree 2 in G.
- * It subsequently identifies the components. A component consists of
+ * It subsequently identifies the components. A component consists ofi
  * adjacent nodes in G that are not of degree 2. 
  * This base being established, the goal is to determine if a path of T1
  * that is part of a component can be replaced by a path of T2 that is part
@@ -50,9 +50,8 @@ GainType MergeWithTourCLARIST()
     Node *N, *Prev;
     rec *ptcur;
     int len, i;
-    GainType Cost1 = 0, Cost2 = 0, OldCost1, OldCost2;
-    static GainType BestCost = PLUS_INFINITY;
-    GainType Penalty1 = 0, Penalty2 = 0, NewPenalty1 = 0, NewPenalty2 = 0;
+    GainType Cost1 = 0, Cost2 = 0, OldCost1, OldCost2, BestCost = PLUS_INFINITY;
+    GainType Penalty1 = 0, NewPenalty1 = 0, NewPenalty2 = 0;
 
     if (vecpttra == NULL) {
         int Dim = SubproblemSize == 0 ? Dimension : DimensionSaved;
@@ -68,6 +67,10 @@ GainType MergeWithTourCLARIST()
         diftst1 = (int *) malloc((MAXDIFNBR + 1) * sizeof(int));
         diftst2 = (int *) malloc((MAXDIFNBR + 1) * sizeof(int));
     }
+    if (Penalty) {
+        CurrentPenalty = PLUS_INFINITY;
+        Penalty1 = Penalty();
+    }
     N = FirstNode;
     ptdeb = &vecpttra[N->Id];
     do {
@@ -75,17 +78,14 @@ GainType MergeWithTourCLARIST()
         (ptcur->ptN = ptcur->ptbufN = &vecpttra[N->Suc->Id])->ptP = ptcur;
         (ptcur->pt2N = &vecpttra[N->Next->Id])->pt2P = ptcur;
         ptcur->ptbufN->ptbufP = ptcur;
-        N->Next->Prev = N->Suc->Pred = N;
+        N->Next->Prev = N->Suc->Pred = N->Next->Prev = N;
         N->SucSaved = N->Suc;
         ptcur->len = (C(N, N->Suc) - N->Pi - N->Suc->Pi) / Precision;
         ptcur->len2 = (C(N, N->Next) - N->Pi - N->Next->Pi) / Precision;
         Cost1 += ptcur->len;
         Cost2 += ptcur->len2;
     } while ((N = N->Suc) != FirstNode);
-    if (Penalty) {
-        CurrentPenalty = PLUS_INFINITY;
-        Penalty1 = Penalty();
-    }
+
     if (Cost1 == Cost2) {
         N = FirstNode;
         do {
@@ -94,24 +94,13 @@ GainType MergeWithTourCLARIST()
         } while ((N = N->Suc) != FirstNode);
         if (N == FirstNode &&
             (N->Suc == N->Next || N->Suc == N->Prev)) {
-            CurrentPenalty = Penalty1;
+            if (TraceLevel >= 2)
+                printff("CLARIST: " GainFormat "\n", Cost1);
             return Cost1;
         }
     }
     OldCost1 = Cost1;
     OldCost2 = Cost2;
-
-    if (Penalty) {
-        N = FirstNode;
-        do 
-            (N->Suc = N->Next)->Pred = N;
-        while ((N = N->Suc) != FirstNode);
-        CurrentPenalty = PLUS_INFINITY;
-        Penalty2 = Penalty();
-        do
-            (N->Suc = N->SucSaved)->Pred = N;
-        while ((N = N->Suc) != FirstNode);
-    }
 
     Cost1 += merge_clarist();
     Prev = NULL;
@@ -131,8 +120,7 @@ GainType MergeWithTourCLARIST()
     do {
         ptcur = &vecpttra[N->Id];
         if (NewPenalty1 < Penalty1 ||
-            (NewPenalty1 == Penalty1 &&
-            (Cost1 <= Cost2 || Cost1 < OldCost1))) {
+            (NewPenalty1 == Penalty1 && Cost1 <= Cost2)) {
             ptcur->ptbufPsaved = ptcur->ptbufP;
             ptcur->ptbufNsaved = ptcur->ptbufN;
         } else {
@@ -152,8 +140,9 @@ GainType MergeWithTourCLARIST()
         ptcur->len2 = len;
     } while ((N = N->Suc) != FirstNode);
     BestCost = Cost1 <= Cost2 ? Cost1 : Cost2;
-
-    Cost2 += merge_clarist();
+    Cost1 = Cost2;
+    Cost2 = OldCost1;
+    Cost1 += merge_clarist();
     Prev = NULL;
     N = FirstNode;
     do {
@@ -167,14 +156,13 @@ GainType MergeWithTourCLARIST()
         CurrentPenalty = PLUS_INFINITY;
         NewPenalty2 = Penalty();
     }
-    if (NewPenalty2 <= Penalty2 &&
-        (NewPenalty2 < NewPenalty1 ||
-        (NewPenalty2 == NewPenalty1 && Cost2 < BestCost))) {
+
+    if (NewPenalty2 < NewPenalty1 ||
+        (NewPenalty2 == NewPenalty1 && Cost1 < BestCost)) {
+        Cost1 = NewPenalty2 < NewPenalty1 ? Cost1 : BestCost;
         CurrentPenalty = NewPenalty2;
-        BestCost = Cost2;
-    } else if (Penalty1 < NewPenalty1 ||
-               (Penalty1 == NewPenalty1 &&
-                (Cost1 == OldCost1 || Cost1 == OldCost2))) {
+    } else if ((Penalty1 <= NewPenalty1 && Penalty1 <= NewPenalty2) || 
+               Cost1 == OldCost2) {
         N = FirstNode;
         do
             (N->Suc = N->SucSaved)->Pred = N;
@@ -190,27 +178,21 @@ GainType MergeWithTourCLARIST()
                      &NodeSet[ptcur->ptbufPsaved->ID];
             N->Suc->Pred = Prev = N;
         } while ((N = N->Suc) != FirstNode);
-        BestCost = Cost1;
         CurrentPenalty = NewPenalty1;
+        Cost1 = BestCost;
     }
     Hash = 0;
     N = FirstNode;
     do
         Hash ^= Rand[N->Id] * Rand[N->Suc->Id];
     while ((N = N->Suc) != FirstNode);
-    if (TraceLevel >= 2 && 
-        (CurrentPenalty < Penalty1 ||
-         (CurrentPenalty == Penalty1 && 
-          BestCost < OldCost1)) &&
-         (CurrentPenalty < Penalty2 ||
-          (CurrentPenalty == Penalty2 && 
-           BestCost < OldCost2))) {
+    if (TraceLevel >= 2) {
         printff("CLARIST: ");
         if (Penalty)
             printff(GainFormat "_", CurrentPenalty);
-        printff(GainFormat "\n", BestCost);
+        printff(GainFormat "\n", Cost1 <= Cost2 ? Cost1 : Cost2);
     }
-    return BestCost;
+    return Cost1;
 }
 
 int merge_clarist()
@@ -560,3 +542,4 @@ void generate_offspring()
             ptcur = ptcur->pt21->ptC;
     } while (ptcur != ptdebcom2);
 }
+

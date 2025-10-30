@@ -33,17 +33,9 @@ void UpdateStatistics(GainType Cost, double Time)
     if (Cost > CostMax)
         CostMax = Cost;
     CostSum += Cost;
-    if (!Penalty ||
-        (ProblemType != CCVRP &&
-         ProblemType != CBTSP &&
-         ProblemType != CBnTSP &&
-         ProblemType != CTSP &&
-         ProblemType != KTSP &&
-         ProblemType != MLP &&
-         ProblemType != PTSP &&
-         ProblemType != TRP &&
-         Penalty != Penalty_MTSP_MINMAX &&
-         Penalty != Penalty_MTSP_MINMAX_SIZE)) {
+    if (ProblemType != CCVRP && ProblemType != TRP &&
+        ProblemType != MLP &&
+        MTSPObjective != MINMAX && MTSPObjective != MINMAX_SIZE) {
         if (CurrentPenalty == 0 && Cost <= Optimum)
             Successes++;
     } else if (CurrentPenalty <= Optimum)
@@ -73,16 +65,10 @@ void PrintStatistics()
         _TrialsMin = 0;
     if (_TimeMin > TimeMax)
         _TimeMin = 0;
-    if (!Penalty ||
-        (ProblemType != CCVRP &&
-         ProblemType != CBTSP &&
-         ProblemType != CBnTSP &&
-         ProblemType != KTSP &&
-         ProblemType != MLP &&
-         ProblemType != PTSP &&
-         ProblemType != TRP &&
-         Penalty != Penalty_MTSP_MINMAX &&
-         Penalty != Penalty_MTSP_MINMAX_SIZE)) {
+    if (ProblemType != CCVRP && ProblemType != TRP &&
+        ProblemType != MLP &&
+        MTSPObjective != MINMAX && MTSPObjective != MINMAX_SIZE &&
+        CostMin <= CostMax && CostMin != PLUS_INFINITY) {
         printff("Cost.min = " GainFormat ", Cost.avg = %0.2f, "
                 "Cost.max = " GainFormat "\n",
                 CostMin, (double) CostSum / _Runs, CostMax);

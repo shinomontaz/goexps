@@ -170,16 +170,10 @@ void PrintPopulation()
         else
             printff(GainFormat, Fitness[i]);
          if (Optimum != MINUS_INFINITY && Optimum != 0) {
-             if (!Penalty ||
-                 (ProblemType != CCVRP &&
-                  ProblemType != CBTSP &&
-                  ProblemType != CBnTSP &&
-                  ProblemType != KTSP &&
-                  ProblemType != MLP &&
-                  ProblemType != PTSP &&
-                  ProblemType != TRP &&
-                 Penalty != Penalty_MTSP_MINMAX &&
-                 Penalty != Penalty_MTSP_MINMAX_SIZE))
+             if (ProblemType != CCVRP && ProblemType != TRP &&
+                 ProblemType != MLP &&
+                 MTSPObjective != MINMAX &&
+                 MTSPObjective != MINMAX_SIZE) 
                  printff(", Gap = %0.4f%%",
                         100.0 * (Fitness[i] - Optimum) / Optimum);
              else

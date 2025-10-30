@@ -31,9 +31,7 @@ void AddExtraCandidates(int K, int CandidateSetType, int Symmetric)
             CreateNearestNeighborCandidateSet(K);
         else
             CreateNNCandidateSet(K);
-    } else if (CandidateSetType == POPMUSIC)
-        Create_POPMUSIC_CandidateSet(K);
-    else if (CandidateSetType == QUADRANT)
+    } else if (CandidateSetType == QUADRANT)
         CreateQuadrantCandidateSet(K);
     t = FirstNode;
     do {

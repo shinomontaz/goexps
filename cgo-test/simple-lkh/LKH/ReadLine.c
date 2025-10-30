@@ -20,8 +20,79 @@ static int EndOfLine(FILE * InputFile, int c)
     return EOL;
 }
 
+#include "gb_string.h"
+
+char *ReadLineBuf = 0;
+int ReadLinePtr = 0;
+static gbString ReadLastLine = 0;
+
+void WriteLine(gbString str) {
+    if(ReadLineBuf == 0) {
+        ReadLineBuf = gb_make_string("");
+    }
+    ReadLineBuf = gb_append_string(ReadLineBuf, str);
+}
+
+void ClearLines() {
+    ReadLinePtr = 0;
+    if(ReadLineBuf != 0) {
+        gb_free_string(ReadLineBuf);
+        ReadLineBuf = 0;
+    }
+    if(ReadLastLine != 0) {
+        gb_free_string(ReadLastLine);
+        ReadLastLine = 0;
+    }
+}
+
+double ReadNumber() {
+    if(ReadLinePtr == 0) return 0;
+    char *k = ReadLineBuf + ReadLinePtr;
+    double output = strtof(ReadLineBuf + ReadLinePtr, &k);
+    ReadLinePtr += k - (ReadLineBuf + ReadLinePtr);
+    return output;
+}
+
+int ReadNumberInt() {
+    if(ReadLinePtr == 0) return 0;
+    char *k = ReadLineBuf + ReadLinePtr;
+    int output = strtol(ReadLineBuf + ReadLinePtr, &k, 10);
+    ReadLinePtr += k - (ReadLineBuf + ReadLinePtr);
+    return output;
+}
+
 char *ReadLine(FILE * InputFile)
 {
+    if(InputFile == 0) {
+        if(ReadLineBuf[ReadLinePtr] == '\0') {
+            return 0;
+        }
+
+        if(ReadLastLine != 0) {
+            gb_free_string(ReadLastLine);
+            ReadLastLine = 0;
+        }
+
+        gbString currentLine = gb_make_string("");
+
+        while(ReadLineBuf[ReadLinePtr] != '\0') {
+            char singleCh[2];
+            singleCh[0] = ReadLineBuf[ReadLinePtr];
+            singleCh[1] = '\0';
+
+            currentLine = gb_append_cstring(currentLine, singleCh);
+
+            ReadLinePtr++;
+            if(ReadLineBuf[ReadLinePtr] == '\n') {
+                ReadLinePtr++;
+                break;
+            }
+        }
+
+          ReadLastLine = currentLine;
+          return currentLine;
+    }
+
     int i, c;
 
     if (Buffer == 0)
