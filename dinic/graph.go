@@ -28,6 +28,7 @@ func NewGraph(n int) *Graph {
 // AddEdge добавляет направленное ребро u -> v с заданной capacity
 func (g *Graph) AddEdge(u, v, cap int) {
 	g.Edges[u] = append(g.Edges[u], Edge{To: v, Cap: cap})
+	g.Edges[v] = append(g.Edges[v], Edge{To: u, Cap: 0}) // обратное ребро
 }
 
 // GenerateRandomGraph создаёт случайный СИЛЬНО связный ориентированный граф
