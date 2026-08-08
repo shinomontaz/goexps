@@ -2,4 +2,7 @@ module github.com/goexps/farthest_insertion
 
 go 1.14
 
-require golang.org/x/image v0.0.0-20200801110659-972c09e46d76
+require (
+	github.com/shinomontaz/goexps/types v0.0.0-20211220134839-4d8dcf754274
+	golang.org/x/image v0.5.0
+)
